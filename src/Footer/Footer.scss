@@ -1,0 +1,62 @@
+@import '../variables.scss';
+
+.footer {
+  background-color: $light-green;
+  padding: 30px 100px;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+
+  &__creators {
+    &--header {
+      color: $text-color-dark;
+      font-size: 26px;
+      font-weight: 500;
+      margin: 0;
+    }
+
+    &--item {
+      color: $text-color-light;
+      font-size: 18px;
+
+      &--link {
+        color: $text-color-light;
+        font-weight: 500;
+        text-decoration: none;
+      }
+    }
+  }
+
+  &__block {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+
+    &--logo {
+      cursor: pointer;
+      transition: all $transition-duration;
+
+      &:hover {
+        transform: scale(1.1);
+      }
+    }
+
+    &--text {
+      color: $text-color-dark;
+      font-size: 20px;
+    }
+  }
+
+  &__contact {
+    font-size: 20px;
+    color: $text-color-dark;
+
+    a{
+      text-decoration: none;
+      color: $text-color-dark;
+    }
+  }
+
+}
