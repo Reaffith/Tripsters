@@ -8,7 +8,7 @@ const tripListExample: Trip[] = [
   {
     name: "tripname",
     startPoint: "Kyiv",
-    finishPoint: "London",
+    finishPoint: "Barcelona",
     startDate: "01.01.2024",
     finishDate: "15.01.2024",
     aditionalPoints: ["Warsaw", "Berlin", "Madrid"],

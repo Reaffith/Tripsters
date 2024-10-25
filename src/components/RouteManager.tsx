@@ -1,4 +1,4 @@
-import { BrowserRouter, Navigate, Route, Routes } from "react-router-dom";
+import { HashRouter, Navigate, Route, Routes } from "react-router-dom";
 import App from "../App";
 import { Home } from "./home/Home";
 import { TripsPage } from "./TripsPage/TripsPage";
@@ -7,7 +7,7 @@ import { TripDetails } from "./TripDetails/TripDetails";
 
 export const RouteManager = () => {
   return (
-    <BrowserRouter>
+    <HashRouter>
       <Routes>
         <Route path="/" element={<App />}>
           <Route path="home" element={<Navigate to="/" />}></Route>
@@ -17,6 +17,6 @@ export const RouteManager = () => {
           <Route path="tripDetails" element={<TripDetails/>}></Route>
         </Route>
       </Routes>
-    </BrowserRouter>
+    </HashRouter>
   );
 };
