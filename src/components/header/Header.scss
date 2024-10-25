@@ -60,9 +60,18 @@
     display: flex;
     flex-direction: row;
     gap: 20px;
+    align-items: center;
 
     &--sign {
       width: 160px;
+      padding-block: 10px;
+      border: 2px solid $light-green;
+      border-radius: 30px;
+      transition: all $transition-duration;
+
+      &:hover {
+        background-color: $light-green;
+      }
       
       p {
         margin: 0;
@@ -70,14 +79,8 @@
         text-transform: uppercase;
         font-weight: 600;
         color: $text-color-dark;
-        transition: all $transition-duration;
         text-align: center;
         cursor: pointer;
-  
-        &:hover {
-          letter-spacing: 1.3px;
-          color: #FB5B32;
-        }
       }
     }
 
@@ -85,6 +88,7 @@
       display: flex;
       flex-direction: row;
       gap: 5px;
+      width: 60px;
      
   
       &--option {
