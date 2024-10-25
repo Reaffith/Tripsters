@@ -1,5 +1,6 @@
 import { Link } from "react-router-dom";
 import { useTranslation } from "react-i18next";
+import Logo from "../../pics/logo.svg";
 
 import "./Header.scss";
 import { useState } from "react";
@@ -14,11 +15,11 @@ export const Header = () => {
 
   return (
     <div className="header">
-      <div className="header__linkBlock">
-        <Link to="/" className="header__linkBlock--link logo">
-          Tripsters
-        </Link>
+      <Link to="/" className="header__link logo">
+        <img src={Logo} alt="Logo" className="header__link--pic"/>
+      </Link>
 
+      <div className="header__linkBlock">
         <Link to="/" className="header__linkBlock--link">
           {t("header_homepage")}
         </Link>
@@ -59,7 +60,7 @@ export const Header = () => {
         </div>
 
         <div className="header__block--sign" onClick={() => {}}>
-          <p>{t("header_sign")}</p>
+          <p>{t("header_login")}</p>
         </div>
       </div>
     </div>
