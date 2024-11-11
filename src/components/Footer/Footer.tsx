@@ -1,5 +1,5 @@
 import "./Footer.scss";
-import logo from "../pics/logo.svg";
+import logo from "../../pics/logo.svg";
 
 export const Footer = () => {
   const scrollToTop = () => {
