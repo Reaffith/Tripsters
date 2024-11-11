@@ -17,6 +17,7 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 @Service
@@ -45,8 +46,16 @@ public class UserServiceImpl implements UserService {
         roles.add(adminRole);
         user.setPassword(passwordEncoder.encode(user.getPassword()));
         user.setRoles(roles);
-        user.setCreated_at(LocalDateTime.now());
+        user.setCreatedAt(LocalDateTime.now());
         userRepository.save(user);
         return userMapper.toDto(user);
+    }
+
+    @Override
+    public List<UserResponseDto> getAllUsers() {
+        List<User> users = userRepository.findAll();
+        return users.stream()
+                    .map(userMapper::toDto)
+                    .toList();
     }
 }
