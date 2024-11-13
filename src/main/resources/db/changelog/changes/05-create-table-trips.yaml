@@ -29,6 +29,7 @@ databaseChangeLog:
                   constraints:
                     nullable: false
               - column:
+<<<<<<< HEAD
                   name: start_adress
                   type: VARCHAR(255)
                   constraints:
@@ -39,6 +40,8 @@ databaseChangeLog:
                   constraints:
                     nullable: false
               - column:
+=======
+>>>>>>> front-deploy
                   name: created_at
                   type: TIMESTAMP
                   constraints:

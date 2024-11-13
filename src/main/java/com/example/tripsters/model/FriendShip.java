@@ -4,6 +4,10 @@ import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
+<<<<<<< HEAD
+=======
+import jakarta.persistence.FetchType;
+>>>>>>> front-deploy
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -28,11 +32,19 @@ public class FriendShip {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+<<<<<<< HEAD
     @ManyToOne
     @JoinColumn(name = "user_id", nullable = false)
     private User user;
 
     @ManyToOne
+=======
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "user_id", nullable = false)
+    private User user;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+>>>>>>> front-deploy
     @JoinColumn(name = "friend_id", nullable = false)
     private User friend;
 

@@ -13,6 +13,19 @@ databaseChangeLog:
                   constraints:
                     primaryKey: true
                     nullable: false
+<<<<<<< HEAD
+=======
+              - column:
+                  name: start_point_id
+                  type: BIGINT
+                  constraints:
+                    nullable: true
+              - column:
+                  name: end_point_id
+                  type: BIGINT
+                  constraints:
+                    nullable: true
+>>>>>>> front-deploy
 
         - createTable:
             tableName: map_points
@@ -25,6 +38,7 @@ databaseChangeLog:
                     primaryKey: true
                     nullable: false
               - column:
+<<<<<<< HEAD
                   name: latitude
                   type: DOUBLE
                   constraints:
@@ -32,6 +46,10 @@ databaseChangeLog:
               - column:
                   name: longitude
                   type: DOUBLE
+=======
+                  name: point_name
+                  type: VARCHAR(255)
+>>>>>>> front-deploy
                   constraints:
                     nullable: false
               - column:
@@ -48,9 +66,36 @@ databaseChangeLog:
                   type: BIGINT
                   constraints:
                     nullable: false
+<<<<<<< HEAD
+=======
+              - column:
+                  name: type
+                  type: varchar(255)
+                  constraints:
+                    nullable: false
+
+>>>>>>> front-deploy
         - addForeignKeyConstraint:
             baseTableName: map_points
             baseColumnNames: map_id
             constraintName: fk_map_points_map
             referencedTableName: maps
+<<<<<<< HEAD
             referencedColumnNames: id
+=======
+            referencedColumnNames: id
+
+        - addForeignKeyConstraint:
+            baseTableName: maps
+            baseColumnNames: start_point_id
+            constraintName: fk_maps_start_point
+            referencedTableName: map_points
+            referencedColumnNames: id
+
+        - addForeignKeyConstraint:
+            baseTableName: maps
+            baseColumnNames: end_point_id
+            constraintName: fk_maps_end_point
+            referencedTableName: map_points
+            referencedColumnNames: id
+>>>>>>> front-deploy

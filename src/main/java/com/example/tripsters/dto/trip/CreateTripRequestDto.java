@@ -11,8 +11,11 @@ public class CreateTripRequestDto {
     private String startDate;
     @NotBlank
     private String endDate;
+<<<<<<< HEAD
     @NotBlank
     private String startAdress;
     @NotBlank
     private String finishAdress;
+=======
+>>>>>>> front-deploy
 }

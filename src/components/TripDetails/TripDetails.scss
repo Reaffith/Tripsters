@@ -1,0 +1,76 @@
+@import "../../variables";
+
+.trip-details {
+  max-width: 1900px;
+  display: flex;
+  flex-direction: row;
+  gap: 2%;
+  padding-right: 40px;
+
+  &__block1 {
+    padding-left: 50px;
+    padding-right: 20px;
+    width: 20%;
+    position: sticky;
+    top: 0;
+    height: calc(100vh - 59px);
+    background-color: #689e7a;
+
+    &--header {
+      color: #242b24;
+    }
+
+    &--route {
+      &--item {
+        color: #242b24;
+      }
+    }
+
+    &--members {
+      &--header {
+        color: #242b24;
+      }
+
+      &--block {
+        height: 40vh;
+        background-color: $background-color;
+        max-height: 40vh;
+        overflow-y: scroll;
+      }
+    }
+
+    &--date {
+      margin-top: 20px;
+      display: flex;
+      flex-direction: column;
+      gap: 50px;
+
+      &--item {
+        color: #242b24;
+        font-size: 20px;
+      }
+    }
+  }
+
+  &__block2 {
+    width: 75%;
+
+    &--nav {
+      width: 100%;
+      display: flex;
+      gap: 10px;
+      margin-bottom: 30px;
+
+      &--item {
+        margin: 0;
+        padding-block: 10px;
+        text-align: center;
+        width: 20%;
+        cursor: pointer;
+        border: 2px solid;
+        border-radius: 0 0 30px 30px;
+        border-top: none;
+      }
+    }
+  }
+}

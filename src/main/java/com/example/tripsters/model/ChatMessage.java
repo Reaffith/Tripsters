@@ -2,6 +2,10 @@ package com.example.tripsters.model;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+<<<<<<< HEAD
+=======
+import jakarta.persistence.FetchType;
+>>>>>>> front-deploy
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -26,11 +30,19 @@ public class ChatMessage {
     @Column(name = "timestamp", nullable = false, updatable = false)
     private LocalDateTime timestamp;
 
+<<<<<<< HEAD
     @ManyToOne
     @JoinColumn(name = "user_id", nullable = false)
     private User user;
 
     @ManyToOne
+=======
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "user_id", nullable = false)
+    private User user;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+>>>>>>> front-deploy
     @JoinColumn(name = "trip_id", nullable = false)
     private Trip trip;
 }

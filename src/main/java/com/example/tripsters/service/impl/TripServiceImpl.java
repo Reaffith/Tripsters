@@ -29,6 +29,7 @@ public class TripServiceImpl implements TripService {
     private final TripRepository tripRepository;
     private final TripMapper tripMapper;
 
+<<<<<<< HEAD
     private User getAuthenticatedUser() {
         Authentication authentication = SecurityContextHolder
                 .getContext().getAuthentication();
@@ -47,6 +48,10 @@ public class TripServiceImpl implements TripService {
     }
 
     @Override
+=======
+    @Override
+    @Transactional
+>>>>>>> front-deploy
     public TripResponseDto createTrip(CreateTripRequestDto requestDto) {
         Trip trip = tripMapper.toModel(requestDto);
         User authenticatedUser = getAuthenticatedUser();
@@ -75,8 +80,11 @@ public class TripServiceImpl implements TripService {
         trip.setDestination(requestDto.getDestination());
         trip.setStartDate(LocalDateTime.parse(requestDto.getStartDate()));
         trip.setEndDate(LocalDateTime.parse(requestDto.getEndDate()));
+<<<<<<< HEAD
         trip.setStartAdress(requestDto.getStartAdress());
         trip.setFinishAdress(requestDto.getFinishAdress());
+=======
+>>>>>>> front-deploy
 
         tripRepository.save(trip);
 
@@ -84,6 +92,10 @@ public class TripServiceImpl implements TripService {
     }
 
     @Override
+<<<<<<< HEAD
+=======
+    @Transactional
+>>>>>>> front-deploy
     public TripResponseDto addUserToTrip(Long tripId, Long userId) {
         User authenticatedUser = getAuthenticatedUser();
         Trip trip = tripRepository.findById(tripId)
@@ -151,4 +163,24 @@ public class TripServiceImpl implements TripService {
 
         tripRepository.delete(trip);
     }
+<<<<<<< HEAD
+=======
+
+    private User getAuthenticatedUser() {
+        Authentication authentication = SecurityContextHolder
+                .getContext().getAuthentication();
+        String authenticatedUserEmail = authentication.getName();
+
+        return userRepository.findByEmail(authenticatedUserEmail)
+                .orElseThrow(() -> new EntityNotFoundException("Authenticated "
+                        + "user not found"));
+    }
+
+    private void checkOwnership(Trip trip, User user) {
+        if (!trip.getOwnerId().equals(user.getId())) {
+            throw new UnauthorizedException("You are not "
+                    + "the owner of this trip");
+        }
+    }
+>>>>>>> front-deploy
 }

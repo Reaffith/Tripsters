@@ -30,6 +30,7 @@ public class ChatMessageServiceImpl implements ChatMessageService {
     private final ChatMessageRepository chatMessageRepository;
     private final ChatMessageMapper chatMessageMapper;
 
+<<<<<<< HEAD
     private User getAuthenticatedUser() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String authenticatedUserEmail = authentication.getName();
@@ -48,6 +49,8 @@ public class ChatMessageServiceImpl implements ChatMessageService {
         }
     }
 
+=======
+>>>>>>> front-deploy
     @Override
     @Transactional
     public MessageResponseDto createMessage(CreateMessageRequestDto requestDto) {
@@ -69,6 +72,10 @@ public class ChatMessageServiceImpl implements ChatMessageService {
     }
 
     @Override
+<<<<<<< HEAD
+=======
+    @Transactional
+>>>>>>> front-deploy
     public MessageResponseDto updateMessage(UpdateMessageDto messageDto) {
         User authenticatedUser = getAuthenticatedUser();
         ChatMessage chatMessage = chatMessageRepository.findById(messageDto.getId())
@@ -131,4 +138,25 @@ public class ChatMessageServiceImpl implements ChatMessageService {
 
         chatMessageRepository.deleteById(messageId);
     }
+<<<<<<< HEAD
+=======
+
+    private User getAuthenticatedUser() {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String authenticatedUserEmail = authentication.getName();
+
+        return userRepository.findByEmail(authenticatedUserEmail)
+                .orElseThrow(() -> new EntityNotFoundException("Authenticated user not found"));
+    }
+
+    private void checkUserInTrip(Long tripId, User user) {
+        Trip trip = tripRepository.findById(tripId)
+                .orElseThrow(() -> new EntityNotFoundException("Trip "
+                        + "not found with id: " + tripId));
+
+        if (trip.getUsers().stream().noneMatch(u -> u.getEmail().equals(user.getEmail()))) {
+            throw new UnauthorizedException("User is not part of the trip");
+        }
+    }
+>>>>>>> front-deploy
 }
