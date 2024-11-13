@@ -24,7 +24,8 @@ function App() {
     })
     .catch((error) => {
       console.error("ялох", error);
-    });
+    })
+    .finally(() => {console.log('end')});
 
   return (
     <>
