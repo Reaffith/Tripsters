@@ -16,11 +16,4 @@ public class TripResponseDto {
     private String endDate;
     @NotBlank
     private String createdAt;
-<<<<<<< HEAD
-    @NotBlank
-    private String startAdress;
-    @NotBlank
-    private String finishAdress;
-=======
->>>>>>> front-deploy
 }

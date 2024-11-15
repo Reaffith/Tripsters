@@ -41,18 +41,11 @@ public class Vote {
     @ManyToMany
     private Set<User> votedUsers = new HashSet<>();
 
-<<<<<<< HEAD
-    @OneToMany(mappedBy = "vote", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
-    private Set<VoteOption> voteOptions = new HashSet<>();
-
-    @ManyToOne
-=======
     @OneToMany(mappedBy = "vote", cascade = CascadeType.ALL,
             orphanRemoval = true, fetch = FetchType.EAGER)
     private Set<VoteOption> voteOptions = new HashSet<>();
 
     @ManyToOne(fetch = FetchType.LAZY)
->>>>>>> front-deploy
     @JoinColumn(name = "trip_id", nullable = false)
     private Trip trip;
 }

@@ -11,9 +11,5 @@ public class VoteResponseDto {
     private Long id;
     @NotNull
     private Long tripId;
-<<<<<<< HEAD
-    private List<String> voteOptions;
-=======
     private List<VoteOptionResponseDto> voteOptions;
->>>>>>> front-deploy
 }

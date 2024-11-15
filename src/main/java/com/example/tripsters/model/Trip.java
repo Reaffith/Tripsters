@@ -38,26 +38,13 @@ public class Trip {
     @Column(nullable = false)
     private LocalDateTime endDate;
 
-<<<<<<< HEAD
-    @Column(nullable = false)
-    private String startAdress;
-
-    @Column(nullable = false)
-    private String finishAdress;
-
-=======
->>>>>>> front-deploy
     @Column(name = "created_at", nullable = false, updatable = false)
     private LocalDateTime createdAt;
 
     @OneToMany(mappedBy = "trip", cascade = CascadeType.ALL, orphanRemoval = true)
     private Set<Vote> votes = new HashSet<>();
 
-<<<<<<< HEAD
-    @OneToOne(cascade = CascadeType.ALL)
-=======
     @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
->>>>>>> front-deploy
     @JoinColumn(name = "map_id")
     private Map map;
 
@@ -70,11 +57,7 @@ public class Trip {
     @Column
     private TripStatus status;
 
-<<<<<<< HEAD
-    @ManyToMany(fetch = FetchType.EAGER)
-=======
     @ManyToMany
->>>>>>> front-deploy
     @JoinTable(
             name = "trips_users",
             joinColumns = @JoinColumn(name = "trip_id"),

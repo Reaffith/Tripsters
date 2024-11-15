@@ -16,10 +16,16 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.web.cors.CorsConfiguration;
+import org.springframework.web.cors.CorsConfigurationSource;
+import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
-@EnableMethodSecurity
+import java.util.Arrays;
+import java.util.List;
+
+    @EnableMethodSecurity
 @Configuration
 @RequiredArgsConstructor
 public class SecurityConfig {
@@ -35,7 +41,13 @@ public class SecurityConfig {
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         return http
                 .csrf(AbstractHttpConfigurer::disable)
-                .cors(Customizer.withDefaults())
+                .cors(cors -> cors.configurationSource(request -> {
+                    CorsConfiguration configuration = new CorsConfiguration();
+                    configuration.setAllowedOrigins((List.of("http://localhost:5176", "http://127.0.0.1:5176")));
+                    configuration.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "OPTIONS"));
+                    configuration.setAllowedHeaders(Arrays.asList("*"));
+                    return configuration;
+                }))
                 .authorizeHttpRequests(
                         auth -> auth
                                 .requestMatchers("/auth/**",
@@ -60,18 +72,19 @@ public class SecurityConfig {
         return authenticationConfiguration.getAuthenticationManager();
     }
 
-    @Bean
-    public WebMvcConfigurer corsConfigurer() {
-        return new WebMvcConfigurer() {
-            @Override
-            public void addCorsMappings(CorsRegistry registry) {
-                registry.addMapping("/**")
-                        .allowedOrigins("http://localhost:5173")
-                        .allowedMethods("GET", "POST", "PUT", "DELETE", "OPTIONS")
-                        .allowedHeaders("*")
-                        .allowCredentials(true)
-                        .exposedHeaders("Authorization");
-            }
-        };
-    }
+//    @Bean
+//    public CorsConfigurationSource corsConfigurationSource() {
+//        CorsConfiguration configuration = new CorsConfiguration();
+////        configuration.setAllowedOrigins(Arrays.asList("*"));
+////        configuration.setAllowedMethods(
+////         Arrays.asList("GET", "POST", "PUT", "DELETE", "PATCH", "OPTIONS"));
+////        configuration.setAllowedHeaders(Arrays.asList("Authorization"));
+////        configuration.setAllowCredentials(true);
+//        configuration.setAllowedOrigins(Arrays.asList("*"));
+//        configuration.setAllowedMethods(Arrays.asList("*"));
+//        configuration.setAllowedHeaders(Arrays.asList("*"));
+//        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+//        source.registerCorsConfiguration("/**", configuration);
+//        return source;
+//    }
 }

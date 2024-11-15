@@ -14,9 +14,6 @@ public class MessageResponseDto {
     private Long userId;
     @NotNull
     private Long tripId;
-<<<<<<< HEAD
-=======
     @NotBlank
     private String message;
->>>>>>> front-deploy
 }

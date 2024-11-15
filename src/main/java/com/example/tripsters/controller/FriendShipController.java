@@ -46,10 +46,7 @@ public class FriendShipController {
         return friendShipService.findFriendShipByFriendEmail(friendEmail);
     }
 
-<<<<<<< HEAD
-=======
     @PreAuthorize("hasRole('ADMIN')")
->>>>>>> front-deploy
     @GetMapping
     public List<FriendShipResponseDto> getAllFriendShips() {
         return friendShipService.getAllFriendShips();

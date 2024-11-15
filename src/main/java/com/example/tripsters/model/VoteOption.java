@@ -2,10 +2,7 @@ package com.example.tripsters.model;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
-<<<<<<< HEAD
-=======
 import jakarta.persistence.FetchType;
->>>>>>> front-deploy
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -28,11 +25,7 @@ public class VoteOption {
     private String optionText;
     @Column(nullable = false)
     private double voteCount;
-<<<<<<< HEAD
-    @ManyToOne
-=======
     @ManyToOne(fetch = FetchType.LAZY)
->>>>>>> front-deploy
     @JoinColumn(name = "vote_id", nullable = false)
     private Vote vote;
 }

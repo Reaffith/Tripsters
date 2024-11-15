@@ -27,17 +27,6 @@ public class FriendShipServiceImpl implements FriendShipService {
     private final FriendShipRepository friendShipRepository;
     private final FriendShipMapper friendShipMapper;
 
-<<<<<<< HEAD
-    private User getAuthenticatedUser() {
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        String authenticatedUserEmail = authentication.getName();
-
-        return userRepository.findByEmail(authenticatedUserEmail)
-                .orElseThrow(() -> new EntityNotFoundException("Authenticated user not found"));
-    }
-
-=======
->>>>>>> front-deploy
     @Override
     public FriendShipResponseDto addFriend(CreateFriendShipRequestDto requestDto) {
         User authenticatedUser = getAuthenticatedUser();
@@ -149,8 +138,6 @@ public class FriendShipServiceImpl implements FriendShipService {
                 .map(friendShipMapper::toDto)
                 .toList();
     }
-<<<<<<< HEAD
-=======
 
     private User getAuthenticatedUser() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
@@ -159,5 +146,4 @@ public class FriendShipServiceImpl implements FriendShipService {
         return userRepository.findByEmail(authenticatedUserEmail)
                 .orElseThrow(() -> new EntityNotFoundException("Authenticated user not found"));
     }
->>>>>>> front-deploy
 }

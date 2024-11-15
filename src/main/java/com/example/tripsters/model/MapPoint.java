@@ -2,12 +2,9 @@ package com.example.tripsters.model;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
-<<<<<<< HEAD
-=======
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
 import jakarta.persistence.FetchType;
->>>>>>> front-deploy
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -28,24 +25,13 @@ public class MapPoint {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     @Column(nullable = false)
-<<<<<<< HEAD
-    private double latitude;
-    @Column(nullable = false)
-    private double longitude;
-=======
     private String pointName;
->>>>>>> front-deploy
     @Column
     private String description;
 
     @Column(name = "created_at", nullable = false, updatable = false)
     private LocalDateTime createdAt;
 
-<<<<<<< HEAD
-    @ManyToOne
-    @JoinColumn(name = "map_id", nullable = false)
-    private Map map;
-=======
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "map_id", nullable = false)
     private Map map;
@@ -59,5 +45,4 @@ public class MapPoint {
         END,
         INTERMEDIATE
     }
->>>>>>> front-deploy
 }

@@ -11,9 +11,6 @@ public class VoteOptionResponseDto {
     private Long id;
     @NotBlank
     private String optionText;
-<<<<<<< HEAD
-=======
     @Min(0)
     private Long count;
->>>>>>> front-deploy
 }

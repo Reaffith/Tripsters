@@ -11,10 +11,7 @@ import org.mapstruct.Mapping;
 public interface ChatMessageMapper {
     @Mapping(source = "trip.id", target = "tripId")
     @Mapping(source = "user.id", target = "userId")
-<<<<<<< HEAD
-=======
     @Mapping(source = "message", target = "message")
->>>>>>> front-deploy
     MessageResponseDto toDto(ChatMessage message);
 
     ChatMessage toModel(CreateMessageRequestDto requestDto);
