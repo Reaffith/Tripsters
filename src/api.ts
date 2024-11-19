@@ -76,3 +76,39 @@ export async function logIn(data: LoginData) {
     console.log("localstorage", localStorage.getItem("authToken"));
   });
 }
+
+type RegUser = {
+  email: string;
+  password: string;
+  repeatPassword: string;
+  firstName: string;
+  lastName: string;
+};
+
+export async function registerUser(data: RegUser): Promise<number | void> {
+  try {
+    const response = await fetch("http://localhost:8088/auth/registration", {
+      method: "POST",
+      mode: "cors",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(data),
+    });
+
+    console.log(response.json())
+
+    if (!response.ok) {
+      return response.status;
+    } else {
+      logIn({
+        email: data.email,
+        password: data.password,
+      })
+    }
+
+    return response.status;
+  } catch (error) {
+    console.error(error);
+  }
+}
