@@ -1,4 +1,4 @@
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import Logo from "../../pics/logo.svg";
 
@@ -12,6 +12,12 @@ export const Header = () => {
   const changeLanguage = (lng: "en" | "ua") => {
     i18n.changeLanguage(lng); // Change the language dynamically
   };
+
+  const navigate = useNavigate();
+
+  const regButtonClick = () => {
+    navigate('registration');
+  }
 
   return (
     <div className="header">
@@ -59,7 +65,7 @@ export const Header = () => {
           </p>
         </div>
 
-        <div className="header__block--sign" onClick={() => {}}>
+        <div className="header__block--sign" onClick={regButtonClick}>
           <p>{t("header_login")}</p>
         </div>
       </div>

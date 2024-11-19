@@ -1,4 +1,4 @@
-@import '../../_variables.scss';
+@import "../../_variables.scss";
 
 .header {
   background-color: $background-color;
@@ -6,11 +6,11 @@
   flex-direction: row;
   justify-content: space-between;
   align-items: center;
-  padding: 0 24px;
+  padding: 48px 64px;
 
   &__link {
     &--pic {
-      height: 70px;
+      height: 80px;
       transition: all $transition-duration;
 
       &:hover {
@@ -42,12 +42,12 @@
 
       &:hover {
         letter-spacing: 1.3px;
-        color: #FB5B32;
+        color: $green;
       }
     }
 
     input {
-      border:none;
+      border: none;
       outline: none;
       padding: 7px;
       border-radius: 15px;
@@ -59,21 +59,21 @@
   &__block {
     display: flex;
     flex-direction: row;
-    gap: 40px;
+    gap: 30px;
     align-items: center;
     box-sizing: border-box;
 
     &--sign {
       width: 160px;
-      padding-block: 10px;
-      border: 2px solid $light-green;
+      padding-block: 12px;
+      border: 2px solid $green;
       border-radius: 30px;
       transition: all $transition-duration;
 
       &:hover {
-        background-color: $light-green;
+        background-color: $green;
       }
-      
+
       p {
         margin: 0;
         font-size: 16px;
@@ -90,8 +90,7 @@
       flex-direction: row;
       gap: 5px;
       width: 60px;
-     
-  
+
       &--option {
         margin: 0;
         font-size: 16px;
@@ -100,10 +99,12 @@
         color: $text-color-dark;
         transition: all $transition-duration;
         text-align: center;
-  
-        &:hover {
-          letter-spacing: 1.3px;
-          color: #FB5B32;
+
+        &:first-child,&:last-child {
+          &:hover {
+            letter-spacing: 1.3px;
+            color: $green;
+          }
         }
       }
     }

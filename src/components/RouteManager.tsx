@@ -4,6 +4,7 @@ import { Home } from "./home/Home";
 import { TripsPage } from "./TripsPage/TripsPage";
 import { CreateTrip } from "./TripsPage/CreateTrip/CreateTrip";
 import { TripDetails } from "./TripDetails/TripDetails";
+import { RegisterPage } from "./RegisterPage/RegisterPage";
 
 export const RouteManager = () => {
   return (
@@ -15,6 +16,7 @@ export const RouteManager = () => {
           <Route path="trips" element={<TripsPage />}></Route>
           <Route path="trips/create" element={<CreateTrip />}></Route>
           <Route path="tripDetails" element={<TripDetails/>}></Route>
+          <Route path="registration" element={<RegisterPage/>}></Route>
         </Route>
       </Routes>
     </HashRouter>
