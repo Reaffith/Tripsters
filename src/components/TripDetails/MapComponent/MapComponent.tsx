@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import { GoogleMap, DirectionsRenderer } from "@react-google-maps/api";
 
 import "./mapComponent.scss";
+import { getCoordinates } from "../../../functions/getCoordinates";
 import PlacesAutocomplete from "react-places-autocomplete";
 
 type Params = {
@@ -9,26 +10,6 @@ type Params = {
   finishPoint: string;
   additionalPoints: string[];
 };
-
-async function getCoordinates(
-  place: string
-): Promise<{ lat: number; lng: number }> {
-  const response = await fetch(
-    `https://maps.googleapis.com/maps/api/geocode/json?address=${encodeURIComponent(
-      place
-    )}&key=AIzaSyArB1rBwI5SEnm4_5UkvO50tFUqK0bT24M`
-  );
-  const data = await response.json();
-  if (data.results.length > 0) {
-    const location = data.results[0].geometry.location;
-    return {
-      lat: location.lat,
-      lng: location.lng,
-    };
-  } else {
-    throw new Error("Місце не знайдено");
-  }
-}
 
 function getRouteCenter(route: { lat: number; lng: number }[]) {
   const total = route.length;
@@ -72,7 +53,9 @@ export const MapComponent: React.FC<Params> = ({
     lng: number;
   }>();
 
+  
   const [suggest, setSuggest] = useState("");
+
 
   useEffect(() => {
     getCoordinates(startPoint)
@@ -82,21 +65,32 @@ export const MapComponent: React.FC<Params> = ({
     getCoordinates(finishPoint)
       .then((coords) => setFinishPointCoordinates(coords))
       .catch((e) => console.log(e));
-
-    additionalPoints.map((point) =>
-      getCoordinates(point)
-        .then((coords) =>
-          setAdditionalPointsCoordinates((perv) => [...perv, coords])
-        )
-        .catch((e) => console.log(e))
-    );
   }, []);
+
+  useEffect(() => {
+    const fetchAdditionalCoordinates = async () => {
+      const coordinates = await Promise.all(
+        additionalPoints.map((point) =>
+          getCoordinates(point).catch((e) => {
+            console.log(e);
+            return null;
+          })
+        )
+      );
+
+      setAdditionalPointsCoordinates(
+        coordinates.filter((coord) => coord !== null)
+      );
+    };
+
+    fetchAdditionalCoordinates();
+  }, [additionalPoints]);
 
   useEffect(() => {
     setCenterCoordinates(
       getRouteCenter([
-        ...additionalPointsCoordinates,
         startPointCoordinates,
+        ...additionalPointsCoordinates,
         finishPointCoordinates,
       ])
     );
@@ -180,13 +174,31 @@ export const MapComponent: React.FC<Params> = ({
                     placeholder: "Select place",
                   })}
                 />
-                <div className="suggestions">
+                <div
+                  className="suggestions"
+                  style={{
+                    position: "relative",
+                    borderRadius: "10px",
+                    width: "100%",
+                  }}
+                >
                   {loading ? <div>Loading...</div> : null}
 
                   {suggestions.map((suggestion) => {
                     const style = suggestion.active
-                      ? { backgroundColor: "#a8dadc", cursor: "pointer" }
-                      : { backgroundColor: "white", cursor: "pointer" };
+                      ? {
+                          width: "100%",
+                          backgroundColor: "#ECF9EF",
+                          cursor: "pointer",
+                          padding: "8px 12px",
+                          borderRadius: "20px",
+                        }
+                      : {
+                          width: "100%",
+                          cursor: "pointer",
+                          padding: "8px 12px",
+                          backgroundColor: "white",
+                        };
                     return (
                       <div
                         {...getSuggestionItemProps(suggestion, { style })}

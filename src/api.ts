@@ -1,7 +1,9 @@
+import { User } from "./types/User";
+
 const BASE_URL = "http://localhost:8088";
 
 async function fetchData(endpoint: string, options: RequestInit = {}) {
-  const token = localStorage.getItem('authToken');
+  const token = localStorage.getItem("authToken");
 
   const headers = new Headers(options.headers || {});
   if (token) {
@@ -11,7 +13,7 @@ async function fetchData(endpoint: string, options: RequestInit = {}) {
   const config: RequestInit = {
     ...options,
     headers,
-    mode: 'cors',
+    mode: "cors",
   };
 
   try {
@@ -62,6 +64,7 @@ type LoginData = {
 export async function logIn(data: LoginData) {
   await fetchData("auth/login", {
     method: "POST",
+    mode: "cors",
     headers: {
       "Content-Type": "application/json",
     },
@@ -71,6 +74,7 @@ export async function logIn(data: LoginData) {
 
     if (response) {
       localStorage.setItem("authToken", response.token);
+      window.location.reload();
     }
 
     console.log("localstorage", localStorage.getItem("authToken"));
@@ -96,7 +100,7 @@ export async function registerUser(data: RegUser): Promise<number | void> {
       body: JSON.stringify(data),
     });
 
-    console.log(response.json())
+    console.log(response.json());
 
     if (!response.ok) {
       return response.status;
@@ -104,11 +108,123 @@ export async function registerUser(data: RegUser): Promise<number | void> {
       logIn({
         email: data.email,
         password: data.password,
-      })
+      });
     }
 
     return response.status;
   } catch (error) {
     console.error(error);
+  }
+}
+
+type CreateTripType = {
+  destination: string;
+  startDate: string;
+  endDate: string;
+  startPoint: string;
+  endPoint: string;
+  additionalPoints: string[];
+};
+
+export async function createTrip(data: CreateTripType) {
+  const token = localStorage.getItem("authToken");
+  try {
+    const response = await fetch("http://localhost:8088/trip", {
+      method: "POST",
+      mode: "cors",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+      body: JSON.stringify(data),
+    });
+
+
+    if (!response.ok) {
+      console.error(`Error: ${response.status}`);
+      throw new Error(`Failed to create trip: ${response.status}`);
+    }
+
+    const responseBody = await response.json();
+
+    return responseBody; 
+  } catch (error) {
+    console.error("Error while creating trip:", error);
+    throw error; 
+  }
+}
+
+export const getTrips = async () => {
+  const token = localStorage.getItem("authToken");
+
+  try {
+    const response = await fetch("http://localhost:8088/trip", {
+      method: "GET",
+      mode: "cors",
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+
+    if (!response.ok) {
+      console.log(response.status);
+      return response.status;
+    }
+
+    const data = await response.json();
+
+    return data;
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+export const getAllusersInTrip = async (id: string) => {
+  const token = localStorage.getItem("authToken");
+
+  try {
+    const response = await fetch(`http://localhost:8088/trip/users/all/${id}`, {
+      method: "GET",
+      mode: "cors",
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+
+    if (!response.ok) {
+      console.log(response.status);
+      return response.status;
+    }
+
+    const data = await response.json();
+
+    return data;
+  } catch (error) {
+    console.log(error);
+  }
+}
+
+export const getAllUsers = async (): Promise<number | User[] | undefined> => {
+  const token = localStorage.getItem("authToken");
+
+  try {
+    const response = await fetch(`http://localhost:8088/users/all`, {
+      method: "GET",
+      mode: "cors",
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+
+    if (!response.ok) {
+      console.log(response.status);
+      return response.status;
+    }
+
+    const data = await response.json();
+
+    return data;
+  } catch (error) {
+    console.log(error);
   }
 }

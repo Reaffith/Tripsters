@@ -1,22 +1,124 @@
-@import '../../../mixins';
-@import '../../../variables';
+@import "../../../mixins";
+@import "../../../variables";
 
-.triplist{
-  @include page-grid;
-  margin-top: 80px;
-  padding-inline: 40px;
-  row-gap: 30px;
+.triplist {
+  &__list {
+    @include page-grid;
+    margin-top: 40px;
+    padding-inline: 40px;
+    row-gap: 30px;
+
+    &--paging {
+      grid-column: 3 / -3;
+      display: flex;
+      gap: 30px;
+
+      &--item {
+        cursor: pointer;
+        font-size: 17px;
+        font-weight: 600;
+        color: rgba(20, 46, 27, 0.62);
+        padding: 10px;
+        transition: all $transition-duration;
+        margin: 0;
+
+        &.active {
+          background-color: $green;
+          color: white;
+          border-radius: 20px;
+        }
+      }
+    }
+  }
+
+  &__filter {
+    margin-left: 80px;
+    max-width: fit-content;
+    margin-top: 20px;
+    
+
+    &--block {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      width: 120px;
+      padding: 10px 15px;
+      border-radius: 25px;
+      cursor: pointer;
+      background-color: $background-color-dark;
+
+
+      &--current {
+        margin: 0;
+        font-weight: 600;
+        font-size: 15px;
+        color: $text-color-dark;
+      }
+
+      &--dropdown {
+        position: relative;
+        top: 4px;
+      }
+    }
+
+    &--options {
+      padding: 10px 10px;
+      border-radius: 25px;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      margin-top: 10px;
+      position: absolute;
+      width: 130px;
+      z-index: 20;
+      background-color: $background-color-dark;
+
+      &--item {
+        margin: 0;
+        cursor: pointer;
+        color: $text-color-dark;
+        font-size: 15px;
+        font-weight: 600;
+        transition: all $transition-duration;
+
+        &:hover {
+          color: $green;
+          letter-spacing: 2px;
+        }
+      }
+    }
+  }
+
+  &__header {
+    font-size: 28px;
+    font-weight: 600;
+    color: $text-color-dark;
+    margin: 0;
+    padding: 0 0 0 80px;
+  }
 
   &__button {
-    grid-column: 5/9;
-    font-size: 30px;
-    text-decoration: none;
-    padding: 15px 70px;
-    background-color: $background-light-gray;
-    border-radius: 60px;
-    color: $text-color-light;
+    color: $background-color;
+    margin: 0;
+    font-size: 16px;
+    text-transform: uppercase;
+    font-weight: 600;
     text-align: center;
-    font-weight: 700;
+    cursor: pointer;
+    border: 2px solid $green;
+    background-color: $green;
+    padding: 14px 60px;
+    width: 50%;
+    border-radius: 30px;
+    text-decoration: none;
     transition: all $transition-duration;
+    display: block;
+    margin: auto;
+    margin-block: 35px;
+
+    &:hover {
+      background-color: white;
+      color: $text-color-dark;
+    }
   }
 }

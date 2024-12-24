@@ -1,0 +1,92 @@
+@import "../../../variables.scss";
+
+.chat {
+  content: " ";
+  width: 100%;
+  height: 80vh;
+
+  &__nav {
+    display: flex;
+    gap: 20px;
+  }
+
+  &__chat {
+    display: flex;
+    flex-direction: column;
+    gap: 30px;
+    &--list {
+      height: 60vh;
+      background-color: $background-color-dark;
+      border-radius: 30px;
+      overflow-y: scroll;
+      padding: 30px;
+
+      &--item {
+        width: 40%;
+        background-color: white;
+        padding: 17px;
+        margin-block: 20px;
+
+        border-radius: 30px;
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+
+        &--author {
+          margin: 0;
+        }
+
+        &--message {
+          margin: 0;
+        }
+
+        &.current-user {
+          position: relative;
+          right: -57%;
+          align-items: end;
+          color: white;
+          background-color: $green;
+        }
+      }
+    }
+
+    &--bottom {
+      display: flex;
+      justify-content: space-between;
+      &--input {
+        width: calc(100% - 100px) !important;
+        height: 30px;
+        outline: none;
+        border: 1px solid white;
+        border-radius: 32px;
+        padding: 8px 12px;
+        font-size: 18px;
+        background-color: $background-color-dark;
+
+        &:focus {
+          border: 1px solid $green;
+        }
+      }
+
+      &--button {
+        height: 48px;
+        background-color: $green;
+        border-radius: 20px;
+        width: 48px;
+        border: 2px solid $green;
+        transition: all $transition-duration;
+
+        &:hover {
+          background-color: white;
+          svg {
+            color: $green;
+          }
+        }
+
+        svg {
+          color: white;
+        }
+      }
+    }
+  }
+}

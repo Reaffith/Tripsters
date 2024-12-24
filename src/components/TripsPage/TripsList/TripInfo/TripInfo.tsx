@@ -1,8 +1,15 @@
 import { useNavigate } from "react-router-dom";
 import { Trip } from "../../../../types/Trip";
-import classNames from "classnames";
 
 import "./TripInfo.scss";
+import { getPlacePhoto } from "../../../../functions/getPlacesPhoto";
+import { useEffect, useState } from "react";
+
+import { BsPeopleFill } from "react-icons/bs";
+import { FaCircleInfo } from "react-icons/fa6";
+import { FaRoute } from "react-icons/fa6";
+import { TfiMoreAlt } from "react-icons/tfi";
+import { DateToString, stringToDate } from "../../../../functions/dateManager";
 
 type Params = {
   trip: Trip;
@@ -10,85 +17,114 @@ type Params = {
 
 export const TripInfo: React.FC<Params> = ({ trip }) => {
   const {
-    name,
+    destination,
     startDate,
     startPoint,
-    finishDate,
-    finishPoint,
-    members,
-    aditionalPoints,
-    // link,
-    owner,
-    status,
+    endDate,
+    endPoint,
+    additionalPoints,
+    id,
   } = trip;
+
+  const members = [];
 
   const navigate = useNavigate();
 
   const goToTrip = () => {
-    navigate('../tripDetails');
+    navigate(`../tripDetails/${id}`);
   };
+
+  const [photoUrl, setPhotoUrl] = useState<string | undefined>();
+
+  const fetchPhoto = async () => {
+    const photo = await getPlacePhoto(endPoint);
+    setPhotoUrl(photo);
+  };
+
+  useEffect(() => {
+    fetchPhoto();
+  }, []);
+
+  const [status, setStatus] = useState<"Incoming" | "In progres" | "Completed">(
+    "Incoming"
+  );
+
+  useEffect(() => {
+    const date = new Date();
+
+    if (stringToDate(startDate) < date) {
+      setStatus("Incoming");
+    } else if (stringToDate(endDate) > date) {
+      setStatus("Completed");
+    } else {
+      setStatus("In progres");
+    }
+  }, []);
 
   return (
     <div className="trip">
-      <div className="trip__info">
-        <div className="trip__info--owner">
-          <img src={owner.profilePic} className="trip__info--owner--pic" />
-          <p className="trip__info--owner--name">{owner.name}</p>
+      <div className="trip__pic">
+        <img
+          src={photoUrl ? photoUrl : ""}
+          alt={endPoint}
+          className="trip__pic--picture"
+        />
+      </div>
+
+      <div className="trip-info">
+        <div className="trip__top">
+          <h2 className="trip__top--name">{destination}</h2>
+
+          <h2 className="trip__top--date">
+            {`${DateToString(stringToDate(startDate))} to ${DateToString(stringToDate(endDate))}`}
+          </h2>
         </div>
 
-        <div className="trip__info--details">
-          <h2 className="trip__info--details--name">{name}</h2>
+        <div className="trip__bottom">
+          <div className="trip__bottom-block">
+            <div className="trip__bottom-block-part1">
+              <div className="trip__bottom-block-part1--members">
+                <BsPeopleFill />
 
-          <div className="trip__info--details--block">
-            <div className="trip__info--details--block--date">
-              <p className="trip__info--details--block--date--text">
-                Start date: {startDate}
-              </p>
+                <p className="trip__bottom-block-part1--members--text">
+                  {`yaloh and ${members.length - 1} friend${
+                    members.length > 2 ? "s" : ""
+                  }`}
+                </p>
+              </div>
 
-              <p className="trip__info--details--block--date--text">
-                Finish date: {finishDate}
-              </p>
+              <div className="trip__bottom-block-part1--status">
+                <FaCircleInfo />
+
+                <p className="trip__bottom-block-part1--status--text">
+                  Status: {status.toUpperCase()}
+                </p>
+              </div>
             </div>
 
-            <div className="trip__info--details--block--members">
-              <p className="trip__info--details--block--members--text">
-                Members:
-              </p>
-              <p className="trip__info--details--block--members--text">
-                {owner.name} and {members.length}{" "}
-                {members.length > 1 ? "friends" : "friend"}
-              </p>
-            </div>
+            <div className="trip__bottom-block-part2">
+              <div className="trip__bottom-block-part2--route">
+                <FaRoute />
 
-            <button onClick={goToTrip} className="trip__info--details--block--button">See details</button>
+                <p className="trip__bottom-block-part2--route--text">
+                  {`${startPoint} to ${endPoint}`}
+                </p>
+              </div>
+
+              <div className="trip__bottom-block-part2--additional">
+                <TfiMoreAlt />
+
+                <p className="trip__bottom-block-part2--additional--text">
+                  {`${additionalPoints.length} more stops`}
+                </p>
+              </div>
+            </div>
           </div>
+
+          <button className="trip__bottom--button" onClick={goToTrip}>
+            See details
+          </button>
         </div>
-      </div>
-      <div className="trip__route">
-        <p className="trip__route--text">{startPoint}</p>
-
-        <div className="trip__route--info">
-          <div className="trip__route--info--line">{""}</div>
-
-          <p className="trip__route--info--text">
-            {aditionalPoints.length} more{" "}
-            {aditionalPoints.length > 1 ? "points" : "point"}
-          </p>
-        </div>
-
-        <p className="trip__route--text">{finishPoint}</p>
-      </div>
-
-      <div className="trip__status">
-        <p className="trip__status--text">Status: {status}</p>
-
-        <div
-          className={classNames("trip__status--circle", {
-            incoming: status === "incoming",
-            now: status === "in progress",
-            completed: status === "completed",
-          })}
-        >{''}</div>
       </div>
     </div>
   );

@@ -8,6 +8,15 @@
   align-items: center;
   padding: 48px 64px;
 
+  &_user {
+    max-width: 180px;
+    overflow: hidden;
+    text-decoration: none;
+    font-size: 18px;
+    color: $green;
+    font-weight: 600;
+  }
+
   &__link {
     &--pic {
       height: 80px;
@@ -24,7 +33,7 @@
     flex-direction: row;
     align-items: center;
     gap: 15px;
-    background-color: #f0eded;
+    background-color: $background-color-dark;
     padding-inline: 20px;
     border-radius: 40px;
     height: 50px;
@@ -72,9 +81,14 @@
 
       &:hover {
         background-color: $green;
+
+        p {
+          color: $background-color;
+        }
       }
 
       p {
+        transition: all $transition-duration;
         margin: 0;
         font-size: 16px;
         text-transform: uppercase;
@@ -100,7 +114,8 @@
         transition: all $transition-duration;
         text-align: center;
 
-        &:first-child,&:last-child {
+        &:first-child,
+        &:last-child {
           &:hover {
             letter-spacing: 1.3px;
             color: $green;

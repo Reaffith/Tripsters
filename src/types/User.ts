@@ -1,10 +1,10 @@
-import { Trip } from "./Trip"
-
 export type User = {
-  name: string,
-  dateOfBirth: string,
+  firstName: string,
+  lastName: string,
   id: number,
-  profilePic: string,
-  trips: Trip[],
-  friends: User[],
+  deleted: boolean,
+  email: string,
+  createdAt: string,
+  fileURL: string,
+  password: string,
 }

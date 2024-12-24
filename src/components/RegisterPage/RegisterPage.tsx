@@ -1,5 +1,8 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { registerUser } from "../../api";
+import { ErrorBlock } from "../ErrorBlock/ErrorBlock";
+
+import "./RegisterPage.scss";
 
 export const RegisterPage = () => {
   const [email, setEmail] = useState("");
@@ -8,7 +11,7 @@ export const RegisterPage = () => {
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
 
-  const [error, setError] = useState<undefined | string>();
+  const [error, setError] = useState("");
 
   async function onButtonClick() {
     localStorage.removeItem("authToken");
@@ -35,79 +38,94 @@ export const RegisterPage = () => {
     await registerUser(userData);
   }
 
-  useEffect(() => {
-    if (error) {
-      console.log(error);
-      setError(undefined);
-    }
-  }, [error]);
-
-  const [photo, setPhoto] = useState<File | null>(null);
-  const [preview, setPreview] = useState('');
-
   return (
-    <main>
-      <form>
-        <label htmlFor="email">email</label>
-        <input
-          id="email"
-          type="email"
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
-        />
+    <>
+      {error.length > 1 && <ErrorBlock error={error} setError={setError} />}
+      <main className="register">
+        <h1 className="register__header">Register</h1>
+        <form className="register__form" autoComplete="off">
+          <label htmlFor="email" className="register__form--label">
+            Email
+          </label>
+          <input
+            className="register__form--input"
+            id="email"
+            type="email"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            autoComplete='off'
+            placeholder="Enter your email"
+          />
 
-        <label htmlFor="password">password</label>
-        <input
-          id="password"
-          type="password"
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
-        />
+          <div className="register__form--block">
+            <div className="">
+              <label htmlFor="password" className="register__form--label">
+                Password
+              </label>
+              <input
+                className="register__form--input"
+                id="password"
+                type="password"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                autoComplete='off'
+                placeholder="Enter your password"
+              />
+            </div>
 
-        <label htmlFor="repeatPassword">repeat passwrod</label>
-        <input
-          id="repeatPassword"
-          type="password"
-          value={repeatPassword}
-          onChange={(e) => setRepeatPassword(e.target.value)}
-        />
+            <div className="">
+              {" "}
+              <label htmlFor="repeatPassword" className="register__form--label">
+                Repeat passwrod
+              </label>
+              <input
+                className="register__form--input"
+                id="repeatPassword"
+                type="password"
+                value={repeatPassword}
+                onChange={(e) => setRepeatPassword(e.target.value)}
+                autoComplete='off'
+                placeholder="Repeat your password"
+              />
+            </div>
+          </div>
 
-        <label htmlFor="firstName">first name</label>
-        <input
-          id="firstName"
-          type="text"
-          value={firstName}
-          onChange={(e) => setFirstName(e.target.value)}
-        />
+          <div className="register__form--block">
+            <div className="">
+              <label htmlFor="firstName" className="register__form--label">
+                First name
+              </label>
+              <input
+                className="register__form--input"
+                id="firstName"
+                type="text"
+                value={firstName}
+                onChange={(e) => setFirstName(e.target.value)}
+                autoComplete='off'
+                placeholder="Enter your first name"
+              />
+            </div>
 
-        <label htmlFor="lastName"> lastName </label>
-        <input
-          id="lastName"
-          type="text"
-          value={lastName}
-          onChange={(e) => setLastName(e.target.value)}
-        />
-
-        <input
-          type="file"
-          accept="image/*"
-          onChange={(event) => {
-            if (event.target.files) {
-              const selectedFile = event.target.files[0]
-              setPhoto(event.target.files[0]);
-              const objectUrl = URL.createObjectURL(selectedFile);
-              setPreview(objectUrl);
-            }
-
-            console.log(photo);
-          }}
-        />
-      </form>
-      <button onClick={onButtonClick}>register</button>
-
-      {preview && (
-        <img src={preview} alt="Preview" style={{ maxWidth: "300px" }} />
-      )}
-    </main>
+            <div className="">
+              <label htmlFor="lastName" className="register__form--label">
+                Last name
+              </label>
+              <input
+                className="register__form--input"
+                id="lastName"
+                type="text"
+                value={lastName}
+                onChange={(e) => setLastName(e.target.value)}
+                autoComplete='off'
+                placeholder="Enter your last name"
+              />
+            </div>
+          </div>
+        </form>
+        <button onClick={onButtonClick} className="register__button">
+          register
+        </button>
+      </main>
+    </>
   );
 };

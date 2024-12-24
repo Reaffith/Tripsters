@@ -32,7 +32,7 @@ export const Home = () => {
             Explore, plan, and never miss a thing. Be your own travel guide.
           </p>
 
-          <Link to="" className="home__welcome--block1--button">
+          <Link to="trips/create" className="home__welcome--block1--button">
             Start Planing
           </Link>
         </div>
@@ -71,7 +71,9 @@ export const Home = () => {
       </section>
 
       <section className="home__about">
-        <h2 className="home__about--header">{t("home_about_header")}</h2>
+        <h2 className="home__about--header">
+          Dreaming of an adventure with friends?
+        </h2>
 
         <img
           src={picAbout1}
@@ -81,33 +83,23 @@ export const Home = () => {
 
         <div className="home__about-block info-block1">
           <h4 className="home__about-block--header">
-            {t("home_about_block1_header")}
+            Tripers makes planning easy!
           </h4>
 
           <p className="home__about-block--text">
-            {t("home_about_block1_text")}
+            From road trips to dream vacations, it keeps all your plans in one
+            spot, so you can skip the endless group chats and focus on fun.
           </p>
-        </div>
-
-        <img
-          src={picAbout2}
-          alt="Travelling with friends"
-          className="home__about--pic about-pic2"
-        />
-
-        <div className="home__about-block info-block2">
-          <h4 className="home__about-block--header">
-            {t("home_about_block2_header")}
-          </h4>
 
           <p className="home__about-block--text">
-            {t("home_about_block2_text")}
+            Plan, sync, and go—adventure starts with Tripers! Ready to make
+            memories? Let’s go!
           </p>
         </div>
       </section>
 
       <section className="home__help">
-        <h2 className="home__help--header">{t("home_help_header")}</h2>
+        <h2 className="home__help--header">How it works</h2>
 
         <div className="home__help--block">
           <div className="home__help--block--container">
@@ -121,7 +113,7 @@ export const Home = () => {
           </div>
 
           <div className="home__help--block--pic first-pic-block">
-            <img src={point1} alt="" />
+            <img src={point1} alt=""  className="p1"/>
 
             <img src={line1} alt="" />
           </div>
@@ -148,11 +140,12 @@ export const Home = () => {
         <div className="home__help--block">
           <div className="home__help--block--container">
             <h3 className="home__help--block--container--header">
-              {t("home_help_block3_header")}
+              Stay on track
             </h3>
 
             <p className="home__help--block--container--text">
-              {t("home_help_block3_text")}
+            See your journey on map, track all your stops, and never miss a must-see spot
+            Tripsters helps you maximize your time
             </p>
           </div>
 
@@ -170,9 +163,8 @@ export const Home = () => {
             </h3>
 
             <p className="home__help--block--container--text">
-              Share your trip for inspiration or keep it private as your
-              personal guide Either way, enjoy a seamless experience wherever
-              you go
+            Share your trip for inspiration or keep it private as your personal guide
+            Either way, enjoy a seamless experience wherever you go
             </p>
           </div>
 
@@ -184,22 +176,11 @@ export const Home = () => {
         </div>
       </section>
 
-      {/* <section className="home__mission">
-        <h2 className="home__mission--header">{t("home_mission_header")}</h2>
+      
+      <Link to="trips/create" className="home__welcome--block1--button button-about">
+        Start Planing
+      </Link>
 
-        <p className="home__mission--text">{t("home_mission_text1")}</p>
-
-        <p className="home__mission--text">{t("home_mission_text2")}</p>
-
-        <Link
-          to="/trips"
-          className="home__help--container--block--button try-button"
-        >
-          {t("home_help_block_try")}
-        </Link>
-
-        <img src={picHome} alt="" className="home__mission--pic" />
-      </section> */}
     </main>
   );
 };

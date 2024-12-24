@@ -7,21 +7,22 @@
   flex-direction: row;
   justify-content: space-between;
   align-items: center;
+  border-radius: 45px 45px 0 0 ;
 
   &__creators {
     &--header {
-      color: $text-color-dark;
+      color: white;
       font-size: 26px;
       font-weight: 500;
       margin: 0;
     }
 
     &--item {
-      color: $text-color-light;
+      color: white;
       font-size: 18px;
 
       &--link {
-        color: $text-color-light;
+        color: white;
         font-weight: 500;
         text-decoration: none;
       }
@@ -44,18 +45,18 @@
     }
 
     &--text {
-      color: $text-color-dark;
+      color: white;
       font-size: 20px;
     }
   }
 
   &__contact {
     font-size: 20px;
-    color: $text-color-dark;
+    color: white;
 
     a{
       text-decoration: none;
-      color: $text-color-dark;
+      color: white;
     }
   }
 

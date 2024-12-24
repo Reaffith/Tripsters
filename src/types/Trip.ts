@@ -1,14 +1,9 @@
-import { User } from "./User";
-
 export type Trip = {
-  name: string;
+  id: number;
+  destination: string;
   startPoint: string;
-  finishPoint: string | undefined;
+  endPoint: string;
   startDate: string;
-  finishDate: string;
-  aditionalPoints: string[];
-  members: User[];
-  link: string;
-  owner: User;
-  status: 'incoming' | 'in progress' | 'completed';
+  endDate: string;
+  additionalPoints: string[];
 }
