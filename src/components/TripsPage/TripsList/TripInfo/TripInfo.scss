@@ -1,4 +1,5 @@
 @import "../../../../variables";
+@import '../../../../mixins';
 
 .trip {
   grid-column: 3/-3;
@@ -124,25 +125,8 @@
       }
 
       &--button {
-        color: #fdfdff;
-        margin: 0;
-        font-size: 16px;
-        text-transform: uppercase;
-        font-weight: 600;
-        text-align: center;
-        cursor: pointer;
-        border: 2px solid $green;
-        background-color: $green;
         width: 230px;
-        height: 50px;
-        border-radius: 30px;
-        text-decoration: none;
-        transition: all $transition-duration;
-
-        &:hover {
-          background-color: $background-color-dark;
-          color: $green;
-        }
+        @include button-style;
       }
     }
   }
