@@ -7,6 +7,7 @@ import { TripDetails } from "./TripDetails/TripDetails";
 import { RegisterPage } from "./RegisterPage/RegisterPage";
 import { LoginPage } from "./RegisterPage/LoginPage";
 import { ProfilePage } from "./ProfilePage/ProfilePage";
+import { FriendList } from "./FriendList/FriendList";
 
 export const RouteManager = () => {
   return (
@@ -23,6 +24,7 @@ export const RouteManager = () => {
             <Route path="reg" element={<RegisterPage/>}></Route>
           </Route>
           <Route path="profile/:id" element={<ProfilePage />} />
+          <Route path="friends" element={<FriendList/>} />
         </Route>
       </Routes>
     </HashRouter>

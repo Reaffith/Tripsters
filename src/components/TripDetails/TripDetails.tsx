@@ -4,10 +4,18 @@ import { MapComponent } from "./MapComponent/MapComponent";
 import "./TripDetails.scss";
 import { useParams } from "react-router-dom";
 import { Trip } from "../../types/Trip";
-import { getAllusersInTrip, getTrips } from "../../api";
+import {
+  getAllUsers,
+  getAllusersInTrip,
+  getData,
+  getTrips,
+  getUsersFriends,
+} from "../../api";
 import { DateToString, stringToDate } from "../../functions/dateManager";
 import { User } from "../../types/User";
 import { ChatComponent } from "./ChatComponent/ChatComponent";
+import { AddUserInfo } from "./AddUserInfo/AddUserInfo";
+import { MemberDetails } from "./MemberDetails/MemberDetails";
 
 export const TripDetails = () => {
   const { id } = useParams();
@@ -17,6 +25,94 @@ export const TripDetails = () => {
   const [trip, setTrip] = useState<Trip>();
 
   const [users, setUsers] = useState<User[]>([]);
+
+  const [friendships, setFriendships] = useState<
+    {
+      id: number;
+      userId: number;
+      friendId: number;
+      status: string;
+      createdAt: Date;
+    }[]
+  >([]);
+
+  const [friends, setFriends] = useState<User[]>([]);
+
+  const [currentUser, setCurrentUser] = useState<User>();
+
+  const [allUsers, setAllUsers] = useState<User[]>([]);
+
+  const [owner, setOwner] = useState<User>();
+
+  useEffect(() => {
+    const getOwner = async () => {
+      const token = localStorage.getItem("authToken");
+      try {
+        const response = await fetch(
+          `http://localhost:8088/trip/owner/${trip?.id}`,
+          {
+            method: "GET",
+            mode: "cors",
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        );
+
+        const data: User = await response.json();
+
+        return data;
+      } catch (error) {
+        console.log(error);
+      }
+    };
+
+    getOwner().then((data) => setOwner(data));
+  }, [trip]);
+
+  useEffect(() => {
+    getAllUsers().then((res) => {
+      if (res && typeof res !== "number") {
+        setAllUsers(res);
+      }
+    });
+  }, []);
+
+  useEffect(() => {
+    getUsersFriends().then((res) => {
+      if (res && typeof res !== "number") {
+        setFriendships(res);
+      }
+    });
+  }, []);
+
+  useEffect(() => {
+    getData("users/current").then(setCurrentUser);
+  }, []);
+
+  useEffect(() => {
+    const neededFriendships = friendships.filter(
+      (friendship) =>
+        friendship.status === "ACCEPTED" &&
+        (friendship.userId === currentUser?.id ||
+          friendship.friendId === currentUser?.id)
+    );
+
+    const friends: User[] = [];
+
+    for (let i = 0; i < neededFriendships.length; i++) {
+      const friend = allUsers.filter(
+        (u) =>
+          u.id !== currentUser?.id &&
+          (u.id === neededFriendships[0].userId ||
+            u.id === neededFriendships[0].friendId)
+      )[0];
+
+      friends.push(friend);
+    }
+
+    setFriends(friends);
+  }, [friendships, currentUser, allUsers, users]);
 
   useEffect(() => {
     getTrips().then((data) => {
@@ -30,13 +126,15 @@ export const TripDetails = () => {
 
   useEffect(() => {
     setTrip(trips.filter((t) => t.id === Number(id))[0]);
-  });
+  }, [trips]);
+
+  const [updateUsers, setUpdateUsers] = useState(1);
 
   useEffect(() => {
     if (id) {
       getAllusersInTrip(id).then((data) => setUsers(data));
     }
-  }, []);
+  }, [updateUsers]);
 
   const showMap = () => {
     changeIsMapVisible(true);
@@ -64,9 +162,9 @@ export const TripDetails = () => {
     const date = new Date();
 
     if (trip) {
-      if (stringToDate(trip.startDate) < date) {
+      if (stringToDate(trip.startDate) > date) {
         setStatus("Incoming");
-      } else if (stringToDate(trip.endDate) > date) {
+      } else if (stringToDate(trip.endDate) < date) {
         setStatus("Completed");
       } else {
         setStatus("In progres");
@@ -92,13 +190,13 @@ export const TripDetails = () => {
   useEffect(() => {
     if (isAdd) {
       window.scrollTo(0, 0);
-      document.body.style.overflow = 'hidden';
+      document.body.style.overflow = "hidden";
     } else {
-      document.body.style.overflow = '';
+      document.body.style.overflow = "";
     }
 
     return () => {
-      document.body.style.overflow = '';
+      document.body.style.overflow = "";
     };
   }, [isAdd]);
 
@@ -106,13 +204,22 @@ export const TripDetails = () => {
     <>
       {isAdd && (
         <div className="add" onClick={() => setIsAdd(false)}>
-          <div
-            className="add__block"
-            onClick={e => e.stopPropagation()}
-          >
+          <div className="add__block" onClick={(e) => e.stopPropagation()}>
             <p className="add__block--header">Add an user to your trip</p>
 
-            <div className="add__block--users"></div>
+            <div className="add__block--users">
+              {friends.map((friend) => (
+                <AddUserInfo
+                  key={friend.id}
+                  user={friend}
+                  tripId={trip?.id}
+                  alreadyInTrip={
+                    !!users.filter((u) => u.id === friend.id).length
+                  }
+                  setUpdateUsers={setUpdateUsers}
+                />
+              ))}
+            </div>
           </div>
         </div>
       )}
@@ -138,7 +245,11 @@ export const TripDetails = () => {
             <h3 className="trip-details__block1--members--header">
               {users.length} members
             </h3>
-            <div className="trip-details__block1--members--block"></div>
+            <div className="trip-details__block1--members--block">
+              {users.map((u) => (
+                <MemberDetails user={u} key={u.id} />
+              ))}
+            </div>
           </div>
 
           <div className="trip-details__block1--date">
@@ -168,12 +279,14 @@ export const TripDetails = () => {
               </p>
             </div>
 
-            <button
-              className="trip-details__block2--info--add"
-              onClick={() => setIsAdd(true)}
-            >
-              Add user into trip
-            </button>
+            {owner?.id === currentUser?.id && (
+              <button
+                className="trip-details__block2--info--add"
+                onClick={() => setIsAdd(true)}
+              >
+                Add user into trip
+              </button>
+            )}
           </div>
 
           <div className="trip-details__block2--nav">
@@ -203,7 +316,7 @@ export const TripDetails = () => {
               />
             )}
 
-            {isChatVisible && <ChatComponent/>}
+            {isChatVisible && <ChatComponent tripId={trip?.id || 0}/>}
           </div>
         </div>
       </main>

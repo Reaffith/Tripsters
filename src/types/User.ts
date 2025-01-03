@@ -5,6 +5,6 @@ export type User = {
   deleted: boolean,
   email: string,
   createdAt: string,
-  fileURL: string,
+  fileUrl: string,
   password: string,
 }

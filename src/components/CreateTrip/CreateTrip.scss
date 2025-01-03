@@ -50,6 +50,11 @@
 
       height: 74px;
       overflow: visible;
+      z-index: 4;
+
+      &.date {
+        z-index: 5;
+      }
     }
 
     &--doubleBlock {
@@ -112,7 +117,6 @@
         flex-direction: column;
         gap: 10px;
         overflow-y: scroll;
-        z-index: -1;
 
         &-element {
           display: flex;
@@ -127,6 +131,7 @@
           }
 
           &--button {
+            display: block;
             position: relative;
             right: 10px;
             margin: 0;

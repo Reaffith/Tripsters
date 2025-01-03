@@ -40,6 +40,10 @@
         max-height: 40vh;
         overflow-y: scroll;
         border-radius: 30px;
+        padding: 15px;
+        display: flex;
+        flex-direction: column;
+        gap: 15px;
       }
     }
 
@@ -171,10 +175,14 @@
     }
 
     &--users {
-      height: calc(100% - 84px);
-      content: ' ';
+      height: calc(100% - 124px);
       background-color: white;
       overflow-y: scroll;
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+      padding: 20px;
+      border-radius: 20px;
     }
   }
 }

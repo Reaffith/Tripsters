@@ -2,14 +2,31 @@ import { useParams } from "react-router-dom";
 import "./ProfilePage.scss";
 import { useEffect, useState } from "react";
 import { User } from "../../types/User";
-import { getAllUsers, getData } from "../../api";
-import noPfp from "../../pics/home-block1.png";
+import { getAllUsers, getData, getUsersFriends } from "../../api";
+import noPfp from "../../pics/no-pfp.png";
 
 export const ProfilePage = () => {
   const { id } = useParams();
   const [users, setUsers] = useState<User[]>([]);
   const [user, setUser] = useState<User>();
   const [currentUser, setCurrentUser] = useState<User | undefined>();
+  const [friendRequests, setFriendRequests] = useState<
+    {
+      id: number;
+      userId: number;
+      friendId: number;
+      status: string;
+      createdAt: Date;
+    }[]
+  >([]);
+
+  useEffect(() => {
+    getUsersFriends().then((res) => {
+      if (res && typeof res !== "number") {
+        setFriendRequests(res);
+      }
+    });
+  }, []);
 
   useEffect(() => {
     getData("users/current").then(setCurrentUser);
@@ -27,9 +44,17 @@ export const ProfilePage = () => {
 
   useEffect(() => {
     setUser(users.filter((u) => u.id === Number(id))[0]);
-  }, [users]);
+  }, [users, id]);
 
-  console.log(user, user?.fileURL);
+  const [imgSrc, setImgSrc] = useState<string>(noPfp);
+
+  useEffect(() => {
+    if (user && user.fileUrl) {
+      import(`../../main/resources/images/${user.fileUrl}`)
+        .then((image) => setImgSrc(image.default))
+        .catch(() => setImgSrc(noPfp));
+    }
+  }, [user]);
 
   return (
     <>
@@ -37,11 +62,7 @@ export const ProfilePage = () => {
         <main className="profile">
           <div className="profile__top">
             <img
-              src={
-                !user.fileURL
-                  ? noPfp
-                  : `../../main/resources/images/${user.fileURL}`
-              }
+              src={imgSrc}
               alt="PFP"
               className="profile__top--pic"
             />
@@ -51,20 +72,27 @@ export const ProfilePage = () => {
                 {`${user.firstName} ${user.lastName}`}
               </h1>
 
-              <p className="profile__top--info--stat">
-                n friends
-              </p>
+              <p className="profile__top--info--stat">n friends</p>
 
-              <p className="profile__top--info--stat">
-                n trips
-              </p>
+              <p className="profile__top--info--stat">n trips</p>
             </div>
 
             {currentUser ? (
               currentUser.id === user.id ? (
                 <button className="profile__top--button">Edit profile</button>
               ) : (
-                <button className="profile__top--button">Send friend request</button>
+                <button
+                  className="profile__top--button"
+                  disabled={
+                    friendRequests.filter(
+                      (req) =>
+                        req.friendId === currentUser.id ||
+                        req.userId === user.id
+                    ).length > 0
+                  }
+                >
+                  Send friend request
+                </button>
               )
             ) : (
               <div className="profile__top--button">{` `}</div>

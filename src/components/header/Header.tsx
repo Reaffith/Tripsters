@@ -43,6 +43,10 @@ export const Header = () => {
           {t("header_yourTrips")}
         </Link>
 
+        <Link to="/friends" className="header__linkBlock--link">
+          Friends
+        </Link>
+
         <Link to={user ? `profile/${user.id}` : '/auth/reg'} className="header__linkBlock--link">
           {t("header_profile")}
         </Link>

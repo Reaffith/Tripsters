@@ -204,14 +204,15 @@ export const TripsList = () => {
           console.log(trip);
 
           return (
-            <TripInfo trip={trip} key={trip.destination } />
+            <TripInfo trip={trip} key={trip.id }/>
           )
         })}
 
         {paging.length > 1 && (
           <div className="triplist__list--paging">
             {paging.map((pa) => (
-              <p
+              <p 
+                key={pa}
                 onClick={() => setPage(pa)}
                 className={classNames("triplist__list--paging--item", {
                   active: page === pa,

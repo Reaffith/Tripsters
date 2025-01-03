@@ -10,6 +10,8 @@ import { FaCircleInfo } from "react-icons/fa6";
 import { FaRoute } from "react-icons/fa6";
 import { TfiMoreAlt } from "react-icons/tfi";
 import { DateToString, stringToDate } from "../../../../functions/dateManager";
+import { User } from "../../../../types/User";
+import { getData } from "../../../../api";
 
 type Params = {
   trip: Trip;
@@ -26,7 +28,32 @@ export const TripInfo: React.FC<Params> = ({ trip }) => {
     id,
   } = trip;
 
-  const members = [];
+  const [owner, setOwner] = useState<User>();
+  const [members, setMembers] = useState<User[]>([]);
+
+  const getOwner = async () => {
+    await getData(`trip/owner/${id}`).then(re => {
+      if (re) {
+        setOwner(re);
+      }
+    })
+  }
+
+  const getMembers = async () => {
+    await getData(`trip/users/all/${id}`).then(re => {
+      if (re) {
+        setMembers(re);
+      }
+    })
+  }
+
+  useEffect(() => {
+    getOwner();
+  }, [])
+
+  useEffect(() => {
+    getMembers();
+  }, [])
 
   const navigate = useNavigate();
 
@@ -51,15 +78,17 @@ export const TripInfo: React.FC<Params> = ({ trip }) => {
 
   useEffect(() => {
     const date = new Date();
+    console.log(stringToDate(endDate))
 
-    if (stringToDate(startDate) < date) {
+    if (stringToDate(startDate) > date) {
       setStatus("Incoming");
-    } else if (stringToDate(endDate) > date) {
+    } else if (stringToDate(endDate) < date) {
       setStatus("Completed");
     } else {
       setStatus("In progres");
     }
   }, []);
+
 
   return (
     <div className="trip">
@@ -87,7 +116,7 @@ export const TripInfo: React.FC<Params> = ({ trip }) => {
                 <BsPeopleFill />
 
                 <p className="trip__bottom-block-part1--members--text">
-                  {`yaloh and ${members.length - 1} friend${
+                  {`${owner?.firstName} and ${members.length - 1} friend${
                     members.length > 2 ? "s" : ""
                   }`}
                 </p>

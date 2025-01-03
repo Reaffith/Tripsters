@@ -93,7 +93,7 @@ export const CreateTrip = () => {
         />
       </div>
 
-      <div className="createTrip__block double--block">
+      <div className="createTrip__block double--block date">
         <div className="createTrip__block--doubleBlock">
           <label htmlFor="date" className="createTrip__block--label">
             Start date*
@@ -314,9 +314,9 @@ export const CreateTrip = () => {
           )}
         </PlacesAutocomplete>
 
-        <div className="additional-block">
+        <div className="additional-block" style={additionalPoint.length > 0 ? {zIndex : '-1'} : {zIndex: '3'}}>
           {aditionalPointsArray.map((value) => (
-            <div className="additional-block-element">
+            <div className="additional-block-element" key={value}>
               <p className="additional-block-element--text">{value}</p>
               <p
                 className="additional-block-element--button"

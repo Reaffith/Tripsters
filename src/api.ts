@@ -139,7 +139,6 @@ export async function createTrip(data: CreateTripType) {
       body: JSON.stringify(data),
     });
 
-
     if (!response.ok) {
       console.error(`Error: ${response.status}`);
       throw new Error(`Failed to create trip: ${response.status}`);
@@ -147,10 +146,10 @@ export async function createTrip(data: CreateTripType) {
 
     const responseBody = await response.json();
 
-    return responseBody; 
+    return responseBody;
   } catch (error) {
     console.error("Error while creating trip:", error);
-    throw error; 
+    throw error;
   }
 }
 
@@ -202,7 +201,7 @@ export const getAllusersInTrip = async (id: string) => {
   } catch (error) {
     console.log(error);
   }
-}
+};
 
 export const getAllUsers = async (): Promise<number | User[] | undefined> => {
   const token = localStorage.getItem("authToken");
@@ -227,4 +226,39 @@ export const getAllUsers = async (): Promise<number | User[] | undefined> => {
   } catch (error) {
     console.log(error);
   }
-}
+};
+
+export const getUsersFriends = async (): Promise<
+  | number
+  | {
+      id: number;
+      userId: number;
+      friendId: number;
+      status: string;
+      createdAt: Date;
+    }[]
+  | undefined
+> => {
+  const token = localStorage.getItem("authToken");
+
+  try {
+    const response = await fetch(`http://localhost:8088/friends/user`, {
+      method: "GET",
+      mode: "cors",
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+
+    if (!response.ok) {
+      console.log(response.status);
+      return response.status;
+    }
+
+    const data = await response.json();
+
+    return data;
+  } catch (error) {
+    console.log(error);
+  }
+};
