@@ -53,9 +53,7 @@ export const MapComponent: React.FC<Params> = ({
     lng: number;
   }>();
 
-  
   const [suggest, setSuggest] = useState("");
-
 
   useEffect(() => {
     getCoordinates(startPoint)
@@ -136,21 +134,23 @@ export const MapComponent: React.FC<Params> = ({
   ]);
 
   return (
-    <div className="map">
-      <GoogleMap
-        mapContainerStyle={containerStyle}
-        center={centerCoordinates}
-        zoom={5}
-        options={{ streetViewControl: false }}
-      >
-        {directions && (
-          <DirectionsRenderer
-            options={{
-              directions: directions,
-            }}
-          />
-        )}
-      </GoogleMap>
+    <>
+      <div className="map">
+        <GoogleMap
+          mapContainerStyle={containerStyle}
+          center={centerCoordinates}
+          zoom={5}
+          options={{ streetViewControl: false }}
+        >
+          {directions && (
+            <DirectionsRenderer
+              options={{
+                directions: directions,
+              }}
+            />
+          )}
+        </GoogleMap>
+      </div>
 
       <div className="suggest">
         <label className="suggest--header">Suggest to add a poit</label>
@@ -215,6 +215,6 @@ export const MapComponent: React.FC<Params> = ({
           )}
         </PlacesAutocomplete>
       </div>
-    </div>
+    </>
   );
 };

@@ -1,9 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 import "./ChatComponent.scss";
 import { IoSend } from "react-icons/io5";
-import { getData } from "../../../api";
-import classNames from "classnames";
-import { User } from "../../../types/User";
+import { MessageComponent } from "./MessageComponent/MessageComponent";
 
 const messages = [
   {
@@ -40,7 +38,7 @@ const messages = [
 
 type Message = {
   id: number;
-  timestamp: Date;
+  timestamp: string;
   userId: number;
   tripId: number;
   message: string;
@@ -52,14 +50,12 @@ type Params = {
 
 export const ChatComponent: React.FC<Params> = ({ tripId }) => {
   const [message, setMessage] = useState("");
-  const [user, setUser] = useState<User>();
+
   const chatListRef = useRef<HTMLDivElement>(null);
   const [allMessages, setAllMessages] = useState<Message[]>([]);
   const [updateAllMessages, setUpdateAllMessages] = useState(1);
 
-  useEffect(() => {
-    getData("users/current").then(setUser);
-  }, []);
+
 
   useEffect(() => {
     if (chatListRef.current) {
@@ -139,22 +135,7 @@ export const ChatComponent: React.FC<Params> = ({ tripId }) => {
         <div className="chat__chat--list" ref={chatListRef}>
           {allMessages.length > 0 ? (
             allMessages.map((message) => (
-              <div
-                key={message.id}
-                className={classNames("chat__chat--list--item", {
-                  "current-user": message.userId === user?.id,
-                })}
-              >
-                <p className="chat__chat--list--item--author">
-                  {user?.id === message.userId
-                    ? user?.firstName
-                    : message.userId}
-                </p>
-
-                <p className="chat__chat--list--item--message">
-                  {message.message}
-                </p>
-              </div>
+              <MessageComponent message={message} key={message.id}/>
             ))
           ) : (
             <h2>No messages yet :(</h2>

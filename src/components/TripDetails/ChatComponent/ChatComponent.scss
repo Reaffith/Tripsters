@@ -21,33 +21,7 @@
       overflow-y: scroll;
       padding: 30px;
 
-      &--item {
-        width: 40%;
-        background-color: white;
-        padding: 17px;
-        margin-block: 20px;
-
-        border-radius: 30px;
-        display: flex;
-        flex-direction: column;
-        gap: 10px;
-
-        &--author {
-          margin: 0;
-        }
-
-        &--message {
-          margin: 0;
-        }
-
-        &.current-user {
-          position: relative;
-          right: -57%;
-          align-items: end;
-          color: white;
-          background-color: $green;
-        }
-      }
+      
     }
 
     &--bottom {
@@ -75,6 +49,9 @@
         width: 48px;
         border: 2px solid $green;
         transition: all $transition-duration;
+        display: flex;
+        justify-content: center;
+        align-items: center;
 
         &:hover {
           background-color: white;
@@ -84,6 +61,7 @@
         }
 
         svg {
+          transform: scale(1.2);
           color: white;
         }
       }
