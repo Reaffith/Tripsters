@@ -167,7 +167,7 @@ export const getTrips = async () => {
 
     if (!response.ok) {
       console.log(response.status);
-      return response.status;
+      return [];
     }
 
     const data = await response.json();
@@ -260,5 +260,41 @@ export const getUsersFriends = async (): Promise<
     return data;
   } catch (error) {
     console.log(error);
+  }
+};
+
+export const updateTrip = async (updatedTrip: {
+  id: number;
+  destination: string;
+  startDate: string;
+  endDate: string;
+  startPoint: string;
+  endPoint: string;
+  additionalPoints: string[];
+}) => {
+  const token = localStorage.getItem("authToken");
+
+  try {
+    const response = await fetch("http://localhost:8088/trip", {
+      method: "PUT",
+      mode: "cors",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+      body: JSON.stringify(updatedTrip),
+    });
+
+    if (!response.ok) {
+      console.error(`Error: ${response.status}`);
+      throw new Error(`Failed to create trip: ${response.status}`);
+    }
+
+    const responseBody = await response.json();
+
+    return responseBody;
+  } catch (error) {
+    console.error("Error while updating trip:", error);
+    throw error;
   }
 };

@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { MapComponent } from "./MapComponent/MapComponent";
 
 import "./TripDetails.scss";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { Trip } from "../../types/Trip";
 import {
   getAllUsers,
@@ -43,6 +43,8 @@ export const TripDetails = () => {
   const [allUsers, setAllUsers] = useState<User[]>([]);
 
   const [owner, setOwner] = useState<User>();
+
+  const navigate = useNavigate();
 
   useEffect(() => {
     const getOwner = async () => {
@@ -260,6 +262,8 @@ export const TripDetails = () => {
               Finish on : {trip && DateToString(stringToDate(trip.endDate))}
             </h3>
           </div>
+
+          <button className="trip-details__block1--button" onClick={() => navigate(`../../trips/edit/${id}`)}>Edit trip</button>
         </div>
 
         <div className="trip-details__block2">

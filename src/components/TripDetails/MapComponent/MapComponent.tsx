@@ -4,6 +4,7 @@ import { GoogleMap, DirectionsRenderer } from "@react-google-maps/api";
 import "./mapComponent.scss";
 import { getCoordinates } from "../../../functions/getCoordinates";
 import PlacesAutocomplete from "react-places-autocomplete";
+import { useParams } from "react-router-dom";
 
 type Params = {
   startPoint: string;
@@ -54,6 +55,8 @@ export const MapComponent: React.FC<Params> = ({
   }>();
 
   const [suggest, setSuggest] = useState("");
+
+  const { id } = useParams();
 
   useEffect(() => {
     getCoordinates(startPoint)
@@ -133,6 +136,48 @@ export const MapComponent: React.FC<Params> = ({
     finishPointCoordinates,
   ]);
 
+  const sendSuggest = async () => {
+    const token = localStorage.getItem("authToken");
+
+    const tripId = id ? +id : 0;
+
+    const vote = {
+      tripId: tripId,
+      title: `Do you want to add ${suggest} to the trip route?`,
+      voteOptions: [
+        'Yes',
+        'No',
+      ],
+    }
+
+    try {
+      const response = await fetch("http://localhost:8088/votes", {
+        method: "POST",
+        mode: "cors",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify(vote),
+      });
+
+      if (!response.ok) {
+        console.error(`Error: ${response.status}`);
+        throw new Error(`Failed to create trip: ${response.status}`);
+      } else {
+        setSuggest('');
+      }
+  
+      const responseBody = await response.json();
+
+      console.log(responseBody);
+  
+      return responseBody;
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   return (
     <>
       <div className="map">
@@ -210,7 +255,7 @@ export const MapComponent: React.FC<Params> = ({
                   })}
                 </div>
               </div>
-              <button className="suggest-block--button">Submit</button>
+              <button className="suggest-block--button" onClick={sendSuggest}>Submit</button>
             </div>
           )}
         </PlacesAutocomplete>

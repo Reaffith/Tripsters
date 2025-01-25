@@ -5,6 +5,7 @@ import { User } from "../../types/User";
 import { getAllUsers, getData, getUsersFriends } from "../../api";
 import noPfp from "../../pics/no-pfp.png";
 
+
 export const ProfilePage = () => {
   const { id } = useParams();
   const [users, setUsers] = useState<User[]>([]);
@@ -56,16 +57,48 @@ export const ProfilePage = () => {
     }
   }, [user]);
 
+  const [file, setFile] = useState<File | null>(null);
+
+  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (e.target.files) {
+      setFile(e.target.files[0]);
+    }
+  };
+
+  const postPhoto = async () => {
+    console.log(file);
+    const token = localStorage.getItem("authToken");
+
+    if (file !== null) {
+      try {
+        const formData = new FormData();
+        formData.append("file", file);
+
+        const response = await fetch("http://localhost:8088/uploads/images", {
+          method: "POST",
+          mode: "cors",
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+          body: formData,
+        });
+
+        console.log(response);
+
+        return response.text();
+      } catch (error) {
+        console.error("Error uploading file:", error);
+      }
+    }
+  };
+
+
   return (
     <>
       {user && (
         <main className="profile">
           <div className="profile__top">
-            <img
-              src={imgSrc}
-              alt="PFP"
-              className="profile__top--pic"
-            />
+            <img src={imgSrc} alt="PFP" className="profile__top--pic" />
 
             <div className="profile__top--info">
               <h1 className="profile__top--info--name">
@@ -98,6 +131,9 @@ export const ProfilePage = () => {
               <div className="profile__top--button">{` `}</div>
             )}
           </div>
+          <input id="file" type="file" onChange={handleFileChange} />
+
+          <button onClick={postPhoto}>Upload photo</button>
         </main>
       )}
     </>

@@ -19,6 +19,7 @@ export const RouteManager = () => {
           <Route path="trips" element={<TripsPage />}></Route>
           <Route path="trips/create" element={<CreateTrip />}></Route>
           <Route path="tripDetails/:id" element={<TripDetails/>}></Route>
+          <Route path="trips/edit/:id" element={<CreateTrip />}></Route>
           <Route path="auth/">
             <Route path="login" element={<LoginPage/>}></Route>
             <Route path="reg" element={<RegisterPage/>}></Route>

@@ -4,12 +4,35 @@ import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import PlacesAutocomplete from "react-places-autocomplete";
 import { IoCloseCircleOutline } from "react-icons/io5";
-import { createTrip } from "../../api";
+import { createTrip, getTrips, updateTrip } from "../../api";
 import { ErrorBlock } from "../ErrorBlock/ErrorBlock";
 import { formatDateToISO } from "../../functions/dateManager";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
+import { DragDropContext, Draggable, Droppable } from "react-beautiful-dnd";
 
 export const CreateTrip = () => {
+  const [tripToEdit, setTripToEdit] = useState<
+    | {
+        id: number;
+        destination: string;
+        startDate: string;
+        endDate: string;
+        startPoint: string;
+        endPoint: string;
+        additionalPoints: string[];
+      }
+    | undefined
+  >();
+  const { id } = useParams();
+
+  useEffect(() => {
+    getTrips().then((response) =>
+      setTripToEdit(
+        response.filter((t: { id: number }) => (id ? t.id === +id : 0))[0]
+      )
+    );
+  }, [id]);
+
   const [tripName, setTripName] = useState("");
   const [startDate, setStartDate] = useState<Date | null>(new Date());
   const [finishDate, setFinishDate] = useState<Date | null>(null);
@@ -23,6 +46,15 @@ export const CreateTrip = () => {
   const [isErorr, setIsError] = useState(false);
 
   const navigate = useNavigate();
+
+  useEffect(() => {
+    setTripName(tripToEdit ? tripToEdit.destination : "");
+    setStartDate(tripToEdit ? new Date(tripToEdit.startDate) : new Date());
+    setFinishDate(tripToEdit ? new Date(tripToEdit.endDate) : null);
+    setStartPoint(tripToEdit ? tripToEdit.startPoint : "");
+    setFinishPoint(tripToEdit ? tripToEdit.endPoint : "");
+    setAdditionalPointsArray(tripToEdit ? tripToEdit.additionalPoints : []);
+  }, [tripToEdit]);
 
   useEffect(() => {
     if (startDate === null) {
@@ -42,24 +74,40 @@ export const CreateTrip = () => {
     } else if (!tripName.length) {
       setTripName(`Trip to ${finishPoint}`);
     } else {
-      createTrip({
-        destination: tripName,
-        startDate: formatDateToISO(startDate),
-        endDate: formatDateToISO(finishDate),
-        startPoint: startPoint,
-        endPoint: finishPoint,
-        additionalPoints: aditionalPointsArray,
-      })
-        .then((data) => {
-          if (data && data.id) {
-            navigate(`../../tripDetails/${data.id}`);
-          } else {
-            console.error("Trip creation failed: Missing data ID");
+      if (tripToEdit) {
+        updateTrip({
+          id: tripToEdit.id,
+          destination: tripName,
+          startDate: formatDateToISO(startDate),
+          endDate: formatDateToISO(finishDate),
+          startPoint: startPoint,
+          endPoint: finishPoint,
+          additionalPoints: aditionalPointsArray,
+        }).then((response) => {
+          if (response && response.id) {
+            navigate(`../../tripDetails/${response.id}`);
           }
+        });
+      } else {
+        createTrip({
+          destination: tripName,
+          startDate: formatDateToISO(startDate),
+          endDate: formatDateToISO(finishDate),
+          startPoint: startPoint,
+          endPoint: finishPoint,
+          additionalPoints: aditionalPointsArray,
         })
-        .catch((error) => {
-          console.error("Error creating trip:", error);
-        });      
+          .then((data) => {
+            if (data && data.id) {
+              navigate(`../../tripDetails/${data.id}`);
+            } else {
+              console.error("Trip creation failed: Missing data ID");
+            }
+          })
+          .catch((error) => {
+            console.error("Error creating trip:", error);
+          });
+      }
     }
   }
 
@@ -71,13 +119,21 @@ export const CreateTrip = () => {
     }
   }, [error]);
 
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const onDragEnd = (result: any) => {
+    if (!result.destination) return;
+
+    const items = Array.from(aditionalPointsArray);
+    const [reorderedItem] = items.splice(result.source.index, 1);
+    items.splice(result.destination.index, 0, reorderedItem);
+    setAdditionalPointsArray(items);
+  };
+
   return (
     <main className="createTrip">
-      {isErorr && (
-       <ErrorBlock error={error} setError={setError} />
-      )}
+      {isErorr && <ErrorBlock error={error} setError={setError} />}
 
-      <h1 className="createTrip__header">Create a new trip!</h1>
+      <h1 className="createTrip__header">{tripToEdit ? 'Edit your trip!' : 'Create a new trip!'}</h1>
 
       <div className="createTrip__block">
         <label htmlFor="name" className="createTrip__block--label">
@@ -314,27 +370,55 @@ export const CreateTrip = () => {
           )}
         </PlacesAutocomplete>
 
-        <div className="additional-block" style={additionalPoint.length > 0 ? {zIndex : '-1'} : {zIndex: '3'}}>
-          {aditionalPointsArray.map((value) => (
-            <div className="additional-block-element" key={value}>
-              <p className="additional-block-element--text">{value}</p>
-              <p
-                className="additional-block-element--button"
-                onClick={() => {
-                  setAdditionalPointsArray((prev) =>
-                    prev.filter((v) => v !== value)
-                  );
-                }}
+        <DragDropContext onDragEnd={onDragEnd}>
+          <Droppable droppableId="droppable">
+            {(provided) => (
+              <div
+                ref={provided.innerRef}
+                {...provided.droppableProps}
+                className="additional-block"
+                style={
+                  additionalPoint.length > 0
+                    ? { zIndex: "-1" }
+                    : { zIndex: "3" }
+                }
               >
-                <IoCloseCircleOutline />
-              </p>
-            </div>
-          ))}
-        </div>
+                {aditionalPointsArray.map((value, index) => (
+                  <Draggable draggableId={value} index={index} key={value}>
+                    {(provided) => (
+                      <div
+                        {...provided.draggableProps}
+                        {...provided.dragHandleProps}
+                        ref={provided.innerRef}
+                        className="additional-block-element"
+                        key={value.length}
+                      >
+                        <p className="additional-block-element--text">
+                          {`${index + 1}.   ${value}`}
+                        </p>
+                        <p
+                          className="additional-block-element--button"
+                          onClick={() => {
+                            setAdditionalPointsArray((prev) =>
+                              prev.filter((v) => v !== value)
+                            );
+                          }}
+                        >
+                          <IoCloseCircleOutline />
+                        </p>
+                      </div>
+                    )}
+                  </Draggable>
+                ))}
+                {provided.placeholder}
+              </div>
+            )}
+          </Droppable>
+        </DragDropContext>
       </div>
 
       <button className="createTrip__button" onClick={onCreateTrip}>
-        Create trip
+        {tripToEdit ? "Update trip" : "Create trip"}
       </button>
     </main>
   );

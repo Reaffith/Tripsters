@@ -8,6 +8,25 @@
   &__nav {
     display: flex;
     gap: 20px;
+
+    &--item {
+      font-size: 18px;
+      font-weight: 500;
+      margin-right: 10px;
+      padding: 7px;
+      border:2px solid $green;
+      border-radius: 30px;
+      width: 90px;
+      text-align: center;
+      cursor: pointer;
+      transition: all $transition-duration;
+
+      &.chat-active {
+        color: white;
+        background-color: $green;
+      }
+    }
+    
   }
 
   &__chat {
@@ -15,7 +34,7 @@
     flex-direction: column;
     gap: 30px;
     &--list {
-      height: 60vh;
+      height: 55vh;
       background-color: $background-color-dark;
       border-radius: 30px;
       overflow-y: scroll;
