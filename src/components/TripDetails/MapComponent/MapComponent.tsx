@@ -5,12 +5,9 @@ import "./mapComponent.scss";
 import { getCoordinates } from "../../../functions/getCoordinates";
 import PlacesAutocomplete from "react-places-autocomplete";
 import { useParams } from "react-router-dom";
+import { Trip } from "../../../types/Trip";
+import { getTrips } from "../../../api";
 
-type Params = {
-  startPoint: string;
-  finishPoint: string;
-  additionalPoints: string[];
-};
 
 function getRouteCenter(route: { lat: number; lng: number }[]) {
   const total = route.length;
@@ -31,11 +28,26 @@ function getRouteCenter(route: { lat: number; lng: number }[]) {
   };
 }
 
-export const MapComponent: React.FC<Params> = ({
-  startPoint,
-  finishPoint,
-  additionalPoints = [],
-}) => {
+export const MapComponent = () => {
+  const [trip, setTrip] = useState<Trip>();
+  const {id} = useParams();
+
+  useEffect(() => {
+    getTrips().then(response => setTrip(response.filter((t : Trip) => id ? t.id === +id : 0)[0]));
+  }, [id]);
+
+  const [startPoint, setStartPoint] = useState('');
+  const [finishPoint, setFinishPoint] = useState('');
+  const [additionalPoints, setAdditionalPoints] = useState<string[]>([]);
+
+  useEffect(() => {
+    if (trip) {
+      setStartPoint(trip.startPoint);
+      setFinishPoint(trip.endPoint);
+      setAdditionalPoints(trip.additionalPoints);
+    }
+  }, [trip])
+
   const [startPointCoordinates, setStartPointCoordinates] = useState<{
     lat: number;
     lng: number;
@@ -56,17 +68,17 @@ export const MapComponent: React.FC<Params> = ({
 
   const [suggest, setSuggest] = useState("");
 
-  const { id } = useParams();
-
   useEffect(() => {
-    getCoordinates(startPoint)
+    if (startPoint && finishPoint) {
+      getCoordinates(startPoint)
       .then((coords) => setStartPointCoordinates(coords))
       .catch((e) => console.log(e));
 
     getCoordinates(finishPoint)
       .then((coords) => setFinishPointCoordinates(coords))
       .catch((e) => console.log(e));
-  }, []);
+    }
+  }, [startPoint, finishPoint, trip]);
 
   useEffect(() => {
     const fetchAdditionalCoordinates = async () => {
@@ -84,8 +96,10 @@ export const MapComponent: React.FC<Params> = ({
       );
     };
 
-    fetchAdditionalCoordinates();
-  }, [additionalPoints]);
+    if (additionalPoints) {
+      fetchAdditionalCoordinates();
+    }
+  }, [additionalPoints, trip]);
 
   useEffect(() => {
     setCenterCoordinates(
@@ -125,8 +139,6 @@ export const MapComponent: React.FC<Params> = ({
       (response, status) => {
         if (status === "OK") {
           setDirections(response);
-        } else {
-          console.error("Directions request failed", response);
         }
       }
     );
@@ -143,7 +155,7 @@ export const MapComponent: React.FC<Params> = ({
 
     const vote = {
       tripId: tripId,
-      title: `Do you want to add ${suggest} to the trip route?`,
+      title: suggest,
       voteOptions: [
         'Yes',
         'No',
@@ -162,15 +174,12 @@ export const MapComponent: React.FC<Params> = ({
       });
 
       if (!response.ok) {
-        console.error(`Error: ${response.status}`);
         throw new Error(`Failed to create trip: ${response.status}`);
       } else {
         setSuggest('');
       }
   
       const responseBody = await response.json();
-
-      console.log(responseBody);
   
       return responseBody;
     } catch (error) {

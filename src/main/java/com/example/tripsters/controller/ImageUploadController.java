@@ -18,7 +18,7 @@ import org.springframework.web.multipart.MultipartFile;
 public class ImageUploadController {
     private final UserService userService;
 
-    private String uploadDir = "src/main/resources/images";
+    private String uploadDir = "D:\\Tripsters\\src\\main\\resources\\images";
 
     @PostMapping("/images")
     public ResponseEntity<String> uploadImage(@RequestParam("file") MultipartFile file) {

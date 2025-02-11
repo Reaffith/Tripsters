@@ -4,12 +4,42 @@ import Logo from "../../pics/logo.svg";
 
 import "./Header.scss";
 import { useEffect, useState } from "react";
-import { getData } from "../../api";
+import { getAllUsers, getData } from "../../api";
 import { User } from "../../types/User";
+import { MemberDetails } from "../TripDetails/MemberDetails/MemberDetails";
 
 export const Header = () => {
   const { t, i18n } = useTranslation();
   const [query, setQuery] = useState("");
+  const [users, setUsers] = useState<User[]>([]);
+  const [usersToShow, setUsersToShow] = useState<User[]>([]);
+
+  useEffect(() => {
+    getAllUsers().then((res) => setUsers(res));
+  }, []);
+
+  useEffect(() => {
+    if (query.length > 0) {
+      setUsersToShow(
+        users.filter(
+          (u) =>
+            `${u.id}` === query ||
+            `${u.firstName} ${u.lastName}`
+              .toLowerCase()
+              .includes(query.toLowerCase())
+        )
+      );
+    } else if (query.length === 0) {
+      setUsersToShow([]);
+    }
+  }, [query]);
+
+  console.log(
+    users.filter((u) =>
+      `${u.firstName} ${u.lastName}`.toLowerCase().includes(query.toLowerCase())
+    ),
+    usersToShow
+  );
 
   const changeLanguage = (lng: "en" | "ua") => {
     i18n.changeLanguage(lng); // Change the language dynamically
@@ -47,16 +77,36 @@ export const Header = () => {
           Friends
         </Link>
 
-        <Link to={user ? `profile/${user.id}` : '/auth/reg'} className="header__linkBlock--link">
+        <Link
+          to={user ? `profile/${user.id}` : "/auth/reg"}
+          className="header__linkBlock--link"
+        >
           {t("header_profile")}
         </Link>
 
-        <input
-          type="text"
-          placeholder={t("header_search")}
-          value={query}
-          onChange={(e) => setQuery(e.target.value)}
-        />
+        <div className="header__linkBlock--box">
+          <input
+            type="text"
+            placeholder={t("header_search")}
+            value={query}
+            onChange={(e) => setQuery(e.target.value)}
+          />
+
+          {query.length > 0 &&
+            (usersToShow.length > 0 ? (
+              <div className="header__linkBlock--box--block">
+                {usersToShow.map((u) => (
+                  <MemberDetails key={u.id} user={u} setQuery={setQuery} />
+                ))}
+              </div>
+            ) : (
+              <div className="header__linkBlock--box--block">
+                <h3 className="header__linkBlock--box--block--text">
+                  No users found
+                </h3>
+              </div>
+            ))}
+        </div>
       </div>
 
       <div className="header__block">
@@ -97,9 +147,9 @@ export const Header = () => {
                       opacity: "1",
                       position: "absolute",
                       backgroundColor: "#ECF9EF",
-                      cursor: 'pointer',
-                      borderRadius: '20px',
-                      padding: '10px 20px'
+                      cursor: "pointer",
+                      borderRadius: "20px",
+                      padding: "10px 20px",
                     }
                   : {
                       opacity: "0",

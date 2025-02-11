@@ -1,8 +1,7 @@
 import { useEffect, useState } from "react";
-import { MapComponent } from "./MapComponent/MapComponent";
 
 import "./TripDetails.scss";
-import { useNavigate, useParams } from "react-router-dom";
+import { Outlet, useLocation, useNavigate, useParams } from "react-router-dom";
 import { Trip } from "../../types/Trip";
 import {
   getAllUsers,
@@ -13,13 +12,13 @@ import {
 } from "../../api";
 import { DateToString, stringToDate } from "../../functions/dateManager";
 import { User } from "../../types/User";
-import { ChatComponent } from "./ChatComponent/ChatComponent";
 import { AddUserInfo } from "./AddUserInfo/AddUserInfo";
 import { MemberDetails } from "./MemberDetails/MemberDetails";
 
 export const TripDetails = () => {
   const { id } = useParams();
-  const [isMapVisible, changeIsMapVisible] = useState(true);
+  const location = useLocation();
+  const [isMapVisible, changeIsMapVisible] = useState(false);
   const [isChatVisible, changeIsChatVisible] = useState(false);
   const [trips, setTrips] = useState<Trip[]>([]);
   const [trip, setTrip] = useState<Trip>();
@@ -47,6 +46,13 @@ export const TripDetails = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
+  
+    changeIsMapVisible(location.pathname.includes('/map'));
+    changeIsChatVisible(location.pathname.includes('/chat'));
+
+}, [location]);
+
+  useEffect(() => {
     const getOwner = async () => {
       const token = localStorage.getItem("authToken");
       try {
@@ -69,7 +75,9 @@ export const TripDetails = () => {
       }
     };
 
-    getOwner().then((data) => setOwner(data));
+    if (trip) {
+      getOwner().then((data) => setOwner(data));
+    }
   }, [trip]);
 
   useEffect(() => {
@@ -106,8 +114,8 @@ export const TripDetails = () => {
       const friend = allUsers.filter(
         (u) =>
           u.id !== currentUser?.id &&
-          (u.id === neededFriendships[0].userId ||
-            u.id === neededFriendships[0].friendId)
+          (u.id === neededFriendships[i].userId ||
+            u.id === neededFriendships[i].friendId)
       )[0];
 
       friends.push(friend);
@@ -128,7 +136,7 @@ export const TripDetails = () => {
 
   useEffect(() => {
     setTrip(trips.filter((t) => t.id === Number(id))[0]);
-  }, [trips]);
+  }, [id, trips]);
 
   const [updateUsers, setUpdateUsers] = useState(1);
 
@@ -136,16 +144,14 @@ export const TripDetails = () => {
     if (id) {
       getAllusersInTrip(id).then((data) => setUsers(data));
     }
-  }, [updateUsers]);
+  }, [updateUsers, id]);
 
   const showMap = () => {
-    changeIsMapVisible(true);
-    changeIsChatVisible(false);
+    navigate(`/tripDetails/${trip?.id}/map`);
   };
 
   const showChat = () => {
-    changeIsMapVisible(false);
-    changeIsChatVisible(true);
+    navigate(`/tripDetails/${trip?.id}/chat`);
   };
 
   const getNavItemStyle = (isVisible: boolean) => {
@@ -263,7 +269,12 @@ export const TripDetails = () => {
             </h3>
           </div>
 
-          <button className="trip-details__block1--button" onClick={() => navigate(`../../trips/edit/${id}`)}>Edit trip</button>
+          <button
+            className="trip-details__block1--button"
+            onClick={() => navigate(`../../trips/edit/${id}`)}
+          >
+            Edit trip
+          </button>
         </div>
 
         <div className="trip-details__block2">
@@ -273,14 +284,14 @@ export const TripDetails = () => {
                 {trip?.destination}
               </h1>
 
-              <p className="trip-details__block2--info--left--status">
+              <div className="trip-details__block2--info--left--status">
                 <div
                   className="trip-details__block2--info--left--status--circle"
                   style={{ backgroundColor: getStatusColor() }}
                 ></div>
 
                 {status}
-              </p>
+              </div>
             </div>
 
             {owner?.id === currentUser?.id && (
@@ -312,15 +323,7 @@ export const TripDetails = () => {
           </div>
 
           <div className="trip-details__block2--content">
-            {isMapVisible && trip && (
-              <MapComponent
-                startPoint={trip.startPoint}
-                finishPoint={trip.endPoint}
-                additionalPoints={trip.additionalPoints}
-              />
-            )}
-
-            {isChatVisible && <ChatComponent tripId={trip?.id || 0}/>}
+            <Outlet />
           </div>
         </div>
       </main>

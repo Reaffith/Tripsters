@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { Dispatch, SetStateAction, useEffect, useState } from "react";
 
 import noPfp from "../../../pics/no-pfp.png";
 import { User } from "../../../types/User";
@@ -7,10 +7,12 @@ import { useNavigate } from "react-router-dom";
 
 type Props = {
   user: User;
+  setQuery ?: Dispatch<SetStateAction<string>>
 };
 
 export const MemberDetails: React.FC<Props> = ({
   user,
+  setQuery = () => {}
 }) => {
   const [imgSrc, setImgSrc] = useState<string>(noPfp);
   const navigate = useNavigate();
@@ -23,6 +25,11 @@ export const MemberDetails: React.FC<Props> = ({
     }
   }, [user]);
 
+  const onClick = () => {
+    navigate(`../profile/${user?.id}`);
+    setQuery('')
+  }
+
   return (
     <div className="memberDetails">
       <div className="memberDetails__block">
@@ -30,7 +37,7 @@ export const MemberDetails: React.FC<Props> = ({
 
         <p
           className="memberDetails__block--text"
-          onClick={() => navigate(`../profile/${user?.id}`)}
+          onClick={onClick}
         >{`${user.firstName} ${user.lastName}`}</p>
       </div>
     </div>

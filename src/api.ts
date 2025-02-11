@@ -203,7 +203,7 @@ export const getAllusersInTrip = async (id: string) => {
   }
 };
 
-export const getAllUsers = async (): Promise<number | User[] | undefined> => {
+export const getAllUsers = async (): Promise<User[]> => {
   const token = localStorage.getItem("authToken");
 
   try {
@@ -217,7 +217,7 @@ export const getAllUsers = async (): Promise<number | User[] | undefined> => {
 
     if (!response.ok) {
       console.log(response.status);
-      return response.status;
+      return [];
     }
 
     const data = await response.json();
@@ -226,6 +226,8 @@ export const getAllUsers = async (): Promise<number | User[] | undefined> => {
   } catch (error) {
     console.log(error);
   }
+
+  return [];
 };
 
 export const getUsersFriends = async (): Promise<
@@ -289,6 +291,8 @@ export const updateTrip = async (updatedTrip: {
       console.error(`Error: ${response.status}`);
       throw new Error(`Failed to create trip: ${response.status}`);
     }
+
+    console.log(response.status)
 
     const responseBody = await response.json();
 

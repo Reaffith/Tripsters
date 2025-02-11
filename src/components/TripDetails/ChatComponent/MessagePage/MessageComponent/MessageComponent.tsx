@@ -1,9 +1,9 @@
 import { useEffect, useState } from "react";
-import { User } from "../../../../types/User";
+import { User } from "../../../../../types/User";
 import "./MessageComponent.scss";
-import { getAllusersInTrip, getData } from "../../../../api";
+import { getAllusersInTrip, getData } from "../../../../../api";
 import classNames from "classnames";
-import noPfp from "../../../../pics/no-pfp.png";
+import noPfp from "../../../../../pics/no-pfp.png";
 
 type Message = {
   id: number;

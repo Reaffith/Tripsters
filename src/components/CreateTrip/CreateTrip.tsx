@@ -85,7 +85,7 @@ export const CreateTrip = () => {
           additionalPoints: aditionalPointsArray,
         }).then((response) => {
           if (response && response.id) {
-            navigate(`../../tripDetails/${response.id}`);
+            navigate(`../../tripDetails/${response.id}/map`);
           }
         });
       } else {
@@ -99,7 +99,7 @@ export const CreateTrip = () => {
         })
           .then((data) => {
             if (data && data.id) {
-              navigate(`../../tripDetails/${data.id}`);
+              navigate(`../../tripDetails/${data.id}/map`);
             } else {
               console.error("Trip creation failed: Missing data ID");
             }

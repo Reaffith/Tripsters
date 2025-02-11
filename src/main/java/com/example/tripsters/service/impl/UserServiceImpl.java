@@ -41,7 +41,7 @@ public class UserServiceImpl implements UserService {
     private final UserMapper userMapper;
     private final PasswordEncoder passwordEncoder;
     private final RoleRepository roleRepository;
-    private String uploadDir = "D:\\Tripsters\\src\\main\\resources\\images";
+    private String uploadDir = "src/main/resources/images";
 
     @Override
     @Transactional
@@ -95,27 +95,19 @@ public class UserServiceImpl implements UserService {
     }
 
     private String saveImage(MultipartFile file) throws IOException {
-      User user = getAuthenticatedUser();
+        User user = getAuthenticatedUser();
+        Path uploadPath = Paths.get(uploadDir);
+        if (!Files.exists(uploadPath)) {
+            Files.createDirectories(uploadPath);
+        }
 
-      // Ensure the upload directory exists
-      Path uploadPath = Paths.get(uploadDir);
-      if (!Files.exists(uploadPath)) {
-          Files.createDirectories(uploadPath);
-      }
-
-      // Resolve the file path
-      String fileName = "User_" + user.getId() + ".jpg";
-      Path filePath = uploadPath.resolve(fileName);
-
-      // Save the file
-      Files.copy(file.getInputStream(), filePath, StandardCopyOption.REPLACE_EXISTING);
-
-      // Update the user's photo URL
-      user.setPhotoUrl(fileName);
-      userRepository.save(user);
-
-      return filePath.toString();
-  }
+        String fileName = "FileForUserWithId" + user.getId() + ".jpg";
+        Path filePath = uploadPath.resolve(fileName);
+        Files.copy(file.getInputStream(), filePath, StandardCopyOption.REPLACE_EXISTING);
+        user.setPhotoUrl(fileName);
+        userRepository.save(user);
+        return filePath.toString();
+    }
 
     @Override
     public ResponseEntity<Resource> getImage(String filename) {

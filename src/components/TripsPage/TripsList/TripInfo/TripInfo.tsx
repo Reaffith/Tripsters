@@ -58,7 +58,7 @@ export const TripInfo: React.FC<Params> = ({ trip }) => {
   const navigate = useNavigate();
 
   const goToTrip = () => {
-    navigate(`../tripDetails/${id}`);
+    navigate(`../tripDetails/${id}/map`);
   };
 
   const [photoUrl, setPhotoUrl] = useState<string | undefined>();

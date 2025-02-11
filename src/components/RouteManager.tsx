@@ -8,6 +8,10 @@ import { RegisterPage } from "./RegisterPage/RegisterPage";
 import { LoginPage } from "./RegisterPage/LoginPage";
 import { ProfilePage } from "./ProfilePage/ProfilePage";
 import { FriendList } from "./FriendList/FriendList";
+import { MapComponent } from "./TripDetails/MapComponent/MapComponent";
+import { ChatComponent } from "./TripDetails/ChatComponent/ChatComponent";
+import { MessagePage } from "./TripDetails/ChatComponent/MessagePage/MessagePage";
+import { VotePage } from "./TripDetails/ChatComponent/VotePage/VotePage";
 
 export const RouteManager = () => {
   return (
@@ -18,7 +22,14 @@ export const RouteManager = () => {
           <Route index element={<Home />} />
           <Route path="trips" element={<TripsPage />}></Route>
           <Route path="trips/create" element={<CreateTrip />}></Route>
-          <Route path="tripDetails/:id" element={<TripDetails/>}></Route>
+          <Route path="tripDetails/:id/" element={<TripDetails/>}>
+            <Route path="map" element={<MapComponent/>} />
+            <Route path="chat/" element={<ChatComponent/>} >
+              <Route index element={<Navigate to='messages' />} />
+              <Route path="messages" element={<MessagePage/>} />
+              <Route path="votes" element={<VotePage/>} />
+            </Route>
+          </Route>
           <Route path="trips/edit/:id" element={<CreateTrip />}></Route>
           <Route path="auth/">
             <Route path="login" element={<LoginPage/>}></Route>

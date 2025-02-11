@@ -1,4 +1,4 @@
-@import "../../../../variables";
+@import "../../../../../variables";
 .vote {
   background-color: white;
   display: flex;
@@ -7,6 +7,8 @@
   width: fit-content;
   padding: 20px;
   border-radius: 30px;
+  margin-bottom: 40px;
+  border: 2px solid;
 
   &__title {
     font-size: 20px;
