@@ -2,7 +2,7 @@ import { useParams } from "react-router-dom";
 import "./ProfilePage.scss";
 import { useEffect, useState } from "react";
 import { User } from "../../types/User";
-import { getAllUsers, getData, getTrips } from "../../api";
+import { getAllUsers, getData } from "../../api";
 import noPfp from "../../pics/no-pfp.png";
 import { MemberDetails } from "../TripDetails/MemberDetails/MemberDetails";
 import { Trip } from "../../types/Trip";
