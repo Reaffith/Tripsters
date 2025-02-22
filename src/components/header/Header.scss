@@ -6,20 +6,16 @@
   flex-direction: row;
   justify-content: space-between;
   align-items: center;
-  padding: 48px 64px;
 
   &_user {
-    max-width: 180px;
     overflow: hidden;
     text-decoration: none;
-    font-size: 18px;
     color: $green;
     font-weight: 600;
   }
 
   &__link {
     &--pic {
-      height: 80px;
       transition: all $transition-duration;
 
       &:hover {
@@ -32,19 +28,17 @@
     display: flex;
     flex-direction: row;
     align-items: center;
-    gap: 15px;
+
     background-color: $background-color-dark;
-    padding-inline: 20px;
+
     border-radius: 40px;
-    height: 50px;
 
     &--link {
       text-decoration: none;
-      font-size: 16px;
+
       text-transform: uppercase;
       font-weight: 600;
       color: $text-color-dark;
-      width: 120px;
       transition: all $transition-duration;
       text-align: center;
       margin: 0;
@@ -58,28 +52,23 @@
     input {
       border: none;
       outline: none;
-      padding: 7px;
       border-radius: 15px;
       font-size: 16px;
       font-weight: 600;
-      width: 220px;
     }
 
     &--box {
       display: flex;
       flex-direction: column;
-      width: 234px;
-
 
       &--block {
         position: absolute;
-        top: 120px;
-        width: 220px;
+
         background-color: $background-color-dark;
-        padding: 7px;
+
         display: flex;
         flex-direction: column;
-        gap: 20px;
+
         border-radius: 20px;
 
         div {
@@ -87,7 +76,6 @@
         }
 
         &--text {
-          margin: 6px;
           color: $text-color-dark;
         }
       }
@@ -97,13 +85,11 @@
   &__block {
     display: flex;
     flex-direction: row;
-    gap: 30px;
+
     align-items: center;
     box-sizing: border-box;
 
     &--sign {
-      width: 160px;
-      padding-block: 12px;
       border: 2px solid $green;
       border-radius: 30px;
       transition: all $transition-duration;
@@ -119,7 +105,7 @@
       p {
         transition: all $transition-duration;
         margin: 0;
-        font-size: 16px;
+
         text-transform: uppercase;
         font-weight: 600;
         color: $text-color-dark;
@@ -131,12 +117,10 @@
     &--lang {
       display: flex;
       flex-direction: row;
-      gap: 5px;
-      width: 60px;
 
       &--option {
         margin: 0;
-        font-size: 16px;
+        
         text-transform: uppercase;
         font-weight: 600;
         color: $text-color-dark;
@@ -149,6 +133,166 @@
             letter-spacing: 1.3px;
             color: $green;
           }
+        }
+      }
+    }
+  }
+}
+
+@media (min-width: 1199px) {
+  .header {
+    padding: 48px 64px;
+
+    &_user {
+      max-width: 180px;
+      font-size: 18px;
+    }
+
+    &__link {
+      &--pic {
+        height: 80px;
+      }
+    }
+
+    &__linkBlock {
+      gap: 15px;
+      padding-inline: 20px;
+      height: 50px;
+
+      &--link {
+        width: 120px;
+        font-size: 16px;
+      }
+
+      input {
+        padding: 7px;
+        width: 220px;
+      }
+
+      &--box {
+        width: 234px;
+
+        &--block {
+          top: 120px;
+          width: 220px;
+          gap: 20px;
+          padding: 7px;
+
+          &--text {
+            margin: 6px;
+          }
+        }
+      }
+    }
+
+    &__block {
+      gap: 30px;
+
+      &--sign {
+        width: 160px;
+        padding-block: 12px;
+
+        p {
+          font-size: 16px;
+        }
+      }
+
+      &--lang {
+        gap: 5px;
+        width: 60px;
+
+        &--option {
+          font-size: 16px;
+        }
+      }
+    }
+  }
+}
+
+
+@media (max-width: 1199px) {
+  .header {
+    padding: 18px 24px;
+
+    &_user {
+      max-width: 130px;
+      font-size: 16px;
+    }
+
+    &__link {
+      &--pic {
+        height: 50px;
+      }
+    }
+
+    &__linkBlock {
+
+      &.dropdownmenu {
+        position: absolute;
+        width: 100vw;
+        height: calc(100vh - 90px);
+        left: 0;
+        flex-direction: column;
+        gap: 40px;
+        align-items: center;
+        justify-content: center;
+        transition: all $transition-duration;
+        z-index: 99999;
+      }
+
+      gap: 10px;
+      padding-inline: 10px;
+      padding-block: 5px;
+      height: auto;
+
+      &--link {
+        width: 80px;
+        font-size: 14px;
+      }
+
+      input {
+        padding: 5px;
+        width: 150px;
+      }
+
+      &--box {
+        width: 155px;
+
+        &--block {
+          top: 80px;
+          width: 150px;
+          gap: 40px;
+          padding: 7px;
+
+          &--text {
+            margin: 6px;
+          }
+        }
+      }
+    }
+
+    &__block {
+      gap: 20px;
+
+      &--sign {
+        width: 80px;
+        padding-block: 12px;
+
+        p {
+          font-size: 16px;
+        }
+      }
+
+      &--menu {
+       
+      }
+
+      &--lang {
+        gap: 5px;
+        width: 60px;
+
+        &--option {
+          font-size: 14px;
         }
       }
     }

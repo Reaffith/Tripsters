@@ -89,7 +89,7 @@ type RegUser = {
   lastName: string;
 };
 
-export async function registerUser(data: RegUser): Promise<number | void> {
+export async function registerUser(data: RegUser): Promise<User | number | void> {
   try {
     const response = await fetch("http://localhost:8088/auth/registration", {
       method: "POST",
@@ -111,7 +111,7 @@ export async function registerUser(data: RegUser): Promise<number | void> {
       });
     }
 
-    return response.status;
+    return response.json();
   } catch (error) {
     console.error(error);
   }

@@ -3,52 +3,23 @@
 
 .createTrip {
   @include page-grid;
-  row-gap: 20px;
   justify-content: center;
-  padding-bottom: 80px;
 
   &__button {
-    grid-column: 5 / 9;
-    color: $background-color;
-    margin: 0;
-    font-size: 16px;
-    text-transform: uppercase;
-    font-weight: 600;
-    text-align: center;
-    cursor: pointer;
-    border: 2px solid $green;
-    background-color: $green;
-    padding: 14px 60px;
-    width: 100%;
-    border-radius: 30px;
-    text-decoration: none;
-    transition: all $transition-duration;
-    letter-spacing: 1px;
-
-    &:hover {
-      background-color: white;
-      color: $text-color-dark;
-    }
+    @include button-style;
   }
 
   &__header {
-    grid-column: 4/-4;
-    font-size: 28px;
     font-weight: 600;
     color: $text-color-dark;
     margin: 0;
   }
 
   &__block {
-    grid-column: 4/-4;
     display: flex;
     flex-direction: column;
 
     &.double--block {
-      flex-direction: row !important;
-      justify-content: space-between;
-
-      height: 74px;
       overflow: visible;
       z-index: 4;
 
@@ -60,25 +31,18 @@
     &--doubleBlock {
       display: flex;
       flex-direction: column;
-      width: calc(50% - 20px);
     }
 
     &--label {
-      font-size: 16px;
       font-weight: 500;
       color: $text-color-dark;
-      margin-bottom: 4px;
-      margin-left: 12px;
     }
 
     input {
-      width: 100% !important;
-      height: 30px;
       outline: none;
       border: 1px solid white;
       border-radius: 32px;
-      padding: 8px 12px;
-      font-size: 18px;
+
       background-color: $background-color-dark;
 
       &:focus {
@@ -88,7 +52,6 @@
 
     .suggestions {
       background-color: $background-color;
-      width: 99.5%;
     }
 
     .additional {
@@ -97,7 +60,6 @@
       justify-content: space-between;
 
       &-search {
-        height: 48px;
         overflow: visible;
 
         .suggestions {
@@ -107,15 +69,11 @@
 
       &-block {
         position: relative;
-        padding: 20px;
-        border-radius: 40px;
-        height: 200px;
-        margin-top: 20px;
-        width: 100%;
+
         background-color: $background-color-dark;
         display: flex;
         flex-direction: column;
-        gap: 10px;
+
         overflow-y: scroll;
 
         &-element {
@@ -127,7 +85,6 @@
           &--text {
             margin: 0;
             color: $text-color-dark;
-            font-size: 17px;
             background-color: $background-color-dark;
           }
 
@@ -137,6 +94,145 @@
             right: 10px;
             margin: 0;
             cursor: pointer;
+          }
+        }
+      }
+    }
+  }
+}
+
+
+//pc
+@media (min-width: 1199px) {
+  .createTrip {
+    row-gap: 20px;
+    padding-bottom: 80px;
+
+    &__button {
+      grid-column: 5 / 9;
+    }
+
+    &__header {
+      grid-column: 4/-4;
+      font-size: 28px;
+    }
+
+    &__block {
+      grid-column: 4/-4;
+
+      &.double--block {
+        flex-direction: row !important;
+        justify-content: space-between;
+        height: 74px;
+      }
+      &--doubleBlock {
+        width: calc(50% - 20px);
+      }
+
+      &--label {
+        font-size: 16px;
+        margin-bottom: 4px;
+        margin-left: 12px;
+      }
+
+      input {
+        width: 100% !important;
+        height: 30px;
+        padding: 8px 12px;
+        font-size: 18px;
+      }
+
+      .suggestions {
+        width: 99.5%;
+      }
+
+      .additional {
+        &-search {
+          height: 48px;
+        }
+
+        &-block {
+          padding: 20px;
+          border-radius: 40px;
+          height: 200px;
+          margin-top: 20px;
+          width: 100%;
+          gap: 10px;
+
+          &-element {
+            &--text {
+              font-size: 17px;
+            }
+          }
+        }
+      }
+    }
+  }
+}
+
+//tablet
+@media (max-width: 1199px) {
+  .createTrip {
+    row-gap: 20px;
+    padding-bottom: 80px;
+    padding-inline: 40px;
+
+    &__button {
+      grid-column: 2 / -2;
+    }
+
+    &__header {
+      grid-column: 1/-1;
+      font-size: 28px;
+    }
+
+    &__block {
+      grid-column: 1/-1;
+      padding-inline: 0 20px;
+
+      &.double--block {
+        flex-direction: row !important;
+        justify-content: space-between;
+        height: 74px;
+      }
+      &--doubleBlock {
+        width: calc(50% - 20px);
+      }
+
+      &--label {
+        font-size: 16px;
+        margin-bottom: 4px;
+        margin-left: 12px;
+      }
+
+      input {
+        width: 100% !important;
+        height: 30px;
+        padding: 8px 12px;
+        font-size: 18px;
+      }
+
+      .suggestions {
+        width: 99.5%;
+      }
+
+      .additional {
+        &-search {
+          height: 48px;
+        }
+
+        &-block {
+          padding: 20px;
+          border-radius: 40px;
+          height: 200px;
+          margin-top: 20px;
+          width: 100%;
+          gap: 10px;
+
+          &-element {
+            &--text {
+              font-size: 17px;
+            }
           }
         }
       }

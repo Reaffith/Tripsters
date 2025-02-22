@@ -35,13 +35,6 @@ export const Footer = () => {
           </a>{" "}
           - Back-end
         </p>
-
-        <p className="footer__creators--item">
-          <a href="" target="_blank" className="footer__creators--item--link">
-            Sofyia Kozytska
-          </a>{" "}
-          - UX/UI
-        </p>
       </div>
 
       <div className="footer__block">

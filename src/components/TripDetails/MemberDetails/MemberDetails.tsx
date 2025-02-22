@@ -14,26 +14,52 @@ export const MemberDetails: React.FC<Props> = ({
   user,
   setQuery = () => {}
 }) => {
-  const [imgSrc, setImgSrc] = useState<string>(noPfp);
   const navigate = useNavigate();
-
-  useEffect(() => {
-    if (user && user.fileUrl) {
-      import(`../../../main/resources/images/${user.fileUrl}`)
-        .then((image) => setImgSrc(image.default))
-        .catch(() => setImgSrc(noPfp));
-    }
-  }, [user]);
 
   const onClick = () => {
     navigate(`../profile/${user?.id}`);
     setQuery('')
   }
 
+  const [userPfp, setUserPfp] = useState<Blob>();
+
+  useEffect(() => {
+    const getPhoto = async () => {
+      const token = localStorage.getItem('authToken');
+      try {
+        const response = await fetch(
+          `http://localhost:8088/uploads/images/${user?.fileUrl}`, {
+            method: "GET",
+            mode: "cors",
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        );
+
+        if (!response.ok) {
+          throw new Error(`Failed to fetch photo: ${response.statusText}`);
+        }
+
+        return await response.blob();
+      } catch (error) {
+        console.error("Error fetching photo:", error);
+        throw error;
+      }
+    };
+
+    if (user) {
+      getPhoto().then(response => {
+        setUserPfp(response);
+        console.log(response);
+      })
+    }
+  }, [user]);
+
   return (
     <div className="memberDetails">
       <div className="memberDetails__block">
-        <img src={imgSrc} alt="PFP" className="memberDetails__block--img" />
+        <img src={userPfp ? URL.createObjectURL(userPfp) : noPfp} alt="PFP" className="memberDetails__block--img" />
 
         <p
           className="memberDetails__block--text"

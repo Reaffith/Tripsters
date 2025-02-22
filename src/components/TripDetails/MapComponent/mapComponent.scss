@@ -1,31 +1,22 @@
 @import '../../../variables';
+@import '../../../mixins';
 
-.map {
-  height: 60vh;
-
-}
 
 
   .suggest {
-    width: 100%;
-    padding-top: 30px;
-    margin-bottom: 30px;
+    
+    position: relative;
   
     &--header {
-      font-size: 25px;
       font-weight: 700;
       color: $text-color-dark;
   
     }
   
     input {
-      width: 100% !important;
-      height: 30px;
       outline: none;
       border: 1px solid white;
       border-radius: 32px;
-      padding: 8px 12px;
-      font-size: 18px;
       background-color: $background-color-dark;
 
       &:focus {
@@ -35,30 +26,74 @@
   
     &-block {
       display: grid;
-      grid-template-columns: 70% 25%;
       gap: 5%;
-      margin-top: 20px;
+      position: absolute;
+
   
       &--button {
-        color: #fdfdff;
-        margin: 0;
-        font-size: 16px;
-        text-transform: uppercase;
-        font-weight: 600;
-        text-align: center;
-        cursor: pointer;
-        border: 2px solid $green;
-        background-color: $green;
-        height: 48px;
-        border-radius: 30px;
-        text-decoration: none;
-        transition: all $transition-duration;
-  
-        &:hover {
-          background-color: $background-color-dark;
-          color: $green;
-        }
+        @include button-style;
       }
     }
   }
 
+@media (min-width: 1199px) {
+  .map {
+    height: 60vh;
+  }
+
+  .suggest {
+    width: 100%;
+    padding-top: 30px;
+    margin-bottom: 30px;
+    
+    &--header {
+      font-size: 25px;
+    }
+
+    input {
+      width: 100% !important;
+      height: 30px;
+      padding: 8px 12px;
+      font-size: 18px;
+
+    }
+
+    &-block {
+      grid-template-columns: 70% 25%;
+      margin-top: 20px;
+      width: 100%;
+
+    }
+  }
+}
+
+@media (max-width: 1199px) {
+  .map {
+    height: 60vh;
+  }
+
+  .suggest {
+    width: 100%;
+    padding-top: 30px;
+    margin-bottom: 90px;
+    
+    &--header {
+      font-size: 25px;
+    }
+
+    input {
+      width: 100% !important;
+      height: 30px;
+      padding: 8px 12px;
+      font-size: 18px;
+
+    }
+
+    &-block {
+      grid-template-columns: 70% 25%;
+      margin-top: 20px;
+      width: 100%;
+
+    }
+  }
+}

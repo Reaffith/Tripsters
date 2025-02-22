@@ -21,7 +21,42 @@ export const MessageComponent: React.FC<Params> = ({ message }) => {
   const [currentUser, setCurrentUser] = useState<User>();
   const [users, setUsers] = useState<User[]>([]);
   const [author, setAuthor] = useState<User>();
-  const [imgSrc, setImgSrc] = useState<string>(noPfp);
+  
+  const [userPfp, setUserPfp] = useState<Blob>();
+
+  useEffect(() => {
+    const getPhoto = async () => {
+      const token = localStorage.getItem('authToken');
+      try {
+        const response = await fetch(
+          `http://localhost:8088/uploads/images/${author?.fileUrl}`, {
+            method: "GET",
+            mode: "cors",
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        );
+
+        if (!response.ok) {
+          throw new Error(`Failed to fetch photo: ${response.statusText}`);
+        }
+
+        return await response.blob();
+      } catch (error) {
+        console.error("Error fetching photo:", error);
+        throw error;
+      }
+    };
+
+    if (author) {
+      getPhoto().then(response => {
+        setUserPfp(response);
+        console.log(response);
+      })
+    }
+  }, [author]);
+
 
   const transformDate = () => {
     const date = message.timestamp;
@@ -31,14 +66,6 @@ export const MessageComponent: React.FC<Params> = ({ message }) => {
 
     return dateTime;
   }
-
-  useEffect(() => {
-    if (author && author.fileUrl) {
-      import(`../../../../main/resources/images/${author.fileUrl}`)
-        .then((image) => setImgSrc(image.default))
-        .catch(() => setImgSrc(noPfp));
-    }
-  }, [author, currentUser]);
 
   useEffect(() => {
     getAllusersInTrip(message.tripId.toString()).then((data) => setUsers(data));
@@ -60,7 +87,7 @@ export const MessageComponent: React.FC<Params> = ({ message }) => {
       })}
     >
       {author?.id !== currentUser?.id && (
-        <img src={imgSrc} alt="PFP" className="message__pfp" />
+        <img src={userPfp ? URL.createObjectURL(userPfp) : noPfp} alt="PFP" className="message__pfp" />
       )}
 
       <div className="message__block">
@@ -76,7 +103,7 @@ export const MessageComponent: React.FC<Params> = ({ message }) => {
       </div>
 
       {author?.id === currentUser?.id && (
-        <img src={imgSrc} alt="PFP" className="message__pfp" />
+        <img src={userPfp ? URL.createObjectURL(userPfp) : noPfp} alt="PFP" className="message__pfp" />
       )}
     </div>
   );

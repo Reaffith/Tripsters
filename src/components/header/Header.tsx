@@ -1,4 +1,4 @@
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import Logo from "../../pics/logo.svg";
 
@@ -7,12 +7,28 @@ import { useEffect, useState } from "react";
 import { getAllUsers, getData } from "../../api";
 import { User } from "../../types/User";
 import { MemberDetails } from "../TripDetails/MemberDetails/MemberDetails";
+import { IoMenu } from "react-icons/io5";
+
+const useWindowWidth = () => {
+  const [width, setWidth] = useState(window.innerWidth);
+
+  useEffect(() => {
+    const handleResize = () => setWidth(window.innerWidth);
+
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
+
+  return width;
+};
 
 export const Header = () => {
   const { t, i18n } = useTranslation();
   const [query, setQuery] = useState("");
   const [users, setUsers] = useState<User[]>([]);
   const [usersToShow, setUsersToShow] = useState<User[]>([]);
+  const width = useWindowWidth();
+  const [isMenu, setIsMenu] = useState(false);
 
   useEffect(() => {
     getAllUsers().then((res) => setUsers(res));
@@ -42,7 +58,7 @@ export const Header = () => {
   );
 
   const changeLanguage = (lng: "en" | "ua") => {
-    i18n.changeLanguage(lng); // Change the language dynamically
+    i18n.changeLanguage(lng);
   };
 
   const navigate = useNavigate();
@@ -58,58 +74,123 @@ export const Header = () => {
     getData("users/current").then(setUser);
   }, []);
 
+  useEffect(() => {
+    if (isMenu) {
+      window.scrollTo(0, 0);
+      document.body.style.overflow = "hidden";
+    } else {
+      document.body.style.overflow = "";
+    }
+
+    return () => {
+      document.body.style.overflow = "";
+    };
+  }, [isMenu]);
+
+  const [menuStyle, setMenuStyle] = useState({top: '-150vh'});
+
+  useEffect(() => {
+    if (isMenu) {
+      setMenuStyle({top: '90px'});
+    } else {
+      setMenuStyle({top: '-150vh'});
+    }
+  }, [isMenu])
+
+  const location = useLocation();
+
+  useEffect(() => {
+    setIsMenu(false);
+  }, [location])
+
   return (
-    <div className="header">
+    <nav className="header">
       <Link to="/" className="header__link logo">
         <img src={Logo} alt="Logo" className="header__link--pic" />
       </Link>
 
-      <div className="header__linkBlock">
-        <Link to="/trips/create" className="header__linkBlock--link">
-          Create
-        </Link>
+      {width > 850 && (
+        <div className="header__linkBlock">
+          <Link to="/trips/create" className="header__linkBlock--link">
+            Create
+          </Link>
 
-        <Link to="/trips" className="header__linkBlock--link">
-          {t("header_yourTrips")}
-        </Link>
+          <Link to="/trips" className="header__linkBlock--link">
+            {t("header_yourTrips")}
+          </Link>
 
-        <Link to="/friends" className="header__linkBlock--link">
-          Friends
-        </Link>
+          <Link to="/friends" className="header__linkBlock--link">
+            Friends
+          </Link>
 
-        <Link
-          to={user ? `profile/${user.id}` : "/auth/reg"}
-          className="header__linkBlock--link"
-        >
-          {t("header_profile")}
-        </Link>
+          <Link
+            to={user ? `profile/${user.id}` : "/auth/reg"}
+            className="header__linkBlock--link"
+          >
+            {t("header_profile")}
+          </Link>
 
-        <div className="header__linkBlock--box">
-          <input
-            type="text"
-            placeholder={t("header_search")}
-            value={query}
-            onChange={(e) => setQuery(e.target.value)}
-          />
+          <div className="header__linkBlock--box">
+            <input
+              type="text"
+              placeholder={t("header_search")}
+              value={query}
+              onChange={(e) => setQuery(e.target.value)}
+            />
 
-          {query.length > 0 &&
-            (usersToShow.length > 0 ? (
-              <div className="header__linkBlock--box--block">
-                {usersToShow.map((u) => (
-                  <MemberDetails key={u.id} user={u} setQuery={setQuery} />
-                ))}
-              </div>
-            ) : (
-              <div className="header__linkBlock--box--block">
-                <h3 className="header__linkBlock--box--block--text">
-                  No users found
-                </h3>
-              </div>
-            ))}
+            {query.length > 0 &&
+              (usersToShow.length > 0 ? (
+                <div className="header__linkBlock--box--block">
+                  {usersToShow.map((u) => (
+                    <MemberDetails key={u.id} user={u} setQuery={setQuery} />
+                  ))}
+                </div>
+              ) : (
+                <div className="header__linkBlock--box--block">
+                  <h3 className="header__linkBlock--box--block--text">
+                    No users found
+                  </h3>
+                </div>
+              ))}
+          </div>
         </div>
-      </div>
+      )}
 
       <div className="header__block">
+        {width <= 850 && (
+          <div
+            className="header__block--menu"
+            onClick={() => {
+              setIsMenu((prev) => !prev);
+            }}
+          >
+            <IoMenu />
+
+            <div className="header__linkBlock dropdownmenu" style={menuStyle}>
+              <Link to="/trips/create" className="header__linkBlock--link">
+                Create
+              </Link>
+
+              <Link to="/trips" className="header__linkBlock--link">
+                {t("header_yourTrips")}
+              </Link>
+
+              <Link to="/friends" className="header__linkBlock--link">
+                Friends
+              </Link>
+
+              <Link
+                to={user ? `profile/${user.id}` : "/auth/reg"}
+                className="header__linkBlock--link"
+              >
+                {t("header_profile")}
+              </Link>
+
+
+            </div>
+          </div>
+        )}
+
         <div className="header__block--lang">
           <p
             className="header__block--lang--option"
@@ -150,6 +231,7 @@ export const Header = () => {
                       cursor: "pointer",
                       borderRadius: "20px",
                       padding: "10px 20px",
+                      width: "100px",
                     }
                   : {
                       opacity: "0",
@@ -171,6 +253,6 @@ export const Header = () => {
           </div>
         )}
       </div>
-    </div>
+    </nav>
   );
 };

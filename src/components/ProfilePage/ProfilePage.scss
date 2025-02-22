@@ -5,14 +5,11 @@
   @include page-grid;
   justify-content: center;
   align-items: center;
-  padding-inline: 64px;
 
   &-box {
     display: flex;
     flex-direction: column;
     justify-content: center;
-    gap: 20px;
-    width: 25%;
     align-items: center;
 
     .profile__top--button {
@@ -21,7 +18,6 @@
 
     &--label {
       @include button-style;
-      width: 100%;
       font-weight: 600;
       height: auto;
       padding-block: 15px;
@@ -29,32 +25,16 @@
   }
 
   &__top {
-    grid-column: 1/-1;
     display: flex;
-    justify-content: space-between;
+    justify-content: space-evenly;
     flex-direction: row;
     align-items: center;
 
     &--pic {
-      width: 100%;
-      height: auto;
       border-radius: 50%;
     }
 
-    &--info {
-      width: 50%;
-
-      &--name {
-        font-size: 48px;
-      }
-
-      &--stat {
-        font-size: 23px;
-      }
-    }
-
     &--button {
-      width: 20%;
       @include button-style;
 
       &:disabled {
@@ -66,36 +46,26 @@
 
   &__header {
     color: $text-color-dark;
-    font-size: 36px;
     font-weight: 800;
-    grid-column: 1/-1;
-    margin-top: 50px;
   }
 
   &__friendlist {
-    grid-column: 2/-2;
     border-radius: 30px;
     background-color: $background-color-dark;
 
     &--list {
-      padding: 20px;
-      display: grid;
-      grid-template-columns: repeat(3, 30%);
       justify-content: space-between;
-      row-gap: 20px;
       div {
         background-color: white !important;
       }
 
       &--more {
         border-radius: 20px;
-        padding: 10px;
         display: flex;
         align-items: center;
 
         &--text {
           margin: 0;
-          font-size: 18px;
           font-weight: 600;
         }
       }
@@ -103,13 +73,157 @@
   }
 
   &__trips {
-    grid-column: 3/-3;
-
     &--list {
       display: flex;
       flex-direction: column;
-      gap: 30px;
-      margin-bottom: 30px;
+    }
+  }
+}
+
+@media (min-width: 1199px) {
+  .profile {
+    padding-inline: 64px;
+
+    &-box {
+      gap: 20px;
+      width: 25%;
+
+      &--label {
+        width: 200px;
+      }
+    }
+
+    &__top {
+      grid-column: 1/-1;
+
+      &--pic {
+        width: 200px;
+        height: 200px;
+      }
+
+      &--info {
+        width: 50%;
+
+        &--name {
+          font-size: 48px;
+        }
+
+        &--stat {
+          font-size: 23px;
+        }
+      }
+
+      &--button {
+        width: 20%;
+      }
+    }
+
+    &__header {
+      font-size: 36px;
+      grid-column: 1/-1;
+      margin-top: 50px;
+    }
+
+    &__friendlist {
+      grid-column: 2/-2;
+
+      &--list {
+        padding: 20px;
+        row-gap: 20px;
+        display: grid;
+        grid-template-columns: repeat(3, 30%);
+
+        &--more {
+          padding: 10px;
+
+          &--text {
+            font-size: 18px;
+          }
+        }
+      }
+    }
+
+    &__trips {
+      grid-column: 3/-3;
+
+      &--list {
+        gap: 30px;
+        margin-bottom: 30px;
+      }
+    }
+  }
+}
+
+@media (max-width: 1199px) {
+  .profile {
+    padding-inline: 32px;
+
+    &-box {
+      gap: 20px;
+      width: 25%;
+
+      &--label {
+        width: 150px;
+      }
+    }
+
+    &__top {
+      grid-column: 1/-1;
+
+      &--pic {
+        width: 150px;
+        height: 150px;
+      }
+
+      &--info {
+        width: 40%;
+
+        &--name {
+          font-size: 36px;
+        }
+
+        &--stat {
+          font-size: 18px;
+        }
+      }
+
+      &--button {
+        width: 20%;
+      }
+    }
+
+    &__header {
+      font-size: 25px;
+      grid-column: 1/-1;
+      margin-top: 50px;
+    }
+
+    &__friendlist {
+      grid-column: 1/-1;
+
+      &--list {
+        padding: 20px;
+        row-gap: 10px;
+        display: grid;
+        grid-template-columns: repeat(3, 30%);
+
+        &--more {
+          padding: 10px;
+
+          &--text {
+            font-size: 18px;
+          }
+        }
+      }
+    }
+
+    &__trips {
+      grid-column: 1/-1;
+
+      &--list {
+        gap: 30px;
+        margin-bottom: 30px;
+      }
     }
   }
 }

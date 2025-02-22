@@ -27,7 +27,7 @@ export const ProfilePage = () => {
   const [trips, setTrips] = useState<Trip[]>([]);
 
   useEffect(() => {
-      getData(`trip/user/${id}`).then(response => setTrips(response));
+    getData(`trip/user/${id}`).then((response) => setTrips(response));
   }, [id]);
 
   useEffect(() => {
@@ -81,15 +81,6 @@ export const ProfilePage = () => {
     setUser(users.filter((u) => u.id === Number(id))[0]);
   }, [users, id]);
 
-  const [imgSrc, setImgSrc] = useState<string>(noPfp);
-
-  useEffect(() => {
-    if (user && user.fileUrl) {
-      import(`../../main/resources/images/${user.fileUrl}`)
-        .then((image) => setImgSrc(image.default))
-        .catch(() => setImgSrc(noPfp));
-    }
-  }, [user, id]);
 
   const [file, setFile] = useState<File | null>(null);
 
@@ -98,6 +89,41 @@ export const ProfilePage = () => {
       setFile(e.target.files[0]);
     }
   };
+
+  const [userPfp, setUserPfp] = useState<Blob>();
+
+  useEffect(() => {
+    const getPhoto = async () => {
+      const token = localStorage.getItem('authToken');
+      try {
+        const response = await fetch(
+          `http://localhost:8088/uploads/images/${user?.fileUrl}`, {
+            method: "GET",
+            mode: "cors",
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        );
+
+        if (!response.ok) {
+          throw new Error(`Failed to fetch photo: ${response.statusText}`);
+        }
+
+        return await response.blob();
+      } catch (error) {
+        console.error("Error fetching photo:", error);
+        throw error;
+      }
+    };
+
+    if (user) {
+      getPhoto().then(response => {
+        setUserPfp(response);
+        console.log(response);
+      })
+    }
+  }, [user]);
 
   const postPhoto = async () => {
     console.log(file);
@@ -184,7 +210,7 @@ export const ProfilePage = () => {
     if (file !== null) {
       postPhoto();
     }
-  }, [file])
+  }, [file]);
 
   return (
     <>
@@ -192,7 +218,7 @@ export const ProfilePage = () => {
         <main className="profile">
           <div className="profile__top">
             <div className="profile-box">
-              <img src={imgSrc} alt="PFP" className="profile__top--pic" />
+              <img src={userPfp ? URL.createObjectURL(userPfp) : noPfp} alt="PFP" className="profile__top--pic" />
 
               <label htmlFor="file-upload" className="profile-box--label">
                 CHANGE PICTURE

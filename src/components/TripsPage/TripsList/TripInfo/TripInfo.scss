@@ -1,41 +1,26 @@
 @import "../../../../variables";
-@import '../../../../mixins';
+@import "../../../../mixins";
 
 .trip {
-  grid-column: 3/-3;
   width: 100%;
   background-color: $background-color-dark;
   border-radius: 32px;
   display: flex;
-  flex-direction: row;
 
   &__pic {
-    height: 200px;
-    width: 250px;
-
     &--picture {
-      height: 100%;
-      width: 100%;
       object-fit: cover;
-
-      border-radius: 32px 0px 0px 32px;
     }
   }
 
   &-info {
-    padding: 20px;
-    width: 100%;
     .trip__top {
-      width: 100%;
-
       display: flex;
       flex-direction: row;
       justify-content: space-between;
 
       &--name {
-        font-size: 25px;
         font-weight: 600;
-        line-height: 24px;
         color: $text-color-dark;
         margin: 0;
         display: block;
@@ -43,9 +28,7 @@
       }
 
       &--date {
-        font-size: 21px;
         font-weight: 600;
-        line-height: 24px;
         color: $green;
         margin: 0;
         display: block;
@@ -55,24 +38,20 @@
     .trip__bottom {
       display: flex;
       justify-content: space-between;
-      margin-top: 40px;
       align-items: center;
 
       &-block {
         display: grid;
         grid-template-columns: auto auto;
-        gap: 20px;
 
         &-part1 {
           display: flex;
           flex-direction: column;
-          gap: 15px;
           justify-content: center;
 
           &--members {
             display: flex;
             align-items: center;
-            gap: 6px;
 
             &--text {
               color: $text-color-dark;
@@ -83,7 +62,6 @@
           &--status {
             display: flex;
             align-items: center;
-            gap: 6px;
 
             &--text {
               color: $text-color-dark;
@@ -95,18 +73,17 @@
         &-part2 {
           display: flex;
           flex-direction: column;
-          gap: 15px;
           justify-content: center;
 
           &--route {
             display: flex;
             align-items: center;
-            gap: 6px;
 
             &--text {
               color: $text-color-dark;
               margin: 0;
-              max-width: 350px; overflow: hidden;
+              max-width: 350px;
+              overflow: hidden;
               max-height: 60px;
             }
           }
@@ -114,7 +91,6 @@
           &--additional {
             display: flex;
             align-items: center;
-            gap: 6px;
 
             &--text {
               color: $text-color-dark;
@@ -125,16 +101,154 @@
       }
 
       &--button {
-        width: 230px;
         @include button-style;
       }
     }
   }
 }
 
-// &--pic {
-//   height: 100%;
-//   width: 100%;
+@media (min-width: 1199px) {
+  .trip {
+    grid-column: 3/-3;
+    flex-direction: row;
+    height: 200px;
 
-//   object-fit: cover;
-// }
+    &__pic {
+      height: 200px;
+      width: 250px;
+
+      &--picture {
+        height: 100%;
+        width: 100%;
+        border-radius: 32px 0px 0px 32px;
+      }
+    }
+
+    &-info {
+      padding: 20px;
+      width: 100%;
+
+      .trip__top {
+        width: 100%;
+
+        &--name {
+          font-size: 25px;
+          line-height: 24px;
+        }
+
+        &--date {
+          font-size: 21px;
+          line-height: 24px;
+        }
+      }
+
+      .trip__bottom {
+        margin-top: 40px;
+
+        &-block {
+          gap: 20px;
+
+          &-part1 {
+            gap: 15px;
+
+            &--members {
+              gap: 6px;
+            }
+
+            &--status {
+              gap: 6px;
+            }
+          }
+
+          &-part2 {
+            gap: 15px;
+
+            &--route {
+              gap: 6px;
+            }
+
+            &--addtional {
+              gap: 6px;
+            }
+          }
+        }
+        &--button {
+          width: 230px;
+        }
+      }
+    }
+  }
+}
+
+@media (max-width: 1199px) {
+  .trip {
+    grid-column: 1/-1;
+    flex-direction: row;
+    height: 200px;
+
+    &__pic {
+      height: 200px;
+      width: 250px;
+
+      &--picture {
+        height: 100%;
+        width: 100%;
+        border-radius: 32px 0px 0px 32px;
+      }
+    }
+
+    &-info {
+      padding: 10px;
+      width: 100%;
+
+      .trip__top {
+        width: 100%;
+
+        &--name {
+          font-size: 20px;
+          line-height: 22px;
+        }
+
+        &--date {
+          font-size: 18px;
+          line-height: 24px;
+        }
+      }
+
+      .trip__bottom {
+        margin-top: 20px;
+
+        &-block {
+          gap: 20px;
+
+          &-part1 {
+            gap: 15px;
+
+            &--members {
+              gap: 6px;
+            }
+
+            &--status {
+              gap: 6px;
+            }
+          }
+
+          &-part2 {
+            gap: 15px;
+
+            &--route {
+              gap: 6px;
+            }
+
+            &--addtional {
+              gap: 6px;
+            }
+          }
+        }
+        &--button {
+          width: 230px;
+        }
+      }
+    }
+  }
+}

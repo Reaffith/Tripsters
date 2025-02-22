@@ -53,7 +53,7 @@ export const RegisterPage = () => {
             type="email"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
-            autoComplete='off'
+            autoComplete="off"
             placeholder="Enter your email"
           />
 
@@ -68,7 +68,7 @@ export const RegisterPage = () => {
                 type="password"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
-                autoComplete='off'
+                autoComplete="off"
                 placeholder="Enter your password"
               />
             </div>
@@ -84,7 +84,7 @@ export const RegisterPage = () => {
                 type="password"
                 value={repeatPassword}
                 onChange={(e) => setRepeatPassword(e.target.value)}
-                autoComplete='off'
+                autoComplete="off"
                 placeholder="Repeat your password"
               />
             </div>
@@ -101,7 +101,7 @@ export const RegisterPage = () => {
                 type="text"
                 value={firstName}
                 onChange={(e) => setFirstName(e.target.value)}
-                autoComplete='off'
+                autoComplete="off"
                 placeholder="Enter your first name"
               />
             </div>
@@ -116,7 +116,7 @@ export const RegisterPage = () => {
                 type="text"
                 value={lastName}
                 onChange={(e) => setLastName(e.target.value)}
-                autoComplete='off'
+                autoComplete="off"
                 placeholder="Enter your last name"
               />
             </div>
