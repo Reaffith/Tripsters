@@ -29,7 +29,7 @@ export const MessageComponent: React.FC<Params> = ({ message }) => {
       const token = localStorage.getItem('authToken');
       try {
         const response = await fetch(
-          `http://localhost:8088/uploads/images/${author?.fileUrl}`, {
+          `https://tripsters.up.railway.app/uploads/images/${author?.fileUrl}`, {
             method: "GET",
             mode: "cors",
             headers: {

@@ -1,4 +1,5 @@
 @import "../../../variables";
+@import "../../../mixins";
 
 .noTrips {
   display: flex;
@@ -13,15 +14,7 @@
   }
 
   &_button {
-    font-size: 40px;
-    text-decoration: none;
-    padding: 15px 70px;
-    background-color: $background-light-gray;
-    border-radius: 60px;
-    color: $text-color-light;
-    text-align: center;
-    font-weight: 700;
-    transition: all $transition-duration;
-    margin-top: 10px;
+    @include button-style;
+    width: 400px;
   }
 }

@@ -9,6 +9,7 @@ import { ErrorBlock } from "../ErrorBlock/ErrorBlock";
 import { formatDateToISO } from "../../functions/dateManager";
 import { useNavigate, useParams } from "react-router-dom";
 import { DragDropContext, Draggable, Droppable } from "react-beautiful-dnd";
+import Loader from "../Loader/Loader";
 
 export const CreateTrip = () => {
   const [tripToEdit, setTripToEdit] = useState<
@@ -44,6 +45,7 @@ export const CreateTrip = () => {
   );
   const [error, setError] = useState("");
   const [isErorr, setIsError] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
 
   const navigate = useNavigate();
 
@@ -111,6 +113,11 @@ export const CreateTrip = () => {
     }
   }
 
+  const onButtonClick = () => {
+    setIsLoading(true);
+    onCreateTrip().finally(() => setIsLoading(false));
+  }
+
   useEffect(() => {
     if (error.length > 0) {
       setIsError(true);
@@ -128,6 +135,12 @@ export const CreateTrip = () => {
     items.splice(result.destination.index, 0, reorderedItem);
     setAdditionalPointsArray(items);
   };
+
+  if (isLoading) {
+    return <main className="loading">
+      <Loader />
+    </main>
+  }
 
   return (
     <main className="createTrip">
@@ -417,7 +430,7 @@ export const CreateTrip = () => {
         </DragDropContext>
       </div>
 
-      <button className="createTrip__button" onClick={onCreateTrip}>
+      <button className="createTrip__button" onClick={onButtonClick}>
         {tripToEdit ? "Update trip" : "Create trip"}
       </button>
     </main>

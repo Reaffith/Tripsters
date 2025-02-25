@@ -7,6 +7,7 @@ import noPfp from "../../pics/no-pfp.png";
 import { MemberDetails } from "../TripDetails/MemberDetails/MemberDetails";
 import { Trip } from "../../types/Trip";
 import { TripInfo } from "../TripsPage/TripsList/TripInfo/TripInfo";
+import Loader from "../Loader/Loader";
 
 type Friendship = {
   id: number;
@@ -25,6 +26,8 @@ export const ProfilePage = () => {
   const [friends, setFriends] = useState<Friendship[]>([]);
   const [disableButton, setDisableButton] = useState(false);
   const [trips, setTrips] = useState<Trip[]>([]);
+  const [isLoading, setIsLoading] = useState(true);
+
 
   useEffect(() => {
     getData(`trip/user/${id}`).then((response) => setTrips(response));
@@ -35,7 +38,7 @@ export const ProfilePage = () => {
       const token = localStorage.getItem("authToken");
 
       try {
-        const response = await fetch(`http://localhost:8088/friends`, {
+        const response = await fetch(`https://tripsters.up.railway.app/friends`, {
           method: "GET",
           mode: "cors",
           headers: {
@@ -68,13 +71,15 @@ export const ProfilePage = () => {
   }, [id]);
 
   useEffect(() => {
+    setIsLoading(true);
     getAllUsers()
       .then((response) => {
         if (response && typeof response !== "number") {
           setUsers(response);
         }
       })
-      .catch((e) => console.error(e));
+      .catch((e) => console.error(e))
+      .finally(() => setIsLoading(false));
   }, []);
 
   useEffect(() => {
@@ -97,7 +102,7 @@ export const ProfilePage = () => {
       const token = localStorage.getItem('authToken');
       try {
         const response = await fetch(
-          `http://localhost:8088/uploads/images/${user?.fileUrl}`, {
+          `https://tripsters.up.railway.app/uploads/images/${user?.fileUrl}`, {
             method: "GET",
             mode: "cors",
             headers: {
@@ -123,7 +128,7 @@ export const ProfilePage = () => {
         console.log(response);
       })
     }
-  }, [user]);
+  }, [user, id]);
 
   const postPhoto = async () => {
     console.log(file);
@@ -134,7 +139,7 @@ export const ProfilePage = () => {
         const formData = new FormData();
         formData.append("file", file);
 
-        const response = await fetch("http://localhost:8088/uploads/images", {
+        const response = await fetch("https://tripsters.up.railway.app/uploads/images", {
           method: "POST",
           mode: "cors",
           headers: {
@@ -155,7 +160,7 @@ export const ProfilePage = () => {
   const createFriendship = async () => {
     const token = localStorage.getItem("authToken");
     try {
-      const response = await fetch("http://localhost:8088/friends", {
+      const response = await fetch("https://tripsters.up.railway.app/friends", {
         method: "POST",
         mode: "cors",
         headers: {
@@ -211,6 +216,13 @@ export const ProfilePage = () => {
       postPhoto();
     }
   }, [file]);
+
+  if (isLoading) {
+    return <main className="loading">
+      <Loader />
+    </main>
+  }
+
 
   return (
     <>

@@ -70,7 +70,7 @@ export const VoteComponent: React.FC<Params> = ({ voteId }) => {
       const token = localStorage.getItem("authToken");
 
       try {
-        const response = await fetch(`http://localhost:8088/votes/${voteId}`, {
+        const response = await fetch(`https://tripsters.up.railway.app/votes/${voteId}`, {
           method: "GET",
           mode: "cors",
           headers: {
@@ -136,7 +136,7 @@ export const VoteComponent: React.FC<Params> = ({ voteId }) => {
   
             try {
               const response = await fetch(
-                `http://localhost:8088/votes/finish/${vote.id}`,
+                `https://tripsters.up.railway.app/votes/finish/${vote.id}`,
                 {
                   method: "PUT",
                   mode: "cors",
@@ -207,7 +207,7 @@ export const VoteComponent: React.FC<Params> = ({ voteId }) => {
 
     try {
       const response = await fetch(
-        `http://localhost:8088/votes/${vote.id}/options/${optionID}/vote`,
+        `https://tripsters.up.railway.app/votes/${vote.id}/options/${optionID}/vote`,
         {
           method: "POST",
           mode: "cors",

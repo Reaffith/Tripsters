@@ -57,7 +57,7 @@ export const TripDetails = () => {
       const token = localStorage.getItem("authToken");
       try {
         const response = await fetch(
-          `http://localhost:8088/trip/owner/${trip?.id}`,
+          `https://tripsters.up.railway.app/trip/owner/${trip?.id}`,
           {
             method: "GET",
             mode: "cors",

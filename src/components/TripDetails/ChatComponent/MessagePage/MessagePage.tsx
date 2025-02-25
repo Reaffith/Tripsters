@@ -23,7 +23,7 @@ export const MessagePage = () => {
 
     try {
       if (message.length > 0) {
-        const response = await fetch("http://localhost:8088/message", {
+        const response = await fetch("https://tripsters.up.railway.app/message", {
           method: "POST",
           mode: "cors",
           headers: {
@@ -54,7 +54,7 @@ export const MessagePage = () => {
 
       try {
         const response = await fetch(
-          `http://localhost:8088/message/trip/${id}`,
+          `https://tripsters.up.railway.app/message/trip/${id}`,
           {
             method: "GET",
             mode: "cors",

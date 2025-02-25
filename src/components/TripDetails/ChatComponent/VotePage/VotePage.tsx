@@ -23,7 +23,7 @@ export const VotePage = () => {
           const token = localStorage.getItem("authToken");
     
           try {
-            const response = await fetch(`http://localhost:8088/votes/all/${id}`, {
+            const response = await fetch(`https://tripsters.up.railway.app/votes/all/${id}`, {
               method: "GET",
               mode: "cors",
               headers: {

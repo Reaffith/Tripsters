@@ -12,3 +12,10 @@ html {
 main {
   justify-content: center;
 }
+
+.loading {
+  height: calc(100vh - 180px - 248px);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}

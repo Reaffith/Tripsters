@@ -34,7 +34,7 @@ export const AddUserInfo: React.FC<Props> = ({
 
     try {
       const response = await fetch(
-        `http://localhost:8088/trip/${tripId}/users/${user.id}`,
+        `https://tripsters.up.railway.app/trip/${tripId}/users/${user.id}`,
         {
           method: "POST",
           headers: {

@@ -8,6 +8,7 @@ import { stringToDate } from "../../../functions/dateManager";
 import { getNumbers } from "../../../functions/getNumbers";
 import classNames from "classnames";
 import { getTrips } from "../../../api";
+import Loader from "../../Loader/Loader";
 
 type FilterOptions = "ALL" | "COMPLETED" | "INCOMING" | "IN PROGRESS";
 
@@ -18,6 +19,8 @@ export const TripsList = () => {
   const [paging, setPaging] = useState<number[]>([]);
   const [page, setPage] = useState<number>(1);
   const [tripsToRender, setTripsToRender] = useState<Trip[]>([]);
+  const [isLoading, setIsLoading] = useState(true);
+
  
   // useEffect(() => {
   //   getTrips().then(data => {
@@ -122,12 +125,19 @@ export const TripsList = () => {
       }
     }
 
-    fetchTrips();
+    setIsLoading(true);
+    fetchTrips().finally(() => setIsLoading(false));
   }, [page, filter]);
 
   useEffect(() => {
     console.log(tripsToRender)
   }, [tripsToRender])
+
+  if (isLoading) {
+    return <main className="loading">
+      <Loader />
+    </main>
+  }
 
   return (
     <main className="triplist">

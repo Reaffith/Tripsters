@@ -163,7 +163,7 @@ export const MapComponent = () => {
     }
 
     try {
-      const response = await fetch("http://localhost:8088/votes", {
+      const response = await fetch("https://tripsters.up.railway.app/votes", {
         method: "POST",
         mode: "cors",
         headers: {

@@ -1,6 +1,6 @@
 import { User } from "./types/User";
 
-const BASE_URL = "http://localhost:8088";
+const BASE_URL = "https://tripsters.up.railway.app";
 
 async function fetchData(endpoint: string, options: RequestInit = {}) {
   const token = localStorage.getItem("authToken");
@@ -91,7 +91,7 @@ type RegUser = {
 
 export async function registerUser(data: RegUser): Promise<User | number | void> {
   try {
-    const response = await fetch("http://localhost:8088/auth/registration", {
+    const response = await fetch("https://tripsters.up.railway.app/auth/registration", {
       method: "POST",
       mode: "cors",
       headers: {
@@ -129,7 +129,7 @@ type CreateTripType = {
 export async function createTrip(data: CreateTripType) {
   const token = localStorage.getItem("authToken");
   try {
-    const response = await fetch("http://localhost:8088/trip", {
+    const response = await fetch("https://tripsters.up.railway.app/trip", {
       method: "POST",
       mode: "cors",
       headers: {
@@ -157,7 +157,7 @@ export const getTrips = async () => {
   const token = localStorage.getItem("authToken");
 
   try {
-    const response = await fetch("http://localhost:8088/trip", {
+    const response = await fetch("https://tripsters.up.railway.app/trip", {
       method: "GET",
       mode: "cors",
       headers: {
@@ -182,7 +182,7 @@ export const getAllusersInTrip = async (id: string) => {
   const token = localStorage.getItem("authToken");
 
   try {
-    const response = await fetch(`http://localhost:8088/trip/users/all/${id}`, {
+    const response = await fetch(`https://tripsters.up.railway.app/trip/users/all/${id}`, {
       method: "GET",
       mode: "cors",
       headers: {
@@ -207,7 +207,7 @@ export const getAllUsers = async (): Promise<User[]> => {
   const token = localStorage.getItem("authToken");
 
   try {
-    const response = await fetch(`http://localhost:8088/users/all`, {
+    const response = await fetch(`https://tripsters.up.railway.app/users/all`, {
       method: "GET",
       mode: "cors",
       headers: {
@@ -244,7 +244,7 @@ export const getUsersFriends = async (): Promise<
   const token = localStorage.getItem("authToken");
 
   try {
-    const response = await fetch(`http://localhost:8088/friends/user`, {
+    const response = await fetch(`https://tripsters.up.railway.app/friends/user`, {
       method: "GET",
       mode: "cors",
       headers: {
@@ -277,7 +277,7 @@ export const updateTrip = async (updatedTrip: {
   const token = localStorage.getItem("authToken");
 
   try {
-    const response = await fetch("http://localhost:8088/trip", {
+    const response = await fetch("https://tripsters.up.railway.app/trip", {
       method: "PUT",
       mode: "cors",
       headers: {
