@@ -91,7 +91,7 @@ export const Header = () => {
 
   useEffect(() => {
     if (isMenu) {
-      setMenuStyle({top: '90px'});
+      setMenuStyle(width > 639 ? {top: '90px'} : {top: '60px'});
     } else {
       setMenuStyle({top: '-150vh'});
     }

@@ -210,7 +210,7 @@
 }
 
 
-@media (max-width: 1199px) {
+@media (max-width: 1199px) and (min-width: 639px) {
   .header {
     padding: 18px 24px;
 
@@ -290,6 +290,97 @@
       &--lang {
         gap: 5px;
         width: 60px;
+
+        &--option {
+          font-size: 14px;
+        }
+      }
+    }
+  }
+}
+
+@media (max-width: 639px) {
+  .header {
+    padding: 10px 15px;
+
+    &_user {
+      max-width: 130px;
+      font-size: 16px;
+      text-align: center;
+    }
+
+    &__link {
+      &--pic {
+        height: 40px;
+      }
+    }
+
+    &__linkBlock {
+
+      &.dropdownmenu {
+        position: absolute;
+        width: 100vw;
+        height: calc(100vh - 60px);
+        left: 0;
+        flex-direction: column;
+        gap: 40px;
+        align-items: center;
+        justify-content: center;
+        transition: all $transition-duration;
+        z-index: 99999;
+      }
+
+      gap: 5px;
+      padding-inline: 10px;
+      padding-block: 5px;
+      height: auto;
+
+      &--link {
+        width: 80px;
+        font-size: 14px;
+      }
+
+      input {
+        padding: 5px;
+        width: 150px;
+      }
+
+      &--box {
+        width: 155px;
+
+        &--block {
+          top: 80px;
+          width: 150px;
+          gap: 40px;
+          padding: 7px;
+
+          &--text {
+            margin: 6px;
+          }
+        }
+      }
+    }
+
+    &__block {
+      gap: 10px;
+
+      &--sign {
+        width: 80px;
+        padding-block: 12px;
+
+        p {
+          font-size: 16px;
+        }
+      }
+
+      &--menu {
+       
+      }
+
+      &--lang {
+        gap: 5px;
+        width: 60px;
+        justify-content: center;
 
         &--option {
           font-size: 14px;

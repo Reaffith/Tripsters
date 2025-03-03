@@ -5,6 +5,7 @@
   &__list {
     @include page-grid;
 
+
     &--paging {
       display: flex;
 
@@ -88,6 +89,7 @@
 @media (min-width: 1199px) {
   .triplist {
     &__list {
+      min-height: 50vh;
       margin-top: 40px;
       padding-inline: 40px;
       row-gap: 30px;
@@ -139,9 +141,10 @@
   }
 }
 
-@media (max-width: 1199px) {
+@media (max-width: 1199px) and (min-width: 639px) {
   .triplist {
     &__list {
+      min-height: 60vh;
       margin-top: 40px;
       padding-inline: 40px;
       row-gap: 30px;
@@ -183,6 +186,60 @@
     &__header {
       font-size: 28px;
       padding: 0 0 0 80px;
+    }
+
+    &__button {
+      width: 50%;
+      margin: auto !important;
+      margin-block: 35px !important;
+    }
+  }
+}
+
+@media (max-width: 639px) {
+  .triplist {
+    &__list {
+      margin-top: 20px;
+      padding-inline: 20px;
+      row-gap: 30px;
+      min-width: calc(100vh - (248px + 181px));
+
+      &--paging {
+        grid-column: 1 / -1;
+        gap: 30px;
+
+        &--item {
+          font-size: 17px;
+          padding: 10px;
+        }
+      }
+    }
+
+    &__filter {
+      margin-left: 20px;
+      margin-top: 20px;
+
+      &--block {
+        width: 120px;
+        padding: 10px 15px;
+        border-radius: 25px;
+
+        &--current {
+          font-size: 15px;
+        }
+      }
+
+      &--options {
+        padding: 10px;
+        gap: 8px;
+        margin-top: 10px;
+        width: 130px;
+      }
+    }
+
+    &__header {
+      font-size: 28px;
+      padding: 0 0 0 20px;
     }
 
     &__button {

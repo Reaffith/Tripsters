@@ -16,6 +16,8 @@ async function getPlacePhotoReference(placeID: string): Promise<string | undefin
           maxWidth: 400,
         });
 
+        console.log(randomPhotoUrl)
+
         resolve(randomPhotoUrl);
       } else {
         reject(`Error fetching place details: ${status}`);

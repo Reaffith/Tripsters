@@ -32,28 +32,28 @@ export const TripInfo: React.FC<Params> = ({ trip }) => {
   const [members, setMembers] = useState<User[]>([]);
 
   const getOwner = async () => {
-    await getData(`trip/owner/${id}`).then(re => {
+    await getData(`trip/owner/${id}`).then((re) => {
       if (re) {
         setOwner(re);
       }
-    })
-  }
+    });
+  };
 
   const getMembers = async () => {
-    await getData(`trip/users/all/${id}`).then(re => {
+    await getData(`trip/users/all/${id}`).then((re) => {
       if (re) {
         setMembers(re);
       }
-    })
-  }
+    });
+  };
 
   useEffect(() => {
     getOwner();
-  }, [])
+  }, []);
 
   useEffect(() => {
     getMembers();
-  }, [])
+  }, []);
 
   const navigate = useNavigate();
 
@@ -64,13 +64,14 @@ export const TripInfo: React.FC<Params> = ({ trip }) => {
   const [photoUrl, setPhotoUrl] = useState<string | undefined>();
 
   const fetchPhoto = async () => {
+
     const photo = await getPlacePhoto(endPoint);
     setPhotoUrl(photo);
   };
 
   useEffect(() => {
     fetchPhoto();
-  }, []);
+  }, [trip, endPoint]);
 
   const [status, setStatus] = useState<"Incoming" | "In progres" | "Completed">(
     "Incoming"
@@ -78,7 +79,7 @@ export const TripInfo: React.FC<Params> = ({ trip }) => {
 
   useEffect(() => {
     const date = new Date();
-    console.log(stringToDate(endDate))
+    console.log(stringToDate(endDate));
 
     if (stringToDate(startDate) > date) {
       setStatus("Incoming");
@@ -89,15 +90,18 @@ export const TripInfo: React.FC<Params> = ({ trip }) => {
     }
   }, []);
 
-
   return (
     <div className="trip">
       <div className="trip__pic">
-        <img
-          src={photoUrl ? photoUrl : ""}
-          alt={endPoint}
-          className="trip__pic--picture"
-        />
+        
+        {photoUrl && (
+          <img
+            src={photoUrl}
+            alt={endPoint}
+            className="trip__pic--picture"
+          />
+          
+        )}
       </div>
 
       <div className="trip-info">
@@ -105,7 +109,9 @@ export const TripInfo: React.FC<Params> = ({ trip }) => {
           <h2 className="trip__top--name">{destination}</h2>
 
           <h2 className="trip__top--date">
-            {`${DateToString(stringToDate(startDate))} to ${DateToString(stringToDate(endDate))}`}
+            {`${DateToString(stringToDate(startDate))} to ${DateToString(
+              stringToDate(endDate)
+            )}`}
           </h2>
         </div>
 

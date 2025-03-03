@@ -32,6 +32,7 @@
   
       &--button {
         @include button-style;
+        height: 52px;
       }
     }
   }
@@ -67,7 +68,7 @@
   }
 }
 
-@media (max-width: 1199px) {
+@media (max-width: 1199px) and (min-width: 639px) {
   .map {
     height: 60vh;
   }
@@ -91,6 +92,38 @@
 
     &-block {
       grid-template-columns: 70% 25%;
+      margin-top: 20px;
+      width: 100%;
+
+    }
+  }
+}
+
+@media (max-width: 639px) {
+  .map {
+    height: 80vh;
+  }
+
+  .suggest {
+    width: 100%;
+    padding-top: 30px;
+    margin-bottom: 90px;
+    
+    &--header {
+      font-size: 25px;
+    }
+
+    input {
+      width: 100% !important;
+      height: 30px;
+      padding: 8px 12px;
+      font-size: 18px;
+
+    }
+
+    &-block {
+      grid-template-columns: 60% 30%;
+      gap: 10%;
       margin-top: 20px;
       width: 100%;
 

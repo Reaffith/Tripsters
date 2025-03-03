@@ -154,7 +154,7 @@
   }
 }
 
-@media (max-width: 1199px) {
+@media (max-width: 1199px) and (min-width: 639px) {
   .profile {
     padding-inline: 32px;
 
@@ -212,6 +212,86 @@
 
           &--text {
             font-size: 18px;
+          }
+        }
+      }
+    }
+
+    &__trips {
+      grid-column: 1/-1;
+
+      &--list {
+        gap: 30px;
+        margin-bottom: 30px;
+      }
+    }
+  }
+}
+
+@media (max-width: 639px) {
+  .profile {
+    padding-inline: 15px;
+
+    &-box {
+      gap: 20px;
+      width: 40%;
+
+      &--label {
+        width: 100%;
+        font-size: 13px;
+      }
+    }
+
+    &__top {
+      grid-column: 1/-1;
+
+      &--pic {
+        width: 100%;
+        height: 100%;
+      }
+
+      &--info {
+        width: 40%;
+
+        &--name {
+          font-size: 20px;
+        }
+
+        &--stat {
+          font-size: 16px;
+        }
+      }
+
+      &--button {
+        width: 20%;
+      }
+    }
+
+    &__header {
+      font-size: 19px;
+      grid-column: 1/-1;
+      margin-top: 50px;
+    }
+
+    &__friendlist {
+      grid-column: 1/-1;
+
+      h2 {
+        margin-left: 15px;
+        font-size: 18px;
+      }
+
+      &--list {
+        padding: 20px;
+        row-gap: 10px;
+        display: grid;
+        grid-template-columns: repeat(3, 30%);
+
+        &--more {
+          padding: 10px;
+
+          &--text {
+            font-size: 15px;
           }
         }
       }
