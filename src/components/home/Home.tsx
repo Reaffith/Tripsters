@@ -1,6 +1,5 @@
 import { useTranslation } from "react-i18next";
 import picAbout1 from "../../pics/home-about1.jpg";
-import picAbout2 from "../../pics/home-about2.jpg";
 import pic1 from "../../pics/people.png";
 import pic2 from "../../pics/home-block1.png";
 import pic3 from "../../pics/home-block2.png";
