@@ -13,12 +13,14 @@ import { TfiMoreAlt } from "react-icons/tfi";
 import { DateToString, stringToDate } from "../../../../functions/dateManager";
 import { User } from "../../../../types/User";
 import { getData } from "../../../../api";
+import { useTranslation } from "react-i18next";
 
 type Params = {
   trip: Trip;
+  ableToSee?: boolean;
 };
 
-export const TripInfo: React.FC<Params> = ({ trip }) => {
+export const TripInfo: React.FC<Params> = ({ trip, ableToSee = true }) => {
   const {
     destination,
     startDate,
@@ -31,6 +33,7 @@ export const TripInfo: React.FC<Params> = ({ trip }) => {
 
   const [owner, setOwner] = useState<User>();
   const [members, setMembers] = useState<User[]>([]);
+  const { t } = useTranslation();
 
   const getOwner = async () => {
     await getData(`trip/owner/${id}`).then((re) => {
@@ -65,7 +68,6 @@ export const TripInfo: React.FC<Params> = ({ trip }) => {
   const [photoUrl, setPhotoUrl] = useState<string | undefined>();
 
   const fetchPhoto = async () => {
-
     const photo = await getPlacePhoto(endPoint);
     setPhotoUrl(photo);
   };
@@ -94,14 +96,8 @@ export const TripInfo: React.FC<Params> = ({ trip }) => {
   return (
     <div className="trip">
       <div className="trip__pic">
-        
         {photoUrl && (
-          <img
-            src={photoUrl}
-            alt={endPoint}
-            className="trip__pic--picture"
-          />
-          
+          <img src={photoUrl} alt={endPoint} className="trip__pic--picture" />
         )}
       </div>
 
@@ -110,7 +106,7 @@ export const TripInfo: React.FC<Params> = ({ trip }) => {
           <h2 className="trip__top--name">{destination}</h2>
 
           <h2 className="trip__top--date">
-            {`${DateToString(stringToDate(startDate))} to ${DateToString(
+            {`${DateToString(stringToDate(startDate))} ${t('trip_info_to')} ${DateToString(
               stringToDate(endDate)
             )}`}
           </h2>
@@ -123,8 +119,8 @@ export const TripInfo: React.FC<Params> = ({ trip }) => {
                 <BsPeopleFill />
 
                 <p className="trip__bottom-block-part1--members--text">
-                  {`${owner?.firstName} and ${members.length - 1} friend${
-                    members.length > 2 ? "s" : ""
+                  {`${owner?.firstName} ${t('trip_info_and')} ${members.length - 1} ${
+                    members.length > 2 ? t("trip_info_friends") : t('trip_info_friend')
                   }`}
                 </p>
               </div>
@@ -133,7 +129,7 @@ export const TripInfo: React.FC<Params> = ({ trip }) => {
                 <FaCircleInfo />
 
                 <p className="trip__bottom-block-part1--status--text">
-                  Status: {status.toUpperCase()}
+                  {t("trip_info_status_prefix")}{status.toUpperCase()}
                 </p>
               </div>
             </div>
@@ -143,7 +139,7 @@ export const TripInfo: React.FC<Params> = ({ trip }) => {
                 <FaRoute />
 
                 <p className="trip__bottom-block-part2--route--text">
-                  {`${startPoint} to ${endPoint}`}
+                  {`${startPoint} ${t('trip_info_to')} ${endPoint}`}
                 </p>
               </div>
 
@@ -151,15 +147,17 @@ export const TripInfo: React.FC<Params> = ({ trip }) => {
                 <TfiMoreAlt />
 
                 <p className="trip__bottom-block-part2--additional--text">
-                  {`${additionalPoints.length} more stops`}
+                  {`${additionalPoints.length} ${t("trip_info_additional_stops")}`}
                 </p>
               </div>
             </div>
           </div>
 
-          <button className="trip__bottom--button" onClick={goToTrip}>
-            See details
-          </button>
+          {ableToSee && (
+            <button className="trip__bottom--button" onClick={goToTrip}>
+              {t("trip_info_see_details")}
+            </button>
+          )}
         </div>
       </div>
     </div>

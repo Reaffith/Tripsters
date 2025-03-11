@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import { GoogleMap, DirectionsRenderer } from "@react-google-maps/api";
+import { useTranslation } from "react-i18next";
 
 import "./mapComponent.scss";
 import { getCoordinates } from "../../../functions/getCoordinates";
@@ -7,7 +8,6 @@ import PlacesAutocomplete from "react-places-autocomplete";
 import { useParams } from "react-router-dom";
 import { Trip } from "../../../types/Trip";
 import { getTrips } from "../../../api";
-
 
 function getRouteCenter(route: { lat: number; lng: number }[]) {
   const total = route.length;
@@ -30,14 +30,17 @@ function getRouteCenter(route: { lat: number; lng: number }[]) {
 
 export const MapComponent = () => {
   const [trip, setTrip] = useState<Trip>();
-  const {id} = useParams();
+  const { id } = useParams();
+  const { t } = useTranslation();
 
   useEffect(() => {
-    getTrips().then(response => setTrip(response.filter((t : Trip) => id ? t.id === +id : 0)[0]));
+    getTrips().then((response) =>
+      setTrip(response.filter((t: Trip) => (id ? t.id === +id : 0))[0])
+    );
   }, [id]);
 
-  const [startPoint, setStartPoint] = useState('');
-  const [finishPoint, setFinishPoint] = useState('');
+  const [startPoint, setStartPoint] = useState("");
+  const [finishPoint, setFinishPoint] = useState("");
   const [additionalPoints, setAdditionalPoints] = useState<string[]>([]);
 
   useEffect(() => {
@@ -46,7 +49,7 @@ export const MapComponent = () => {
       setFinishPoint(trip.endPoint);
       setAdditionalPoints(trip.additionalPoints);
     }
-  }, [trip])
+  }, [trip]);
 
   const [startPointCoordinates, setStartPointCoordinates] = useState<{
     lat: number;
@@ -71,12 +74,12 @@ export const MapComponent = () => {
   useEffect(() => {
     if (startPoint && finishPoint) {
       getCoordinates(startPoint)
-      .then((coords) => setStartPointCoordinates(coords))
-      .catch((e) => console.log(e));
+        .then((coords) => setStartPointCoordinates(coords))
+        .catch((e) => console.log(e));
 
-    getCoordinates(finishPoint)
-      .then((coords) => setFinishPointCoordinates(coords))
-      .catch((e) => console.log(e));
+      getCoordinates(finishPoint)
+        .then((coords) => setFinishPointCoordinates(coords))
+        .catch((e) => console.log(e));
     }
   }, [startPoint, finishPoint, trip]);
 
@@ -156,11 +159,8 @@ export const MapComponent = () => {
     const vote = {
       tripId: tripId,
       title: suggest,
-      voteOptions: [
-        'Yes',
-        'No',
-      ],
-    }
+      voteOptions: ["Yes", "No"],
+    };
 
     try {
       const response = await fetch("https://tripsters.up.railway.app/votes", {
@@ -176,11 +176,11 @@ export const MapComponent = () => {
       if (!response.ok) {
         throw new Error(`Failed to create trip: ${response.status}`);
       } else {
-        setSuggest('');
+        setSuggest("");
       }
-  
+
       const responseBody = await response.json();
-  
+
       return responseBody;
     } catch (error) {
       console.log(error);
@@ -207,7 +207,9 @@ export const MapComponent = () => {
       </div>
 
       <div className="suggest">
-        <label className="suggest--header">Suggest to add a poit</label>
+        <label className="suggest--header">
+          {t("map_component_suggest_header")}
+        </label>
 
         <PlacesAutocomplete
           value={suggest}
@@ -225,7 +227,7 @@ export const MapComponent = () => {
                 <input
                   id="suggestion"
                   {...getInputProps({
-                    placeholder: "Select place",
+                    placeholder: t("map_component_suggest_input_placeholder"),
                   })}
                 />
                 <div
@@ -236,7 +238,9 @@ export const MapComponent = () => {
                     width: "100%",
                   }}
                 >
-                  {loading ? <div>Loading...</div> : null}
+                  {loading ? (
+                    <div>{t("map_component_suggest_loading")}</div>
+                  ) : null}
 
                   {suggestions.map((suggestion) => {
                     const style = suggestion.active
@@ -264,7 +268,9 @@ export const MapComponent = () => {
                   })}
                 </div>
               </div>
-              <button className="suggest-block--button" onClick={sendSuggest}>Submit</button>
+              <button className="suggest-block--button" onClick={sendSuggest}>
+                {t("map_component_suggest_submit_button")}
+              </button>
             </div>
           )}
         </PlacesAutocomplete>

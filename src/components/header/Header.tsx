@@ -113,7 +113,7 @@ export const Header = () => {
       {width > 850 && (
         <div className="header__linkBlock">
           <Link to="/trips/create" className="header__linkBlock--link">
-            Create
+            {t("header_create")}
           </Link>
 
           <Link to="/trips" className="header__linkBlock--link">
@@ -121,7 +121,7 @@ export const Header = () => {
           </Link>
 
           <Link to="/friends" className="header__linkBlock--link">
-            Friends
+            {t("header_friends")}
           </Link>
 
           <Link
@@ -149,7 +149,7 @@ export const Header = () => {
               ) : (
                 <div className="header__linkBlock--box--block">
                   <h3 className="header__linkBlock--box--block--text">
-                    No users found
+                  {t("header_noUsers")}
                   </h3>
                 </div>
               ))}
@@ -169,7 +169,7 @@ export const Header = () => {
 
             <div className="header__linkBlock dropdownmenu" style={menuStyle}>
               <Link to="/trips/create" className="header__linkBlock--link">
-                Create
+                {t("header_create")}
               </Link>
 
               <Link to="/trips" className="header__linkBlock--link">
@@ -177,7 +177,7 @@ export const Header = () => {
               </Link>
 
               <Link to="/friends" className="header__linkBlock--link">
-                Friends
+                {t("header_friends")}
               </Link>
 
               <Link
@@ -245,7 +245,7 @@ export const Header = () => {
                 window.location.reload();
               }}
             >
-              Log out
+              {t("header_logOut")}
             </div>
           </div>
         ) : (

@@ -1,5 +1,6 @@
 import { FormEvent, useState } from "react";
 import { logIn } from "../../api";
+import { useTranslation } from 'react-i18next';
 
 import "./LoginPage.scss";
 import { useNavigate } from "react-router-dom";
@@ -11,6 +12,7 @@ export const LoginPage = () => {
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
   const naviagate = useNavigate();
+  const { t } = useTranslation();
 
   const formSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -34,10 +36,10 @@ export const LoginPage = () => {
     <>
       <main className="login">
         <div className="login__block">
-          <h1 className="login__block--header">Log in</h1>
+          <h1 className="login__block--header">{t("login_page_header")}</h1>
           <form onSubmit={formSubmit} className="login__block--form">
             <label htmlFor="email" className="login__block--form--label">
-              Your email
+              {t("login_page_email_label")}
             </label>
 
             <input
@@ -47,11 +49,11 @@ export const LoginPage = () => {
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               required
-              placeholder="Please enter your email"
+              placeholder={t("login_page_email_placeholder")}
             />
 
             <label htmlFor="password" className="login__block--form--label">
-              Your password
+              {t("login_page_password_label")}
             </label>
 
             <input
@@ -61,7 +63,7 @@ export const LoginPage = () => {
               value={password}
               onChange={(e) => setPassword(e.target.value)}
               required
-              placeholder="Please enter your password"
+              placeholder={t("login_page_password_placeholder")}
             />
 
             <button
@@ -94,21 +96,21 @@ export const LoginPage = () => {
                     justifyContent: "center",
                   }}
                 >
-                  Log In
+                  {t("login_page_login_button")}
                 </span>
               )}
             </button>
           </form>
 
           <p className="login__block--register">
-            Don't have an account? Click{" "}
+            {t("login_page_register_text")}
             <span
               className="login__block--register--link"
               onClick={goToRegisterPage}
             >
-              here
-            </span>{" "}
-            to register
+              {t("login_page_register_link")}
+            </span>
+            {t("login_page_register_end")}
           </p>
         </div>
       </main>

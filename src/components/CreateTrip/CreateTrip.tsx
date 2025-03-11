@@ -10,6 +10,7 @@ import { formatDateToISO } from "../../functions/dateManager";
 import { useNavigate, useParams } from "react-router-dom";
 import { DragDropContext, Draggable, Droppable } from "react-beautiful-dnd";
 import Loader from "../Loader/Loader";
+import { useTranslation } from "react-i18next";
 
 export const CreateTrip = () => {
   const [tripToEdit, setTripToEdit] = useState<
@@ -48,6 +49,8 @@ export const CreateTrip = () => {
   const [isLoading, setIsLoading] = useState(false);
 
   const navigate = useNavigate();
+
+  const {t} = useTranslation();
 
   useEffect(() => {
     setTripName(tripToEdit ? tripToEdit.destination : "");
@@ -150,12 +153,12 @@ export const CreateTrip = () => {
 
       <div className="createTrip__block">
         <label htmlFor="name" className="createTrip__block--label">
-          Name*
+          {t("trip_name")}
         </label>
         <input
           type="text"
           className="createTrip__block--input"
-          placeholder="Enter trip name"
+          placeholder={t("create_name_placeholder")}
           id="name"
           value={tripName}
           onChange={(e) => setTripName(e.target.value)}
@@ -165,27 +168,27 @@ export const CreateTrip = () => {
       <div className="createTrip__block double--block date">
         <div className="createTrip__block--doubleBlock">
           <label htmlFor="date" className="createTrip__block--label">
-            Start date*
+            {t("start_date")}
           </label>
 
           <DatePicker
             selected={startDate}
             onChange={(date: Date | null) => setStartDate(date)}
             dateFormat="dd/MM/yyyy"
-            placeholderText="Select a start date"
+            placeholderText={t("create_start_date_placeholder")}
           />
         </div>
 
         <div className="createTrip__block--doubleBlock">
           <label htmlFor="date" className="createTrip__block--label">
-            Finish date
+            {t("finish_date")}
           </label>
 
           <DatePicker
             selected={finishDate}
             onChange={(date: Date | null) => setFinishDate(date)}
             dateFormat="dd/MM/yyyy"
-            placeholderText="Select a start date"
+            placeholderText={t("create_finish_date_placeholder")}
           />
         </div>
       </div>
@@ -193,7 +196,7 @@ export const CreateTrip = () => {
       <div className="createTrip__block double--block">
         <div className="createTrip__block--doubleBlock">
           <label htmlFor="startPoint" className="createTrip__block--label">
-            Start point*
+            {t("start_point")}
           </label>
 
           <PlacesAutocomplete
@@ -211,7 +214,7 @@ export const CreateTrip = () => {
                 <input
                   id="startPoint"
                   {...getInputProps({
-                    placeholder: "Select start location",
+                    placeholder: t('create_start_point_placeholder'),
                   })}
                 />
                 <div
@@ -256,7 +259,7 @@ export const CreateTrip = () => {
 
         <div className="createTrip__block--doubleBlock">
           <label htmlFor="finishPoint" className="createTrip__block--label">
-            Finish point
+            {t("finish_point")}
           </label>
 
           <PlacesAutocomplete
@@ -274,7 +277,7 @@ export const CreateTrip = () => {
                 <input
                   id="finishPoint"
                   {...getInputProps({
-                    placeholder: "Select finish location",
+                    placeholder: t('create_finish_point_placeholder'),
                   })}
                 />
                 <div
@@ -320,7 +323,7 @@ export const CreateTrip = () => {
 
       <div className="createTrip__block additinal-block">
         <label htmlFor="additionalPoints" className="createTrip__block--label">
-          Additional points
+          {t("additional_points")}
         </label>
 
         <PlacesAutocomplete
@@ -341,7 +344,7 @@ export const CreateTrip = () => {
               <input
                 id="additionalPoints"
                 {...getInputProps({
-                  placeholder: "Add location to your trip",
+                  placeholder: t("create_add_points_placeholder"),
                 })}
               />
               <div
@@ -431,7 +434,7 @@ export const CreateTrip = () => {
       </div>
 
       <button className="createTrip__button" onClick={onButtonClick}>
-        {tripToEdit ? "Update trip" : "Create trip"}
+        {tripToEdit ? t('update_trip') : t('create_trip')}
       </button>
     </main>
   );

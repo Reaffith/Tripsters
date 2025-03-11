@@ -24,15 +24,15 @@ export const Home = () => {
       <section className="home__welcome">
         <div className="home__welcome--block1">
           <h1 className="home__welcome--block1--header">
-            Plan your adventure with us
+            {t("home_welcome_header")}
           </h1>
 
           <p className="home__welcome--block1--text">
-            Explore, plan, and never miss a thing. Be your own travel guide.
+            {t("home_welcome_text")}
           </p>
 
           <Link to="trips/create" className="home__welcome--block1--button">
-            Start Planing
+            {t("home_welcome_button")}
           </Link>
         </div>
 
@@ -46,12 +46,12 @@ export const Home = () => {
               />
 
               <p className="home__welcome--block2--block--content--text">
-                1k+ people joined
+                {t("home_welcome_join")}
               </p>
             </div>
 
             <p className="home__welcome--block2--block--text">
-              Join us for new experience
+              {t("home_welcome_join_text")}
             </p>
           </div>
 
@@ -71,7 +71,7 @@ export const Home = () => {
 
       <section className="home__about">
         <h2 className="home__about--header">
-          Dreaming of an adventure with friends?
+          {t("home_about_header")}
         </h2>
 
         <img
@@ -82,23 +82,21 @@ export const Home = () => {
 
         <div className="home__about-block info-block1">
           <h4 className="home__about-block--header">
-            Tripers makes planning easy!
+            {t("home_about_block1_header")}
           </h4>
 
           <p className="home__about-block--text">
-            From road trips to dream vacations, it keeps all your plans in one
-            spot, so you can skip the endless group chats and focus on fun.
+            {t("home_about_block1_text1")}
           </p>
 
           <p className="home__about-block--text">
-            Plan, sync, and go—adventure starts with Tripers! Ready to make
-            memories? Let’s go!
+            {t("home_about_block1_text2")}
           </p>
         </div>
       </section>
 
       <section className="home__help">
-        <h2 className="home__help--header">How it works</h2>
+        <h2 className="home__help--header">{t("home_help_header")}</h2>
 
         <div className="home__help--block">
           <div className="home__help--block--container">
@@ -139,12 +137,11 @@ export const Home = () => {
         <div className="home__help--block">
           <div className="home__help--block--container">
             <h3 className="home__help--block--container--header">
-              Stay on track
+              {t("home_help_block3_header")}
             </h3>
 
             <p className="home__help--block--container--text">
-            See your journey on map, track all your stops, and never miss a must-see spot
-            Tripsters helps you maximize your time
+              {t("home_help_block3_text")}
             </p>
           </div>
 
@@ -158,12 +155,11 @@ export const Home = () => {
         <div className="home__help--block">
           <div className="home__help--block--container">
             <h3 className="home__help--block--container--header">
-              Share the fun
+              {t("home_help_block4_header")}
             </h3>
 
             <p className="home__help--block--container--text">
-            Share your trip for inspiration or keep it private as your personal guide
-            Either way, enjoy a seamless experience wherever you go
+              {t("home_help_block4_text")}
             </p>
           </div>
 
@@ -175,9 +171,8 @@ export const Home = () => {
         </div>
       </section>
 
-      
       <Link to="trips/create" className="home__welcome--block1--button button-about">
-        Start Planing
+        {t("home_welcome_button")}
       </Link>
 
     </main>

@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { useTranslation } from 'react-i18next';
 
 import "./TripDetails.scss";
 import { Outlet, useLocation, useNavigate, useParams } from "react-router-dom";
@@ -22,9 +23,7 @@ export const TripDetails = () => {
   const [isChatVisible, changeIsChatVisible] = useState(false);
   const [trips, setTrips] = useState<Trip[]>([]);
   const [trip, setTrip] = useState<Trip>();
-
   const [users, setUsers] = useState<User[]>([]);
-
   const [friendships, setFriendships] = useState<
     {
       id: number;
@@ -34,23 +33,17 @@ export const TripDetails = () => {
       createdAt: Date;
     }[]
   >([]);
-
   const [friends, setFriends] = useState<User[]>([]);
-
   const [currentUser, setCurrentUser] = useState<User>();
-
   const [allUsers, setAllUsers] = useState<User[]>([]);
-
   const [owner, setOwner] = useState<User>();
-
   const navigate = useNavigate();
+  const { t } = useTranslation();
 
   useEffect(() => {
-  
     changeIsMapVisible(location.pathname.includes('/map'));
     changeIsChatVisible(location.pathname.includes('/chat'));
-
-}, [location]);
+  }, [location]);
 
   useEffect(() => {
     const getOwner = async () => {
@@ -213,7 +206,7 @@ export const TripDetails = () => {
       {isAdd && (
         <div className="add" onClick={() => setIsAdd(false)}>
           <div className="add__block" onClick={(e) => e.stopPropagation()}>
-            <p className="add__block--header">Add an user to your trip</p>
+            <p className="add__block--header">{t("trip_details_add_user_header")}</p>
 
             <div className="add__block--users">
               {friends.map((friend) => (
@@ -237,21 +230,21 @@ export const TripDetails = () => {
 
           <div className="trip-details__block1--route">
             <h3 className="trip-details__block1--route--item">
-              From : {trip?.startPoint}
+              {t("trip_details_from")} : {trip?.startPoint}
             </h3>
 
             <h3 className="trip-details__block1--route--item">
-              {trip?.additionalPoints.length} additional points
+              {trip?.additionalPoints.length} {t("trip_details_additional_points")}
             </h3>
 
             <h3 className="trip-details__block1--route--item">
-              To : {trip?.endPoint}
+              {t("trip_details_to")} : {trip?.endPoint}
             </h3>
           </div>
 
           <div className="trip-details__block1--members">
             <h3 className="trip-details__block1--members--header">
-              {users.length} members
+              {users.length} {t("trip_details_members")}
             </h3>
             <div className="trip-details__block1--members--block">
               {users.map((u) => (
@@ -262,10 +255,10 @@ export const TripDetails = () => {
 
           <div className="trip-details__block1--date">
             <h3 className="trip-details__block1--date--item">
-              Start on : {trip && DateToString(stringToDate(trip.startDate))}
+              {t("trip_details_start_on")} : {trip && DateToString(stringToDate(trip.startDate))}
             </h3>
             <h3 className="trip-details__block1--date--item">
-              Finish on : {trip && DateToString(stringToDate(trip.endDate))}
+              {t("trip_details_finish_on")} : {trip && DateToString(stringToDate(trip.endDate))}
             </h3>
           </div>
 
@@ -273,7 +266,7 @@ export const TripDetails = () => {
             className="trip-details__block1--button"
             onClick={() => navigate(`../../trips/edit/${id}`)}
           >
-            Edit trip
+            {t("trip_details_edit_trip_button")}
           </button>
         </div>
 
@@ -299,7 +292,7 @@ export const TripDetails = () => {
                 className="trip-details__block2--info--add"
                 onClick={() => setIsAdd(true)}
               >
-                Add user into trip
+                {t("trip_details_add_user_into_trip_button")}
               </button>
             )}
           </div>
@@ -310,7 +303,7 @@ export const TripDetails = () => {
               onClick={showMap}
               style={getNavItemStyle(isMapVisible)}
             >
-              Map
+              {t("trip_details_map_nav_item")}
             </p>
 
             <p
@@ -318,7 +311,7 @@ export const TripDetails = () => {
               onClick={showChat}
               style={getNavItemStyle(isChatVisible)}
             >
-              Chat
+              {t("trip_details_chat_nav_item")}
             </p>
           </div>
 

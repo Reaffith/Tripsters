@@ -1,18 +1,21 @@
+import { useTranslation } from "react-i18next";
 import "./Footer.scss";
 import logo from "../../pics/logo.svg";
 
 export const Footer = () => {
+  const { t } = useTranslation();
+
   const scrollToTop = () => {
     window.scrollTo({
       top: 0,
       behavior: "smooth"
     });
-  }
+  };
 
   return (
     <div className="footer">
       <div className="footer__creators">
-        <h3 className="footer__creators--header">Creators:</h3>
+        <h3 className="footer__creators--header">{t("footer_creators_header")}</h3>
 
         <p className="footer__creators--item">
           <a
@@ -20,9 +23,9 @@ export const Footer = () => {
             target="_blank"
             className="footer__creators--item--link"
           >
-            Taras Nechyporuck
+            {t("footer_creator1_name")}
           </a>{" "}
-          - Front-end
+          - {t("footer_creator1_role")}
         </p>
 
         <p className="footer__creators--item">
@@ -31,20 +34,26 @@ export const Footer = () => {
             target="_blank"
             className="footer__creators--item--link"
           >
-            Ivan Prystaia
+            {t("footer_creator2_name")}
           </a>{" "}
-          - Back-end
+          - {t("footer_creator2_role")}
         </p>
       </div>
 
       <div className="footer__block">
-        <img src={logo} alt="Tripsters" className="footer__block--logo" onClick={scrollToTop}/>
-
-        <p className="footer__block--text">Tripsters 2024</p>
+        <img
+          src={logo}
+          alt={t("footer_logo_alt")}
+          className="footer__block--logo"
+          onClick={scrollToTop}
+        />
+        <p className="footer__block--text">{t("footer_text")}</p>
       </div>
 
       <p className="footer__contact">
-        Contact us:<br></br> <a href="mailto:tripstersma@gmail.com">tripstersma@gmail.com</a>
+        {t("footer_contact_label")}
+        <br />
+        <a href="mailto:tripstersma@gmail.com">tripstersma@gmail.com</a>
       </p>
     </div>
   );

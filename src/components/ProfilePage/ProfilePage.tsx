@@ -8,6 +8,7 @@ import { MemberDetails } from "../TripDetails/MemberDetails/MemberDetails";
 import { Trip } from "../../types/Trip";
 import { TripInfo } from "../TripsPage/TripsList/TripInfo/TripInfo";
 import Loader from "../Loader/Loader";
+import { useTranslation } from "react-i18next";
 
 type Friendship = {
   id: number;
@@ -27,6 +28,8 @@ export const ProfilePage = () => {
   const [disableButton, setDisableButton] = useState(false);
   const [trips, setTrips] = useState<Trip[]>([]);
   const [isLoading, setIsLoading] = useState(true);
+
+  const { t } = useTranslation();
 
 
   useEffect(() => {
@@ -226,106 +229,106 @@ export const ProfilePage = () => {
 
   return (
     <>
-      {user && (
-        <main className="profile">
-          <div className="profile__top">
-            <div className="profile-box">
-              <img src={userPfp ? URL.createObjectURL(userPfp) : noPfp} alt="PFP" className="profile__top--pic" />
+  {user && (
+    <main className="profile">
+      <div className="profile__top">
+        <div className="profile-box">
+          <img src={userPfp ? URL.createObjectURL(userPfp) : noPfp} alt={t("profile_page_pfp_alt")} className="profile__top--pic" />
 
-              <label htmlFor="file-upload" className="profile-box--label">
-                CHANGE PICTURE
-              </label>
+          <label htmlFor="file-upload" className="profile-box--label">
+            {t("profile_page_change_picture")}
+          </label>
 
-              <input
-                className="profile__top--button"
-                type="file"
-                id="file-upload"
-                onChange={(e) => handleFileChange(e)}
-                accept=".jpg, .jpeg"
-              />
-            </div>
+          <input
+            className="profile__top--button"
+            type="file"
+            id="file-upload"
+            onChange={(e) => handleFileChange(e)}
+            accept=".jpg, .jpeg"
+          />
+        </div>
 
-            <div className="profile__top--info">
-              <h1 className="profile__top--info--name">
-                {`${user.firstName} ${user.lastName}`}
-              </h1>
+        <div className="profile__top--info">
+          <h1 className="profile__top--info--name">
+            {`${user.firstName} ${user.lastName}`}
+          </h1>
 
-              <p className="profile__top--info--stat">{`${friends.length} friends`}</p>
+          <p className="profile__top--info--stat">{`${friends.length} ${t("profile_page_friends")}`}</p>
 
-              <p className="profile__top--info--stat">{`${trips.length} trips`}</p>
-            </div>
+          <p className="profile__top--info--stat">{`${trips.length} ${t("profile_page_trips")}`}</p>
+        </div>
 
-            {currentUser ? (
-              currentUser.id === user.id ? (
-                <div>{` `}</div>
-              ) : (
-                <button
-                  className="profile__top--button"
-                  disabled={disableButton}
-                  onClick={createFriendship}
-                >
-                  {disableButton
-                    ? "Friend request sent"
-                    : "Send friend request"}
-                </button>
-              )
-            ) : (
-              <div>{` `}</div>
-            )}
-          </div>
+        {currentUser ? (
+          currentUser.id === user.id ? (
+            <div>{` `}</div>
+          ) : (
+            <button
+              className="profile__top--button"
+              disabled={disableButton}
+              onClick={createFriendship}
+            >
+              {disableButton
+                ? t("profile_page_friend_request_sent")
+                : t("profile_page_send_friend_request")}
+            </button>
+          )
+        ) : (
+          <div>{` `}</div>
+        )}
+      </div>
 
-          <h1 className="profile__header">Friends</h1>
+      <h1 className="profile__header">{t("profile_page_friends_header")}</h1>
 
-          <div className="profile__friendlist">
-            {friends.length > 0 ? (
-              <div className="profile__friendlist--list">
-                {friends
-                  .slice(0, friends.length > 9 ? 8 : 9)
-                  .map((friendship) => {
-                    const friendId =
-                      friendship.userId === user.id
-                        ? friendship.friendId
-                        : friendship.userId;
+      <div className="profile__friendlist">
+        {friends.length > 0 ? (
+          <div className="profile__friendlist--list">
+            {friends
+              .slice(0, friends.length > 9 ? 8 : 9)
+              .map((friendship) => {
+                const friendId =
+                  friendship.userId === user.id
+                    ? friendship.friendId
+                    : friendship.userId;
 
-                    const friend = users.filter((u) => u.id === friendId)[0];
+                const friend = users.filter((u) => u.id === friendId)[0];
 
-                    return <MemberDetails user={friend} key={friend.id} />;
-                  })}
+                return <MemberDetails user={friend} key={friend.id} />;
+              })}
 
-                {friends.length > 9 && (
-                  <div className="profile__friendlist--list--more">
-                    <p className="profile__friendlist--list--more--text">{`${
-                      friends.length - 8
-                    } more`}</p>
-                  </div>
-                )}
+            {friends.length > 9 && (
+              <div className="profile__friendlist--list--more">
+                <p className="profile__friendlist--list--more--text">{`${
+                  friends.length - 8
+                } ${t("profile_page_more")}`}</p>
               </div>
-            ) : (
-              <h2>User's friend list is empty</h2>
             )}
           </div>
+        ) : (
+          <h2>{t("profile_page_user_friend_list_empty")}</h2>
+        )}
+      </div>
 
-          <h1 className="profile__header">Trips</h1>
+      <h1 className="profile__header">{t("profile_page_trips_header")}</h1>
 
-          <div className="profile__trips">
-            {trips.length > 0 ? (
-              <div className="profile__trips--list">
-                {trips.slice(0, 3).map((trip) => (
-                  <TripInfo trip={trip} key={trip.id} />
-                ))}
+      <div className="profile__trips">
+        {trips.length > 0 ? (
+          <div className="profile__trips--list">
+            {trips.slice(0, 3).map((trip) => (
+              <TripInfo trip={trip} ableToSee = {false} key={trip.id} />
+            ))}
 
-                {trips.length > 3 && (
-                  <h2 className="profile__trips--list--additional">{`${
-                    trips.length - 3
-                  } more trips`}</h2>
-                )}
-              </div>
-            ) : (
-              <h2>User's triplist is empty</h2>
+            {trips.length > 3 && (
+              <h2 className="profile__trips--list--additional">{`${
+                trips.length - 3
+              } ${t("profile_page_more_trips")}`}</h2>
             )}
           </div>
-        </main>
-      )}
-    </>
+        ) : (
+          <h2>{t("profile_page_user_trip_list_empty")}</h2>
+        )}
+      </div>
+    </main>
+  )}
+</>
   );
 };

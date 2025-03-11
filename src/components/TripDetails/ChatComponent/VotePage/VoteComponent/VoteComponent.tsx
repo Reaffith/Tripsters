@@ -1,9 +1,10 @@
 import { useParams } from "react-router-dom";
 import "./VoteComponent.scss";
-import { useEffect, useState } from "react";
+import { useEffect, useState} from "react";
 import { User } from "../../../../../types/User";
 import { getAllusersInTrip, getTrips, updateTrip } from "../../../../../api";
 import { Trip } from "../../../../../types/Trip";
+import { useTranslation } from "react-i18next";
 
 type Params = {
   voteId: number;
@@ -23,6 +24,7 @@ type Vote = {
 
 export const VoteComponent: React.FC<Params> = ({ voteId }) => {
   const { id } = useParams();
+  const { t } = useTranslation();
   const [vote, setVote] = useState<Vote>({
     id: 0,
     tripId: 0,
@@ -262,7 +264,7 @@ export const VoteComponent: React.FC<Params> = ({ voteId }) => {
 
   return (
     <div className="vote" style={getStyle()}>
-      <p className="vote__title">{`Do you want to add ${vote.title} to the trip route`}</p>
+      <p className="vote__title">{`${t("vote_component_question_prefix")} ${vote.title}${t("vote_component_question_end")}`}</p>
 
       <div className="vote__options">
         {vote.voteOptions.map((voteOption) => (
@@ -296,7 +298,7 @@ export const VoteComponent: React.FC<Params> = ({ voteId }) => {
         ))}
       </div>
 
-      <p className="vote__total">{`${totalCount} voted`}</p>
+      <p className="vote__total">{`${totalCount} ${t("vote_component_voted")}`}</p>
     </div>
   );
 };

@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { registerUser } from "../../api";
 import { ErrorBlock } from "../ErrorBlock/ErrorBlock";
+import { useTranslation } from 'react-i18next';
 
 import "./RegisterPage.scss";
 
@@ -12,6 +13,7 @@ export const RegisterPage = () => {
   const [lastName, setLastName] = useState("");
 
   const [error, setError] = useState("");
+  const { t } = useTranslation();
 
   async function onButtonClick() {
     localStorage.removeItem("authToken");
@@ -23,7 +25,7 @@ export const RegisterPage = () => {
       firstName.length < 1 ||
       lastName.length < 1
     ) {
-      setError("Please check your input and try again.");
+      setError(t("register_page_error"));
       return;
     }
 
@@ -42,10 +44,10 @@ export const RegisterPage = () => {
     <>
       {error.length > 1 && <ErrorBlock error={error} setError={setError} />}
       <main className="register">
-        <h1 className="register__header">Register</h1>
+        <h1 className="register__header">{t("register_page_header")}</h1>
         <form className="register__form" autoComplete="off">
           <label htmlFor="email" className="register__form--label">
-            Email
+            {t("register_page_email_label")}
           </label>
           <input
             className="register__form--input"
@@ -54,13 +56,13 @@ export const RegisterPage = () => {
             value={email}
             onChange={(e) => setEmail(e.target.value)}
             autoComplete="off"
-            placeholder="Enter your email"
+            placeholder={t("register_page_email_placeholder")}
           />
 
           <div className="register__form--block">
             <div className="">
               <label htmlFor="password" className="register__form--label">
-                Password
+                {t("register_page_password_label")}
               </label>
               <input
                 className="register__form--input"
@@ -69,14 +71,14 @@ export const RegisterPage = () => {
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
                 autoComplete="off"
-                placeholder="Enter your password"
+                placeholder={t("register_page_password_placeholder")}
               />
             </div>
 
             <div className="">
               {" "}
               <label htmlFor="repeatPassword" className="register__form--label">
-                Repeat passwrod
+                {t("register_page_repeat_password_label")}
               </label>
               <input
                 className="register__form--input"
@@ -85,7 +87,7 @@ export const RegisterPage = () => {
                 value={repeatPassword}
                 onChange={(e) => setRepeatPassword(e.target.value)}
                 autoComplete="off"
-                placeholder="Repeat your password"
+                placeholder={t("register_page_repeat_password_placeholder")}
               />
             </div>
           </div>
@@ -93,7 +95,7 @@ export const RegisterPage = () => {
           <div className="register__form--block">
             <div className="">
               <label htmlFor="firstName" className="register__form--label">
-                First name
+                {t("register_page_first_name_label")}
               </label>
               <input
                 className="register__form--input"
@@ -102,13 +104,13 @@ export const RegisterPage = () => {
                 value={firstName}
                 onChange={(e) => setFirstName(e.target.value)}
                 autoComplete="off"
-                placeholder="Enter your first name"
+                placeholder={t("register_page_first_name_placeholder")}
               />
             </div>
 
             <div className="">
               <label htmlFor="lastName" className="register__form--label">
-                Last name
+                {t("register_page_last_name_label")}
               </label>
               <input
                 className="register__form--input"
@@ -117,13 +119,13 @@ export const RegisterPage = () => {
                 value={lastName}
                 onChange={(e) => setLastName(e.target.value)}
                 autoComplete="off"
-                placeholder="Enter your last name"
+                placeholder={t("register_page_last_name_placeholder")}
               />
             </div>
           </div>
         </form>
         <button onClick={onButtonClick} className="register__button">
-          register
+          {t("register_page_button")}
         </button>
       </main>
     </>

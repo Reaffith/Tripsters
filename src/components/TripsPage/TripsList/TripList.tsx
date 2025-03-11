@@ -9,28 +9,18 @@ import { getNumbers } from "../../../functions/getNumbers";
 import classNames from "classnames";
 import { getTrips } from "../../../api";
 import Loader from "../../Loader/Loader";
+import { useTranslation } from 'react-i18next';
 
 type FilterOptions = "ALL" | "COMPLETED" | "INCOMING" | "IN PROGRESS";
 
 export const TripsList = () => {
-  // const [trips, setTrips] = useState<Trip[]>([]);
   const [filter, setFilter] = useState<FilterOptions>("ALL");
   const [isDropDown, setIsDropDown] = useState(false);
   const [paging, setPaging] = useState<number[]>([]);
   const [page, setPage] = useState<number>(1);
   const [tripsToRender, setTripsToRender] = useState<Trip[]>([]);
   const [isLoading, setIsLoading] = useState(true);
-
- 
-  // useEffect(() => {
-  //   getTrips().then(data => {
-  //     if (data) {
-  //       setTrips(data);
-  //     } else {
-  //       console.error('No trips data returned from API.');
-  //     }
-  //   });
-  // }, []);
+  const { t } = useTranslation();
 
   const showDropDown = () => {
     setIsDropDown(true);
@@ -42,7 +32,6 @@ export const TripsList = () => {
 
   const tripFilter = (trip: Trip) => {
     const today = new Date();
-
 
     switch (filter) {
       case "COMPLETED": {
@@ -109,7 +98,6 @@ export const TripsList = () => {
       setTripsToRender(render);
     } else {
       setTripsToRender(filteredTrips);
-      console.log(filteredTrips)
       setPaging([]);
     }
   };
@@ -123,25 +111,23 @@ export const TripsList = () => {
       } catch (error) {
         console.log(error);
       }
-    }
+    };
 
     setIsLoading(true);
     fetchTrips().finally(() => setIsLoading(false));
   }, [page, filter]);
 
-  useEffect(() => {
-    console.log(tripsToRender)
-  }, [tripsToRender])
-
   if (isLoading) {
-    return <main className="loading">
-      <Loader />
-    </main>
+    return (
+      <main className="loading">
+        <Loader />
+      </main>
+    );
   }
 
   return (
     <main className="triplist">
-      <h1 className="triplist__header">My Trips</h1>
+      <h1 className="triplist__header">{t("trips_list_header")}</h1>
 
       <div
         className="triplist__filter"
@@ -151,7 +137,7 @@ export const TripsList = () => {
       >
         <div className="triplist__filter--block">
           <p className="triplist__filter--block--current">
-            {filter === "ALL" ? "All trips" : filter}
+            {filter === "ALL" ? t("trips_list_filter_all") : t(`trips_list_filter_${filter.toLowerCase().replace(' ', '_')}`)}
           </p>
 
           <div className="triplist__filter--block--dropdown">
@@ -174,7 +160,7 @@ export const TripsList = () => {
               hideDropDown();
             }}
           >
-            All trips
+            {t("trips_list_filter_all")}
           </p>
 
           <p
@@ -184,7 +170,7 @@ export const TripsList = () => {
               hideDropDown();
             }}
           >
-            Incoming
+            {t("trips_list_filter_incoming")}
           </p>
 
           <p
@@ -194,7 +180,7 @@ export const TripsList = () => {
               hideDropDown();
             }}
           >
-            In progress
+            {t("trips_list_filter_in_progress")}
           </p>
 
           <p
@@ -204,24 +190,20 @@ export const TripsList = () => {
               hideDropDown();
             }}
           >
-            Completed
+            {t("trips_list_filter_completed")}
           </p>
         </div>
       </div>
 
       <div className="triplist__list">
         {tripsToRender.map((trip) => {
-          console.log(trip);
-
-          return (
-            <TripInfo trip={trip} key={trip.id }/>
-          )
+          return <TripInfo trip={trip} key={trip.id} />;
         })}
 
         {paging.length > 1 && (
           <div className="triplist__list--paging">
             {paging.map((pa) => (
-              <p 
+              <p
                 key={pa}
                 onClick={() => setPage(pa)}
                 className={classNames("triplist__list--paging--item", {
@@ -236,7 +218,7 @@ export const TripsList = () => {
       </div>
 
       <Link to={"create"} className="triplist__button">
-        Create trip
+        {t("trips_list_create_trip_button")}
       </Link>
     </main>
   );

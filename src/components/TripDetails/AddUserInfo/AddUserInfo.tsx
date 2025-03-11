@@ -1,4 +1,5 @@
 import { Dispatch, SetStateAction, useEffect, useState } from "react";
+import { useTranslation } from 'react-i18next';
 
 import noPfp from "../../../pics/no-pfp.png";
 import { User } from "../../../types/User";
@@ -20,6 +21,7 @@ export const AddUserInfo: React.FC<Props> = ({
 }) => {
   const [imgSrc, setImgSrc] = useState<string>(noPfp);
   const navigate = useNavigate();
+  const { t } = useTranslation();
 
   useEffect(() => {
     if (user && user.fileUrl) {
@@ -56,7 +58,7 @@ export const AddUserInfo: React.FC<Props> = ({
   return (
     <div className="addUserDetails">
       <div className="addUserDetails__block">
-        <img src={imgSrc} alt="PFP" className="addUserDetails__block--img" />
+        <img src={imgSrc} alt={t("add_user_info_pfp_alt")} className="addUserDetails__block--img" />
 
         <p
           className="addUserDetails__block--text"
@@ -66,11 +68,11 @@ export const AddUserInfo: React.FC<Props> = ({
 
       {alreadyInTrip ? (
         <button className="addUserDetails__button disabled" disabled>
-          Already in trip
+          {t("add_user_info_already_in_trip_button")}
         </button>
       ) : (
         <button className="addUserDetails__button" onClick={addUserIntoTrip}>
-          Add to trip
+          {t("add_user_info_add_to_trip_button")}
         </button>
       )}
     </div>

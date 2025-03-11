@@ -2,6 +2,7 @@ import { IoSend } from "react-icons/io5";
 import { MessageComponent } from "./MessageComponent/MessageComponent";
 import { useEffect, useRef, useState } from "react";
 import { useParams } from "react-router-dom";
+import { useTranslation } from 'react-i18next';
 
 type Message = {
   id: number;
@@ -17,6 +18,7 @@ export const MessagePage = () => {
   const [allMessages, setAllMessages] = useState<Message[]>([]);
   const [message, setMessage] = useState("");
   const [updateAllMessages, setUpdateAllMessages] = useState(1);
+  const { t } = useTranslation();
 
   const sendMessage = async () => {
     const token = localStorage.getItem("authToken");
@@ -84,7 +86,7 @@ export const MessagePage = () => {
       chatListRef.current.scrollTop = chatListRef.current.scrollHeight;
     }
   }, [allMessages]);
-  
+
   return (
     <>
       <div className="chat__chat">
@@ -94,7 +96,7 @@ export const MessagePage = () => {
               <MessageComponent message={message} key={message.id} />
             ))
           ) : (
-            <h2>No messages yet :(</h2>
+            <h2>{t("message_page_no_messages")}</h2>
           )}
         </div>
 
@@ -104,7 +106,7 @@ export const MessagePage = () => {
             className="chat__chat--bottom--input"
             value={message}
             onChange={(e) => setMessage(e.target.value)}
-            placeholder="Send a message"
+            placeholder={t("message_page_send_message_placeholder")}
           />
 
           <button className="chat__chat--bottom--button" onClick={sendMessage}>

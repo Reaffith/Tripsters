@@ -5,6 +5,7 @@ import { User } from "../../types/User";
 import { FriendDetails } from "./FriendDetails/FriendDetalis";
 import "./FriendList.scss";
 import classNames from "classnames";
+import { useTranslation } from 'react-i18next';
 
 type Friendships = {
   id: number;
@@ -23,6 +24,7 @@ export const FriendList = () => {
   );
   const [friends, setFriends] = useState<Friendships[]>([]);
   const [requests, setRequests] = useState<Friendships[]>([]);
+  const { t } = useTranslation();
 
   useEffect(() => {
     getUsersFriends().then((res) => {
@@ -65,7 +67,7 @@ export const FriendList = () => {
           })}
           onClick={() => setCurrentPage("FRIENDS")}
         >
-          Friends
+          {t("friends_page_friends")}
         </p>
         <p
           className={classNames("friends__top--button", {
@@ -73,7 +75,7 @@ export const FriendList = () => {
           })}
           onClick={() => setCurrentPage("REQUESTS")}
         >
-          Requests
+          {t("friends_page_requests")}
         </p>
       </div>
 
